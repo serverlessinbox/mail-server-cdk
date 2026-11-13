@@ -56,4 +56,31 @@ describe('Stack Name Base Registry', () => {
     });
   });
 
+  describe('a second copy of the module', () => {
+    it('reads the name base set by the first copy on the same stack', () => {
+      const stack = newStack();
+
+      setStackNameBase(stack, 'first-copy-value');
+
+      jest.isolateModules(() => {
+        const secondCopy = jest.requireActual<typeof import('../stack-name-base-registry')>('../stack-name-base-registry');
+
+        expect(secondCopy.getStackNameBase(stack)).toBe('first-copy-value');
+      });
+    });
+
+    it('throws when it sets a different value than the first copy registered', () => {
+      const stack = newStack();
+
+      setStackNameBase(stack, 'first-copy-value');
+
+      jest.isolateModules(() => {
+        const secondCopy = jest.requireActual<typeof import('../stack-name-base-registry')>('../stack-name-base-registry');
+
+        expect(() => secondCopy.setStackNameBase(stack, 'second-copy-value'))
+          .toThrow(/Stack name base already registered/);
+      });
+    });
+  });
+
 });
