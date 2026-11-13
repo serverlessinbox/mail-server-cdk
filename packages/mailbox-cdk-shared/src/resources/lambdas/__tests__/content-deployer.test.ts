@@ -40,6 +40,17 @@ function newStack(): Stack {
   });
 }
 
+function isolatedCopy(): typeof import('../content-deployer') {
+  const loaded: { copy?: typeof import('../content-deployer') } = {};
+  jest.isolateModules(() => {
+    loaded.copy = jest.requireActual<typeof import('../content-deployer')>('../content-deployer');
+  });
+  if (loaded.copy === undefined) {
+    throw new Error('the second copy of content-deployer did not load');
+  }
+  return loaded.copy;
+}
+
 function newArtifactResolver(stack: Stack): IArtifactResolver {
   const packages: Record<string, ArtifactPin> = {
     'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
@@ -89,6 +100,10 @@ describe('StaticContentDeployer', () => {
   describe('getOrCreate', () => {
     it('returns the one deployer of the stack on every call', () => {
       expect(StaticContentDeployer.getOrCreate(stack, newArtifactResolver(stack))).toBe(deployer);
+    });
+
+    it('returns the deployer that a separately loaded copy of the module created on the same stack', () => {
+      expect(isolatedCopy().StaticContentDeployer.getOrCreate(stack, newArtifactResolver(stack))).toBe(deployer);
     });
 
     it('places the deployer under the shared group of the stack', () => {

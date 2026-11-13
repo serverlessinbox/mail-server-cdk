@@ -24,6 +24,17 @@ function newStack(): Stack {
   return new Stack(new App(), 'test-stack', { env: { account: '111122223333', region: 'eu-west-1' } });
 }
 
+function isolatedCopy(): typeof import('../public-static-assets-bucket') {
+  const loaded: { copy?: typeof import('../public-static-assets-bucket') } = {};
+  jest.isolateModules(() => {
+    loaded.copy = jest.requireActual<typeof import('../public-static-assets-bucket')>('../public-static-assets-bucket');
+  });
+  if (loaded.copy === undefined) {
+    throw new Error('the second copy of public-static-assets-bucket did not load');
+  }
+  return loaded.copy;
+}
+
 function onlyBucketLogicalId(stack: Stack): string {
   const bucketIds = Object.keys(Template.fromStack(stack).findResources('AWS::S3::Bucket'));
   expect(bucketIds).toHaveLength(1);
@@ -39,6 +50,13 @@ describe('PublicStaticAssetsBucket.getOrCreate', () => {
 
     expect(second).toBe(first);
     Template.fromStack(stack).resourceCountIs('AWS::S3::Bucket', 1);
+  });
+
+  it('returns the bucket that a separately loaded copy of the module created on the same stack', () => {
+    const stack   = newStack();
+    const created = PublicStaticAssetsBucket.getOrCreate(stack, fakeResolver);
+
+    expect(isolatedCopy().PublicStaticAssetsBucket.getOrCreate(stack, fakeResolver)).toBe(created);
   });
 
   it('allows anyone to read objects and nothing else', () => {

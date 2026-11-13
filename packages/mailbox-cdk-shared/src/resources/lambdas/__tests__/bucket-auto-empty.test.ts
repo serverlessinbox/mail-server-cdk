@@ -23,6 +23,17 @@ function newStack(): Stack {
   return new Stack(new App(), 'test-stack', { env: { account: '111122223333', region: 'eu-west-1' } });
 }
 
+function isolatedCopy(): typeof import('../bucket-auto-empty') {
+  const loaded: { copy?: typeof import('../bucket-auto-empty') } = {};
+  jest.isolateModules(() => {
+    loaded.copy = jest.requireActual<typeof import('../bucket-auto-empty')>('../bucket-auto-empty');
+  });
+  if (loaded.copy === undefined) {
+    throw new Error('the second copy of bucket-auto-empty did not load');
+  }
+  return loaded.copy;
+}
+
 function synth() {
   const stack           = newStack();
   const bucket          = new Bucket(stack, 'target-bucket');
@@ -46,6 +57,13 @@ describe('BucketAutoEmpty', () => {
       const second = BucketAutoEmpty.getOrCreate(stack, fakeResolver);
 
       expect(second).toBe(first);
+    });
+
+    it('returns the Lambda that a separately loaded copy of the module created on the same stack', () => {
+      const stack   = newStack();
+      const created = BucketAutoEmpty.getOrCreate(stack, fakeResolver);
+
+      expect(isolatedCopy().BucketAutoEmpty.getOrCreate(stack, fakeResolver)).toBe(created);
     });
 
     it('wires the Lambda to the bundle entry point', () => {

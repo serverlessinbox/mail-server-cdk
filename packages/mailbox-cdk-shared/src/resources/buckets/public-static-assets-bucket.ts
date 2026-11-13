@@ -4,6 +4,8 @@ import { BlockPublicAccess }         from 'aws-cdk-lib/aws-s3';
 import { Stack, RemovalPolicy }      from 'aws-cdk-lib';
 import { Construct }                 from 'constructs';
 
+import { KitSingletonKind }          from '../../singletons/kit-singleton-kind';
+import { KitSingleton }              from '../../singletons/kit-singleton';
 import { getOrCreateSharedGroup }    from '../../tagging/shared-group';
 import { BucketAutoEmpty }           from '../lambdas/bucket-auto-empty';
 
@@ -32,6 +34,7 @@ export class PublicStaticAssetsBucket extends StackNamedBucket implements IPubli
       enforceSSL:        true,
       removalPolicy:     RemovalPolicy.DESTROY,
     });
+    KitSingleton.mark(this, KitSingletonKind.PUBLIC_STATIC_ASSETS_BUCKET);
 
     BucketAutoEmpty.getOrCreate(sharedGroup, artifactResolver).attach(sharedGroup, 'public-assets-auto-empty', this);
 
@@ -49,7 +52,7 @@ export class PublicStaticAssetsBucket extends StackNamedBucket implements IPubli
     const sharedGroup = getOrCreateSharedGroup(Stack.of(scope));
 
     const existing = sharedGroup.node.tryFindChild(PublicStaticAssetsBucket.BUCKET_ID);
-    if (existing instanceof PublicStaticAssetsBucket) {
+    if (KitSingleton.isKind<PublicStaticAssetsBucket>(existing, KitSingletonKind.PUBLIC_STATIC_ASSETS_BUCKET)) {
       return existing;
     }
 

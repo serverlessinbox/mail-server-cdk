@@ -7,6 +7,8 @@ import { Construct }                              from 'constructs';
 import { KIT_ARTIFACT_PACKAGE }                   from '../../artifacts/kit-artifact-package';
 import { parentStackStatusReadStatement }         from '../../grants/parent-stack-status-read';
 import type { BucketAutoEmptyResourceProperties } from '../../runtime/bucket-auto-empty/resource-properties';
+import { KitSingletonKind }                       from '../../singletons/kit-singleton-kind';
+import { KitSingleton }                           from '../../singletons/kit-singleton';
 import { getOrCreateSharedGroup }                 from '../../tagging/shared-group';
 
 import { TypeScriptLambda }                       from './ts-lambda';
@@ -26,6 +28,7 @@ export class BucketAutoEmpty extends TypeScriptLambda {
       timeout:     Duration.minutes(15),
       memorySize:  512,
     });
+    KitSingleton.mark(this, KitSingletonKind.BUCKET_AUTO_EMPTY);
 
     this.addToRolePolicy(parentStackStatusReadStatement());
   }
@@ -38,7 +41,7 @@ export class BucketAutoEmpty extends TypeScriptLambda {
     const stack       = Stack.of(scope);
     const sharedGroup = getOrCreateSharedGroup(stack);
     const existing    = sharedGroup.node.tryFindChild('bucket-auto-empty');
-    if (existing instanceof BucketAutoEmpty) {
+    if (KitSingleton.isKind<BucketAutoEmpty>(existing, KitSingletonKind.BUCKET_AUTO_EMPTY)) {
       return existing;
     }
     return new BucketAutoEmpty(sharedGroup, 'bucket-auto-empty', artifactResolver);

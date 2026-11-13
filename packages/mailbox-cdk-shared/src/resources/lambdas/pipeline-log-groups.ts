@@ -5,6 +5,8 @@ import { Aws, Fn }                    from 'aws-cdk-lib';
 import type { Construct, IConstruct } from 'constructs';
 
 import { StackIdentity }              from '../../naming/stack-identity';
+import { KitSingletonKind }           from '../../singletons/kit-singleton-kind';
+import { KitSingleton }               from '../../singletons/kit-singleton';
 import { getOrCreateSharedGroup }     from '../../tagging/shared-group';
 
 import type { Pipeline }              from './pipelines';
@@ -48,6 +50,11 @@ const PIPELINE_REMOVAL_POLICY: Record<Pipeline, cdk.RemovalPolicy> = {
  * `logs:CreateLogStream` + `logs:PutLogEvents`.
  */
 export class PipelineLogGroup extends logs.LogGroup implements IPipelineLogGroup {
+  public constructor(scope: Construct, id: string, props?: logs.LogGroupProps) {
+    super(scope, id, props);
+    KitSingleton.mark(this, KitSingletonKind.PIPELINE_LOG_GROUP);
+  }
+
   /**
    * Get-or-create the one shared CloudWatch log group for a given pipeline, within the Stack that
    * `scope` belongs to.
@@ -87,7 +94,7 @@ export class PipelineLogGroup extends logs.LogGroup implements IPipelineLogGroup
   }
 
   private static requirePipelineLogGroup(existing: IConstruct, childId: string): PipelineLogGroup {
-    if (!(existing instanceof PipelineLogGroup)) {
+    if (!KitSingleton.isKind<PipelineLogGroup>(existing, KitSingletonKind.PIPELINE_LOG_GROUP)) {
       throw new Error(
         `Expected PipelineLogGroup at ${childId}, but found ${existing.constructor.name}. ` +
         'This indicates a construct tree collision — a different resource was placed at this location.'

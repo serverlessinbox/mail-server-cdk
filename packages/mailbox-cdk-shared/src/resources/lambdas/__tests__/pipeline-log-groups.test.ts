@@ -15,6 +15,17 @@ function newStack(): Stack {
   return new Stack(new App(), 'test-stack', { env: { account: '111122223333', region: 'eu-west-1' } });
 }
 
+function isolatedCopy(): typeof import('../pipeline-log-groups') {
+  const loaded: { copy?: typeof import('../pipeline-log-groups') } = {};
+  jest.isolateModules(() => {
+    loaded.copy = jest.requireActual<typeof import('../pipeline-log-groups')>('../pipeline-log-groups');
+  });
+  if (loaded.copy === undefined) {
+    throw new Error('the second copy of pipeline-log-groups did not load');
+  }
+  return loaded.copy;
+}
+
 function logGroupResources(stack: Stack) {
   return Template.fromStack(stack).findResources('AWS::Logs::LogGroup');
 }
@@ -27,6 +38,13 @@ describe('PipelineLogGroup', () => {
     const second = PipelineLogGroup.getOrCreate(stack, 'jmap');
 
     expect(second).toBe(first);
+  });
+
+  it('getOrCreate returns the group that a separately loaded copy of the module created on the same stack', () => {
+    const stack   = newStack();
+    const created = PipelineLogGroup.getOrCreate(stack, 'jmap');
+
+    expect(isolatedCopy().PipelineLogGroup.getOrCreate(stack, 'jmap')).toBe(created);
   });
 
   it('getOrCreate returns distinct groups named /serverlessinbox/<stack>/<pipeline>-<guid prefix>', () => {

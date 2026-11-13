@@ -12,6 +12,8 @@ import type {
   ContentDeployerResourceProperties,
   StaticContentSourceSpec,
 }                                                               from '../../runtime/content-deployer/resource-properties-contract';
+import { KitSingletonKind }                                     from '../../singletons/kit-singleton-kind';
+import { KitSingleton }                                         from '../../singletons/kit-singleton';
 import type { IStaticContentSource }                            from '../../static-content-source';
 import { getOrCreateSharedGroup }                               from '../../tagging/shared-group';
 import type { IStaticContentTarget }                            from '../buckets/static-content-target';
@@ -58,6 +60,7 @@ export class StaticContentDeployer extends TypeScriptLambda {
       timeout:     Duration.minutes(15),
       memorySize:  1024,
     });
+    KitSingleton.mark(this, KitSingletonKind.STATIC_CONTENT_DEPLOYER);
 
     this.addToRolePolicy(parentStackStatusReadStatement());
   }
@@ -70,7 +73,7 @@ export class StaticContentDeployer extends TypeScriptLambda {
     const stack       = Stack.of(scope);
     const sharedGroup = getOrCreateSharedGroup(stack);
     const existing    = sharedGroup.node.tryFindChild('content-deployer');
-    if (existing instanceof StaticContentDeployer) {
+    if (KitSingleton.isKind<StaticContentDeployer>(existing, KitSingletonKind.STATIC_CONTENT_DEPLOYER)) {
       return existing;
     }
     return new StaticContentDeployer(sharedGroup, 'content-deployer', artifactResolver);
