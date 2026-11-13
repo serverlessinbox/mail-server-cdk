@@ -21,3 +21,10 @@ export const sourceRuleScope: SourceRuleScope = {
   files:   packageRoots.map((root) => `packages/${root.dir}/src/**/*.ts`),
   ignores: packageRoots.flatMap((root) => [`packages/${root.dir}/src/runtime/**`, `packages/${root.dir}/src/**/__tests__/**`]),
 };
+
+// The kit's source is inlined into each package that uses it, so its classes and module state exist once per copy.
+// Its runtime code is bundled once per Lambda zip and stays outside this scope.
+export const kitSourceScope: SourceRuleScope = {
+  files:   [`packages/${kitPackage.dir}/src/**/*.ts`],
+  ignores: [`packages/${kitPackage.dir}/src/runtime/**`, `packages/${kitPackage.dir}/src/**/__tests__/**`],
+};

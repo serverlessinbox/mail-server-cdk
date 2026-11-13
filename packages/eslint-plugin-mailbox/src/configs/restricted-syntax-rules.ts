@@ -54,6 +54,29 @@ const partialEntries: readonly RestrictedSyntaxEntry[] = [
   },
 ];
 
+const existingEntries: readonly RestrictedSyntaxEntry[] = [
+  ...anonymousTypeEntries,
+  ...requireEntries,
+  ...publicStateEntries,
+  ...partialEntries,
+];
+
+const kitIdentityMessage = 'Kit code is inlined as its own copy in each package, so classes, module variables and WeakMaps differ per copy. Mark once-per-stack classes with KitSingleton and keep registry state on the stack node.';
+
+// Identity and module state are per copy of the kit: a second copy has its own classes, variables and WeakMaps.
+const kitIdentityEntries: readonly RestrictedSyntaxEntry[] = [
+  { selector: 'BinaryExpression[operator="instanceof"]:not([right.name="Error"])', message: kitIdentityMessage },
+  { selector: 'Program > VariableDeclaration[kind=/^(let|var)$/]', message: kitIdentityMessage },
+  { selector: 'Program > ExportNamedDeclaration > VariableDeclaration[kind=/^(let|var)$/]', message: kitIdentityMessage },
+  { selector: 'Program > VariableDeclaration > VariableDeclarator[init.type="NewExpression"][init.callee.name=/^Weak(Map|Set)$/]', message: kitIdentityMessage },
+  { selector: 'Program > ExportNamedDeclaration > VariableDeclaration > VariableDeclarator[init.type="NewExpression"][init.callee.name=/^Weak(Map|Set)$/]', message: kitIdentityMessage },
+];
+
 export const restrictedSyntaxRules: TSESLint.FlatConfig.Rules = {
-  'no-restricted-syntax': ['error', ...anonymousTypeEntries, ...requireEntries, ...publicStateEntries, ...partialEntries],
+  'no-restricted-syntax': ['error', ...existingEntries],
+};
+
+// A files-scoped no-restricted-syntax replaces the global list, so the kit block carries every existing entry too.
+export const kitRestrictedSyntaxRules: TSESLint.FlatConfig.Rules = {
+  'no-restricted-syntax': ['error', ...existingEntries, ...kitIdentityEntries],
 };
