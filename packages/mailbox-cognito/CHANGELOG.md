@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file
 
 
+## [0.6.1](https://github.com/serverlessinbox/mailbox-cdk/compare/v0.6.0...v0.6.1) (Sat Nov 14 2026)
+
+### refactor
+
+* **mailbox** import artifact-registry helpers from narrow subpaths ([6173c4b](https://github.com/serverlessinbox/mailbox-cdk/commit/6173c4b89ded0bd49c3bcac2c7b5f02e5ad9d57b))
+
 ## [0.6.0](https://github.com/serverlessinbox/mailbox-cdk/compare/v0.5.13...v0.6.0) (Sat Nov 14 2026)
 
 ### ci
