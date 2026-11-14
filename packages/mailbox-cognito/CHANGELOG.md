@@ -4,6 +4,12 @@
 All notable changes to this project will be documented in this file
 
 
+## [0.6.0](https://github.com/serverlessinbox/mailbox-cdk/compare/v0.5.13...v0.6.0) (Sat Nov 14 2026)
+
+### ci
+
+* publish to npm with NPM_TOKEN and drop the stub registry ([22bd441](https://github.com/serverlessinbox/mailbox-cdk/commit/22bd4410d4250948af09c6199f1ef492e5ef8fe3))
+
 ## [0.5.13](https://github.com/serverlessinbox/mailbox-cdk/compare/v0.5.12...v0.5.13) (Fri Nov 13 2026)
 
 
