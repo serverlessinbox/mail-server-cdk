@@ -206,6 +206,24 @@ describe('MailboxUserPool addons', () => {
     });
   });
 
+  it('creates no users admin API addon when native sign-in is off', () => {
+    const stack    = newStack();
+    const { pool } = createUserPool({ allowNativeSignIn: false, identityProviders: [samlProvider(stack, 'Google')], authorization: { adminGroups: ['ops'], userGroups: ['staff'] } }, stack);
+
+    const addons = pool.createAdminApiAddons(stack, {
+      artifactResolver: pinnedResolver(stack, ['mailbox-cognito']),
+      auditEventsQueue,
+      configTable:   table,
+      auditLogTable: table,
+      identityProvisioner,
+    });
+
+    expect(addons.length).toBe(0);
+    Template.fromStack(stack).resourcePropertiesCountIs('AWS::Lambda::Function', {
+      Environment: { Variables: Match.objectLike({ USER_GROUPS: Match.anyValue() }) },
+    }, 0);
+  });
+
   it('creates no JMAP API addon unless OAuth discovery is enabled', () => {
     const { pool, stack } = createUserPool();
 

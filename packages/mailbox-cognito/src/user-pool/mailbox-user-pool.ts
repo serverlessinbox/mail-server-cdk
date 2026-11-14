@@ -412,9 +412,13 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
 
   /**
    * Creates the admin API addon that manages the users of this pool and contributes `adminUiConfig()` to
-   * the admin UI configuration.
+   * the admin UI configuration. Returns no addon when native sign-in is off: the addon exists to manage native Cognito users.
    */
   public createAdminApiAddons(scope: Construct, ctx: AdminApiAddonContext): IAdminApiAddon[] {
+    if (!this.allowNativeSignIn) {
+      return [];
+    }
+
     return [
       new CognitoIdpUsersAdminApiAddon(scope, 'cognito-idp-users-admin-api', {
         artifactResolver:    this.artifacts,
