@@ -83,7 +83,8 @@ Folders of `src/`:
 ## Usage
 
 ```sh
-npm install @serverlessinbox/mailbox @serverlessinbox/mailbox-cognito
+npm install @serverlessinbox/mailbox @serverlessinbox/mailbox-cognito \
+  @serverlessinbox/artifact-registry-cdk aws-cdk-lib constructs
 ```
 
 A user pool whose OAuth domain is derived from the hosted zone of your Mailbox:

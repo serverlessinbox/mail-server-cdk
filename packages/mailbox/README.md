@@ -118,7 +118,8 @@ The code is organised in the top-level folders of `src/`:
 ## Usage
 
 ```sh
-npm install @serverlessinbox/mailbox @serverlessinbox/mailbox-cognito
+npm install @serverlessinbox/mailbox @serverlessinbox/mailbox-cognito \
+  @serverlessinbox/artifact-registry-cdk aws-cdk-lib constructs
 ```
 
 A Mailbox on your domain, with Cognito as the auth provider. The hosted zone is looked up once and shared

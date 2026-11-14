@@ -11,7 +11,7 @@ The workspaces live in `packages/`.
 |---------|------------|-----------|
 | `@serverlessinbox/mailbox` (`packages/mailbox`) | The `Mailbox` construct: the JMAP email server and everything around it | Yes |
 | `@serverlessinbox/mailbox-cognito` (`packages/mailbox-cognito`) | Cognito user pool as the sign-in provider of a `Mailbox`, plus its user-management API | Yes |
-| `@serverlessinbox/mailbox-cdk-shared` (`packages/mailbox-cdk-shared`) | Shared artifact resolution, Lambda base classes, tagging and naming helpers | No, `"private": true` |
+| `@serverlessinbox/mailbox-cdk-shared` (`packages/mailbox-cdk-shared`) | Shared artifact resolution, Lambda base classes, tagging and naming helpers | Yes |
 | `@serverlessinbox/mailbox-addon-sdk` (`packages/mailbox-addon-sdk`) | Handler SDK for Lambdas that serve Admin API services of addons | No, internal; it is bundled into the Lambda code that serves addon routes |
 | `@serverlessinbox/mailbox-bundler` (`packages/mailbox-bundler`) | esbuild bundler for the jsii packages and the Lambda zips | No, `"private": true` |
 | `@serverlessinbox/eslint-plugin-mailbox` (`packages/eslint-plugin-mailbox`) | Dev-only ESLint plugin that enforces the rules below | No, `"private": true` |
