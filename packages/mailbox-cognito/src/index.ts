@@ -22,6 +22,10 @@ export type {
   BootstrapUserConfig,
   IBootstrapUserHandle,
 } from './user-pool/mailbox-user-pool';
+export type {
+  IMailboxIdentityProvider,
+  MailboxIdentityProviderContext,
+} from './user-pool/identity-provider';
 
 
 

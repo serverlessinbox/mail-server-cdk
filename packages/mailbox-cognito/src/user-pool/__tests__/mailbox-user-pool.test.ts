@@ -9,21 +9,23 @@
  * refused by the API only at runtime, so these tests pin the synthesized clients and the policies.
  */
 
-import { ArtifactZone, PinnedArtifactResolver }  from '@serverlessinbox/artifact-registry-cdk';
-import { Permission }                            from '@serverlessinbox/mailbox';
-import { Match, Template }                       from 'aws-cdk-lib/assertions';
-import * as lambda                               from 'aws-cdk-lib/aws-lambda';
-import * as route53                              from 'aws-cdk-lib/aws-route53';
-import { App, BootstraplessSynthesizer, Stack }  from 'aws-cdk-lib';
+import { ArtifactZone, PinnedArtifactResolver }                          from '@serverlessinbox/artifact-registry-cdk';
+import { Permission }                                                    from '@serverlessinbox/mailbox';
+import { Match, Template }                                               from 'aws-cdk-lib/assertions';
+import * as cognito                                                      from 'aws-cdk-lib/aws-cognito';
+import * as lambda                                                       from 'aws-cdk-lib/aws-lambda';
+import * as route53                                                      from 'aws-cdk-lib/aws-route53';
+import { App, BootstraplessSynthesizer, Stack }                          from 'aws-cdk-lib';
 
-import { CognitoIdpUsersAdminApiAddon }          from '../../cognito-idp-users-addon';
-import { JmapOAuthAddon }                        from '../../jmap-oauth-addon';
-import { CognitoScopeToPermissions }             from '../cognito-scopemap';
-import { CognitoScope }                          from '../cognito-scope';
-import { DynamicClientRegistrationMode }         from '../dynamic-client-registration-mode';
-import { MailboxUserPool, MailboxUserPoolProps } from '../mailbox-user-pool';
-import { MfaMode }                               from '../mfa-mode';
-import { UserPoolAudience }                      from '../user-pool-audience';
+import { CognitoIdpUsersAdminApiAddon }                                  from '../../cognito-idp-users-addon';
+import { JmapOAuthAddon }                                                from '../../jmap-oauth-addon';
+import { CognitoScopeToPermissions }                                     from '../cognito-scopemap';
+import { CognitoScope }                                                  from '../cognito-scope';
+import { DynamicClientRegistrationMode }                                 from '../dynamic-client-registration-mode';
+import type { IMailboxIdentityProvider, MailboxIdentityProviderContext } from '../identity-provider';
+import { MailboxUserPool, MailboxUserPoolProps }                         from '../mailbox-user-pool';
+import { MfaMode }                                                       from '../mfa-mode';
+import { UserPoolAudience }                                              from '../user-pool-audience';
 
 const PINNED_VERSION = '0.0.1-test';
 
@@ -43,14 +45,27 @@ function pinnedResolver(stack: Stack, packageNames: string[]): PinnedArtifactRes
 }
 
 /** A pool with an explicit Cognito domain prefix and a resolver pinning both packages the pool resolves; `overrides` replace those props. */
-function createUserPool(overrides: Partial<MailboxUserPoolProps> = {}): { pool: MailboxUserPool; stack: Stack } {
-  const stack = newStack();
-  const pool  = new MailboxUserPool(stack, 'user-pool', {
+function createUserPool(overrides: Partial<MailboxUserPoolProps> = {}, stack: Stack = newStack()): { pool: MailboxUserPool; stack: Stack } {
+  const pool = new MailboxUserPool(stack, 'user-pool', {
     domain:           { kind: 'cognito', cognitoDomainPrefix: 'test-prefix' },
     artifactResolver: pinnedResolver(stack, ['mailbox-cognito', 'mailbox-cdk-shared']),
     ...overrides,
   });
   return { pool, stack };
+}
+
+/** A SAML identity provider whose resource is created in `stack`, the stack the pool is in. */
+function samlProvider(stack: Stack, providerName: string): IMailboxIdentityProvider {
+  return {
+    providerName,
+    mapsFederatedGroups: false,
+    attach:              ({ userPool }) => new cognito.CfnUserPoolIdentityProvider(stack, `idp-${providerName}`, {
+      userPoolId: userPool.userPoolId,
+      providerName,
+      providerType:    'SAML',
+      providerDetails: { MetadataURL: 'https://idp.example.com/metadata' },
+    }),
+  };
 }
 
 describe('MailboxUserPool without an injected artifactResolver', () => {
@@ -400,16 +415,93 @@ describe('MailboxUserPool UI client provisioning', () => {
     Template.fromStack(stack).resourceCountIs('AWS::Cognito::UserPoolClient', 1);
   });
 
-  it('enables an identity provider registered once on every client created afterwards', () => {
+  it('lists COGNITO and each identity provider on every client, machine clients included', () => {
+    const stack    = newStack();
+    const { pool } = createUserPool({ identityProviders: [samlProvider(stack, 'Google'), samlProvider(stack, 'Okta')] }, stack);
+
+    pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
+    pool.provisionHeadlessClient({ name: 'sweeper', audiences: [UserPoolAudience.JMAP_API], permissions: [Permission.MAIL_READ_ITEMS] });
+
+    const template = Template.fromStack(stack);
+    template.resourceCountIs('AWS::Cognito::UserPoolClient', 2);
+    template.allResourcesProperties('AWS::Cognito::UserPoolClient', {
+      SupportedIdentityProviders: ['COGNITO', 'Google', 'Okta'],
+    });
+  });
+
+  it('makes every client depend on each identity provider the pool attached', () => {
+    const stack    = newStack();
+    const { pool } = createUserPool({ identityProviders: [samlProvider(stack, 'Google'), samlProvider(stack, 'Okta')] }, stack);
+
+    pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
+    pool.provisionHeadlessClient({ name: 'sweeper', audiences: [UserPoolAudience.JMAP_API], permissions: [Permission.MAIL_READ_ITEMS] });
+
+    const template    = Template.fromStack(stack);
+    const providerIds = Object.keys(template.findResources('AWS::Cognito::UserPoolIdentityProvider'));
+    const clients     = Object.values(template.findResources('AWS::Cognito::UserPoolClient'));
+    expect(providerIds).toHaveLength(2);
+    expect(clients).toHaveLength(2);
+    for (const client of clients) {
+      expect(client.DependsOn).toEqual(expect.arrayContaining(providerIds));
+    }
+  });
+
+  it('lists only COGNITO and no dependency when no identity provider is registered', () => {
     const { pool, stack } = createUserPool();
 
-    pool.addSupportedIdentityProvider('Google');
-    pool.addSupportedIdentityProvider('Google');
     pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
 
-    Template.fromStack(stack).hasResourceProperties('AWS::Cognito::UserPoolClient', {
-      SupportedIdentityProviders: ['COGNITO', 'Google'],
+    Template.fromStack(stack).hasResource('AWS::Cognito::UserPoolClient', {
+      Properties: { SupportedIdentityProviders: ['COGNITO'] },
+      DependsOn:  Match.absent(),
     });
+  });
+
+  it('removes COGNITO from every client when native sign-in is off', () => {
+    const stack    = newStack();
+    const { pool } = createUserPool({ allowNativeSignIn: false, identityProviders: [samlProvider(stack, 'Google')] }, stack);
+
+    pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
+
+    Template.fromStack(stack).allResourcesProperties('AWS::Cognito::UserPoolClient', {
+      SupportedIdentityProviders: ['Google'],
+    });
+  });
+
+  it('attaches each identity provider once, with the pool and the federated groups attribute', () => {
+    const stack  = newStack();
+    const attach = jest.fn((context: MailboxIdentityProviderContext) => new cognito.CfnUserPoolIdentityProvider(stack, 'idp-Google', {
+      userPoolId:      context.userPool.userPoolId,
+      providerName:    'Google',
+      providerType:    'SAML',
+      providerDetails: { MetadataURL: 'https://idp.example.com/metadata' },
+    }));
+    const provider: IMailboxIdentityProvider = { providerName: 'Google', mapsFederatedGroups: false, attach };
+
+    const { pool } = createUserPool({ identityProviders: [provider] }, stack);
+
+    expect(attach).toHaveBeenCalledTimes(1);
+    const context = attach.mock.calls[0][0];
+    expect(context.userPool).toBe(pool.userPool);
+    expect(context.federatedGroupsAttribute).toBe('custom:federated_groups');
+  });
+
+  it('throws at construction when native sign-in is off and no identity provider is registered', () => {
+    expect(() => createUserPool({ allowNativeSignIn: false })).toThrow('allowNativeSignIn is false but no identityProviders are registered');
+  });
+
+  it('throws at construction, naming the provider, when a provider name is registered twice', () => {
+    const stack = newStack();
+
+    expect(() => createUserPool({ identityProviders: [samlProvider(stack, 'Google'), samlProvider(stack, 'Google')] }, stack))
+      .toThrow("identity provider 'Google' is registered more than once");
+  });
+
+  it('throws at construction when a provider is named COGNITO while native sign-in is on', () => {
+    const stack = newStack();
+
+    expect(() => createUserPool({ identityProviders: [samlProvider(stack, 'COGNITO')] }, stack))
+      .toThrow("identity provider 'COGNITO' is registered more than once");
   });
 });
 

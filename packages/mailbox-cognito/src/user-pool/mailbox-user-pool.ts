@@ -21,6 +21,7 @@ import * as cognito                                                             
 import * as lambda                                                              from 'aws-cdk-lib/aws-lambda';
 import type * as route53                                                        from 'aws-cdk-lib/aws-route53';
 import { Aws, CustomResource, Duration, SecretValue }                           from 'aws-cdk-lib';
+import type { IDependable }                                                     from 'constructs';
 import { Construct }                                                            from 'constructs';
 
 import { CognitoIdpUsersAdminApiAddon }                                         from '../cognito-idp-users-addon';
@@ -35,6 +36,7 @@ import type { BootstrapUserProperties }                                         
 import { CognitoScopeToPermissions }                                            from './cognito-scopemap';
 import { CognitoScope, DeprecatedCognitoScopes, RESOURCE_SERVER_IDENTIFIER }    from './cognito-scope';
 import { DynamicClientRegistrationMode }                                        from './dynamic-client-registration-mode';
+import type { IMailboxIdentityProvider }                                        from './identity-provider';
 import type { MailboxUserPoolAdminUiConfig }                                    from './mailbox-user-pool-admin-ui-config';
 import type { MfaMode }                                                         from './mfa-mode';
 import { UserPoolAudience }                                                     from './user-pool-audience';
@@ -187,6 +189,22 @@ export interface MailboxUserPoolProps {
    * @default DynamicClientRegistrationMode.DISABLED
    */
   readonly dynamicClientRegistration?: DynamicClientRegistrationMode;
+
+  /**
+   * External identity providers that users sign in through. The pool attaches each one once, when it is
+   * constructed, and every OAuth client it creates lists each provider by name and waits for it. Provider
+   * names must be unique within the list.
+   * @default []
+   */
+  readonly identityProviders?: IMailboxIdentityProvider[];
+
+  /**
+   * Whether users may sign in with native Cognito accounts of this pool. When `false`, no OAuth client lists
+   * the native `COGNITO` provider, so the pool signs users in only through `identityProviders`, and at least
+   * one identity provider must be registered.
+   * @default true
+   */
+  readonly allowNativeSignIn?: boolean;
 }
 
 /**
@@ -226,6 +244,9 @@ export interface IBootstrapUserHandle {
    */
   readonly temporaryPassword: string;
 }
+
+/** Name of the custom attribute that carries federated groups; handed to every identity provider the pool attaches. */
+const FEDERATED_GROUPS_ATTRIBUTE = 'custom:federated_groups';
 
 /**
  * The Cognito user pool that authenticates mailbox users and administrators, together with the OAuth
@@ -286,10 +307,9 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
    */
   public readonly policies: MailboxAuthPolicies;
 
-  private readonly supportedIdentityProviders: cognito.UserPoolClientIdentityProvider[] = [
-    cognito.UserPoolClientIdentityProvider.COGNITO,
-  ];
-  private readonly supportedIdentityProviderNames = new Set<string>(['COGNITO']);
+  private readonly allowNativeSignIn: boolean;
+  private readonly supportedIdentityProviders: string[];
+  private readonly identityProviderDependencies: IDependable[];
 
   private readonly authFlows: cognito.AuthFlow;
   private readonly authzConfig: MailboxAuthorizationConfig;
@@ -317,9 +337,12 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
       adminGroups: props.authorization?.adminGroups ?? [ADMIN_GROUP_NAME],
       userGroups:  props.authorization?.userGroups ?? [USER_GROUP_NAME],
     };
-    this.scopeMap  = this.buildScopeMap();
-    this.policies  = this.buildPolicies();
-    this.authFlows = props.authFlows ?? {
+    const identityProviders         = props.identityProviders ?? [];
+    this.allowNativeSignIn          = props.allowNativeSignIn ?? true;
+    this.supportedIdentityProviders = this.buildSupportedIdentityProviders(identityProviders);
+    this.scopeMap                   = this.buildScopeMap();
+    this.policies                   = this.buildPolicies();
+    this.authFlows                  = props.authFlows ?? {
       userPassword: false,
       userSrp:      false,
     };
@@ -340,24 +363,15 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
     });
     const stackRef = cognitoDeployer.dataStackRef;
 
-    this.userPool              = stackRef.userPool;
-    this.oauthDomain           = stackRef.oauthDomain;
-    this.tokenEndpoint         = `https://${stackRef.oauthDomain}/oauth2/token`;
-    this.authorizationEndpoint = `https://${stackRef.oauthDomain}/oauth2/authorize`;
-    this.issuer                = `https://cognito-idp.${Aws.REGION}.amazonaws.com/${stackRef.userPool.userPoolId}`;
-  }
-
-  /**
-   * Register an additional identity provider to be enabled for all OAuth clients generated by this construct.
-   * Intended for addon packages (e.g. SAML/OIDC federation providers).
-   */
-  public addSupportedIdentityProvider(providerName: string): void {
-    if (this.supportedIdentityProviderNames.has(providerName)) {
-      return;
-    }
-
-    this.supportedIdentityProviderNames.add(providerName);
-    this.supportedIdentityProviders.push(cognito.UserPoolClientIdentityProvider.custom(providerName));
+    this.userPool                     = stackRef.userPool;
+    this.oauthDomain                  = stackRef.oauthDomain;
+    this.tokenEndpoint                = `https://${stackRef.oauthDomain}/oauth2/token`;
+    this.authorizationEndpoint        = `https://${stackRef.oauthDomain}/oauth2/authorize`;
+    this.issuer                       = `https://cognito-idp.${Aws.REGION}.amazonaws.com/${stackRef.userPool.userPoolId}`;
+    this.identityProviderDependencies = identityProviders.map(provider => provider.attach({
+      userPool:                 this.userPool,
+      federatedGroupsAttribute: FEDERATED_GROUPS_ATTRIBUTE,
+    }));
   }
 
   /**
@@ -562,6 +576,23 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
     return flows;
   }
 
+  private buildSupportedIdentityProviders(identityProviders: IMailboxIdentityProvider[]): string[] {
+    const providerNames = identityProviders.map(provider => provider.providerName);
+    const listedNames   = this.allowNativeSignIn
+      ? [cognito.UserPoolClientIdentityProvider.COGNITO.name, ...providerNames]
+      : providerNames;
+
+    const duplicateName = listedNames.find((name, index) => listedNames.indexOf(name) !== index);
+    if (duplicateName !== undefined) {
+      throw new Error(`MailboxUserPool: identity provider '${duplicateName}' is registered more than once; each identityProviders entry needs its own providerName, and 'COGNITO' is reserved for native sign-in.`);
+    }
+    if (!this.allowNativeSignIn && providerNames.length === 0) {
+      throw new Error('MailboxUserPool: allowNativeSignIn is false but no identityProviders are registered, so no user could sign in. Register at least one identity provider.');
+    }
+
+    return listedNames;
+  }
+
   private createOAuthClient(params: GenerateClientParams): AuthClientConfig {
     const isClientCredentials = params.flow === OAuthFlow.CLIENT_CREDENTIALS;
     const clientKey           = slugifyLabel(params.name);
@@ -581,7 +612,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
         refreshToken: 'days',
       },
       preventUserExistenceErrors:      'ENABLED',
-      supportedIdentityProviders:      this.supportedIdentityProviders.map(provider => provider.name),
+      supportedIdentityProviders:      this.supportedIdentityProviders,
       allowedOAuthFlows:               isClientCredentials ? ['client_credentials'] : ['code'],
       allowedOAuthFlowsUserPoolClient: true,
       allowedOAuthScopes:              [
@@ -595,6 +626,8 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
           logoutUrLs:   params.logoutUrls,
         }),
     });
+
+    cfnClient.node.addDependency(...this.identityProviderDependencies);
 
     return {
       clientId:     cfnClient.ref,
