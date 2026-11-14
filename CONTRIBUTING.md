@@ -127,5 +127,5 @@ Run the root commands in the repository root and the package commands inside the
 
 Open issues and questions only in the
 [ServerlessInbox repository](https://github.com/serverlessinbox/serverlessinbox). Issues are not
-tracked in this repository. Send pull requests with a passing `yarn lint` and `yarn test`, which is
-what the pull-request workflow runs.
+tracked in this repository. Send pull requests with a passing `yarn lint`, `yarn test` and
+`yarn pack-install-synth`, which is what the pull-request workflow runs.

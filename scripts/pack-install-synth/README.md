@@ -4,7 +4,7 @@ Packs the published packages, installs them into an empty project and requires t
 synthesized there to produce the same CloudFormation template as the same stack synthesized from source.
 It is the check that a customer's install of the packages matches what the repository builds.
 
-It is meant to run as a pull-request job, and developers run it before they change how a package is packed or
+It runs as the `pack-install-synth` job of the pull-request workflow, and developers run it before they change how a package is packed or
 how a helper is shared between its bundled copies.
 
 ## Usage
