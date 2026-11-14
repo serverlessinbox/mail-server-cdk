@@ -13,12 +13,8 @@ import type { PackageVersions }   from './package-versions';
 import { PackedManifestReader }   from './packed-manifest-reader';
 import type { PackedSynthesis }   from './packed-synthesis';
 import type { PackedTarball }     from './packed-tarball';
-import type { ProcessResult }     from './process-result';
 import { ProcessRunner }          from './process-runner';
 import { YarnLockVersionReader }  from './yarn-lock-version-reader';
-
-/** Characters of the synthesis output kept in a failure: the runner reports the failure at the end. */
-const OUTPUT_TAIL_LENGTH = 2000;
 
 /** Prefix of the temporary folder that holds the tarballs, the clean project and the template. */
 const TEMP_PREFIX = 'pack-install-synth-';
@@ -119,7 +115,7 @@ export class PackedSynthesizer {
       String(this.frozenRandom),
     ], { cwd: projectDirectory, env: this.childEnvironment() });
     if (result.exitCode !== 0) {
-      return { template: undefined, failure: this.outputTail(result) };
+      return { template: undefined, failure: result.stderr };
     }
     return { template: await this.readTemplate(templateFile), failure: undefined };
   }
@@ -133,9 +129,5 @@ export class PackedSynthesizer {
     const environment: NodeJS.ProcessEnv = { ...process.env };
     delete environment.NODE_OPTIONS;
     return environment;
-  }
-
-  private outputTail(result: ProcessResult): string {
-    return `${result.stdout}${result.stderr}`.slice(-OUTPUT_TAIL_LENGTH);
   }
 }

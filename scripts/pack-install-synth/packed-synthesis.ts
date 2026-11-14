@@ -4,7 +4,7 @@ import type { InstalledCopies } from './installed-copies';
 
 /**
  * The outcome of synthesizing the consumer stack from the installed tarballs. Exactly one of `template`
- * and `failure` is set: a run that exits non-zero has no template and carries the end of its output.
+ * and `failure` is set: a run that exits non-zero has no template and carries the runner's error output.
  */
 export interface PackedSynthesis {
   readonly directory:       string;

@@ -16,6 +16,7 @@
     "template-baseline": "ts-node --project tsconfig.scripts.json scripts/template-baseline/template-baseline.ts",
     "api-report": "ts-node --project tsconfig.scripts.json scripts/api-report/api-report.ts",
     "build-stack": "ts-node --project tsconfig.scripts.json scripts/build-stack/build-stack.ts",
+    "pack-install-synth": "ts-node --project tsconfig.scripts.json scripts/pack-install-synth/pack-install-synth.ts",
     "fetch-registry-record": "task fetch-registry-record",
     "test:scripts": "tsc -p tsconfig.scripts.json --noEmit && jest --config jest.config.js",
     "test:lint": "yarn workspace @serverlessinbox/eslint-plugin-mailbox test",

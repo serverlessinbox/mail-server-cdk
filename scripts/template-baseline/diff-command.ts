@@ -1,9 +1,9 @@
-import { errorMessage }                   from '../utils/error-message';
-import type { JsonObject }                from '../utils/json-value';
+import { errorMessage }        from '../utils/error-message';
+import type { JsonObject }     from '../utils/json-value';
 
-import { BaselineCommand }                from './baseline-command';
-import { TemplateDiffer }                 from './template-differ';
-import type { EntryChange, TemplateDiff } from './template-diff';
+import { BaselineCommand }     from './baseline-command';
+import { DiffReportFormatter } from './diff-report-formatter';
+import { TemplateDiffer }      from './template-differ';
 
 /**
  * `template-baseline diff`: synthesizes the templates again and compares each one with the captured
@@ -21,6 +21,7 @@ export class DiffCommand extends BaselineCommand {
   });
 
   private readonly differ = new TemplateDiffer();
+  private readonly reportFormatter = new DiffReportFormatter();
 
   async execute(): Promise<number> {
     try {
@@ -44,7 +45,7 @@ export class DiffCommand extends BaselineCommand {
   /** Writes the report of one stack and returns whether it is identical to its baseline. */
   private compare(stackName: string, baseline: JsonObject, template: JsonObject): boolean {
     const diff = this.differ.diff(baseline, template);
-    this.context.stdout.write(this.formatReport(stackName, diff));
+    this.context.stdout.write(this.reportFormatter.format(stackName, diff));
     return diff.identical;
   }
 
@@ -54,31 +55,4 @@ export class DiffCommand extends BaselineCommand {
     return 2;
   }
 
-  /** The text of one stack's report: its verdict, then the added, removed and changed entries. */
-  private formatReport(stackName: string, diff: TemplateDiff): string {
-    const lines = [`${stackName}: ${diff.identical ? 'identical' : 'DIFFERENT'}`];
-
-    lines.push(...this.entryList('added', diff.added));
-    lines.push(...this.entryList('removed', diff.removed));
-    lines.push(...this.changeList('changed', diff.changed));
-
-    return `${lines.join('\n')}\n`;
-  }
-
-  private entryList(heading: string, entryIds: string[]): string[] {
-    if (entryIds.length === 0) {
-      return [];
-    }
-    return [`  ${heading} (${entryIds.length}):`, ...entryIds.map((entryId) => `    ${entryId}`)];
-  }
-
-  private changeList(heading: string, changes: EntryChange[]): string[] {
-    if (changes.length === 0) {
-      return [];
-    }
-    return [
-      `  ${heading} (${changes.length}):`,
-      ...changes.flatMap((change) => [`    ${change.entryId}`, ...change.propertyPaths.map((path) => `      ${path}`)]),
-    ];
-  }
 }

@@ -9,8 +9,8 @@ const BASELINE_RANDOM_VALUE = 0.5;
  */
 export class FrozenProcessValues {
   constructor(
-    private readonly frozenTimeMillis: number,
-    private readonly frozenRandom: number,
+    public readonly frozenTimeMillis: number,
+    public readonly frozenRandom: number,
   ) {}
 
   static forBaseline(): FrozenProcessValues {

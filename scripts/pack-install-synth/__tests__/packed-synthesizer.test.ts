@@ -26,7 +26,7 @@ describe('PackedSynthesizer', () => {
   });
 
   /** Answers the process boundary: `peerDependencies` is the packed manifest's peers, the runner exits with `runnerExitCode`. */
-  function fakeProcesses(peerDependencies: PackageVersions, runnerExitCode = 0, runnerOutput = ''): void {
+  function fakeProcesses(peerDependencies: PackageVersions, runnerExitCode = 0, runnerStderr = ''): void {
     jest.spyOn(ProcessRunner.prototype, 'run').mockImplementation(async (command, args) => {
       if (command === 'tar') {
         return { exitCode: 0, stdout: JSON.stringify({ peerDependencies }), stderr: '' };
@@ -35,7 +35,7 @@ describe('PackedSynthesizer', () => {
         if (runnerExitCode === 0) {
           await writeFile(args[1], JSON.stringify({ Resources: { Fake: {} } }));
         }
-        return { exitCode: runnerExitCode, stdout: runnerOutput, stderr: '' };
+        return { exitCode: runnerExitCode, stdout: '', stderr: runnerStderr };
       }
       return okResult;
     });
@@ -55,14 +55,17 @@ describe('PackedSynthesizer', () => {
     expect(result.failure).toBeUndefined();
   });
 
-  it('returns the end of the output as the failure, with no template, when the packed runner exits non-zero', async () => {
-    fakeProcesses({}, 1, 'runner-broke-marker');
+  it('returns the runner stderr, from its first line, as the failure with no template when the packed runner exits non-zero', async () => {
+    // Longer than the 2000 characters a tail of stdout and stderr would keep, so a tail cannot start with the error line.
+    const runnerStderr = ['Error: runner-broke-marker', ...Array.from({ length: 300 }, () => '    at frame')].join('\n');
+    fakeProcesses({}, 1, runnerStderr);
 
     const result = await synthesizer().synthesize();
     createdDirectories.push(result.directory);
 
     expect(result.template).toBeUndefined();
-    expect(result.failure).toContain('runner-broke-marker');
+    expect(result.failure?.startsWith(runnerStderr.split('\n')[0])).toBe(true);
+    expect(result.failure).toBe(runnerStderr);
   });
 
   it('throws, naming the package, when a peer that is not packed is declared as a workspace range', async () => {
