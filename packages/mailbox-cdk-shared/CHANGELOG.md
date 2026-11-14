@@ -4,6 +4,16 @@
 All notable changes to this project will be documented in this file
 
 
+## [0.6.0](https://github.com/serverlessinbox/mailbox-cdk/compare/v0.5.13...v0.6.0) (Sat Nov 14 2026)
+
+### fix
+
+* **kit** keep the stack name base on the stack node ([6d71bc2](https://github.com/serverlessinbox/mailbox-cdk/commit/6d71bc2b43c0fe4530e859f5336727cf32ff6daa))
+
+* **kit** recognise once-per-stack singletons by a global marker ([58a5ca7](https://github.com/serverlessinbox/mailbox-cdk/commit/58a5ca7b1e7fb61eb3917f713231c054f667e9be))
+
+* **kit** publish mailbox-cdk-shared with public access ([8862b5f](https://github.com/serverlessinbox/mailbox-cdk/commit/8862b5f769454b81c07a69c2b48dcf46dbe58bff))
+
 ## [0.5.13](https://github.com/serverlessinbox/mailbox-cdk/compare/v0.5.12...v0.5.13) (Fri Nov 13 2026)
 
 

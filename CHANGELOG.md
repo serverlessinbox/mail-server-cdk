@@ -4,6 +4,36 @@
 All notable changes to this project will be documented in this file
 
 
+## [0.6.0](https://github.com/serverlessinbox/mailbox-cdk/compare/v0.5.13...v0.6.0) (Sat Nov 14 2026)
+
+### fix
+
+* **kit** keep the stack name base on the stack node ([6d71bc2](https://github.com/serverlessinbox/mailbox-cdk/commit/6d71bc2b43c0fe4530e859f5336727cf32ff6daa))
+
+* **kit** recognise once-per-stack singletons by a global marker ([58a5ca7](https://github.com/serverlessinbox/mailbox-cdk/commit/58a5ca7b1e7fb61eb3917f713231c054f667e9be))
+
+* **kit** publish mailbox-cdk-shared with public access ([8862b5f](https://github.com/serverlessinbox/mailbox-cdk/commit/8862b5f769454b81c07a69c2b48dcf46dbe58bff))
+
+### feat
+
+* **scripts** add process runner, lock reader and package finder ([7f815b7](https://github.com/serverlessinbox/mailbox-cdk/commit/7f815b7a39f37a9b77df6872e80ec46d44871e26))
+
+* **scripts** add example consumer stack and source synthesizer ([0686cad](https://github.com/serverlessinbox/mailbox-cdk/commit/0686cad15a95378a1456f6651ef09acf6ba3aaee))
+
+* **lint** flag identity and module state in kit source ([7a7aa8a](https://github.com/serverlessinbox/mailbox-cdk/commit/7a7aa8a188bc42f31badf2abfed47bddad6cb4ea))
+
+* **scripts** pack workspaces and read their packed peer ranges ([77681c3](https://github.com/serverlessinbox/mailbox-cdk/commit/77681c38917abba4105bcaeafd13a9c0bf6878fa))
+
+* **scripts** add clean consumer project and packed synthesizer Packs the workspaces, installs the tarballs into an empty project with scripts off and pinned peers, and synthesizes the consumer stack there. Pack and install errors throw; a failed synthesis run is returned as failure. ([7ed04f9](https://github.com/serverlessinbox/mailbox-cdk/commit/7ed04f929ae0c040bdc5d48db99ed9650769f10f))
+
+* **scripts** add pack-install-synth command ([a22cc05](https://github.com/serverlessinbox/mailbox-cdk/commit/a22cc05a1003f861cb31cfe62fc4e46dbf06671d))
+
+### ci
+
+* add pack-install-synth pull-request job ([0f22770](https://github.com/serverlessinbox/mailbox-cdk/commit/0f227703e65d5b539d12b207c7760683424617b0))
+
+* publish to npm with NPM_TOKEN and drop the stub registry ([22bd441](https://github.com/serverlessinbox/mailbox-cdk/commit/22bd4410d4250948af09c6199f1ef492e5ef8fe3))
+
 ## [0.5.13](https://github.com/serverlessinbox/mailbox-cdk/compare/v0.5.12...v0.5.13) (Fri Nov 13 2026)
 
 ### chore
