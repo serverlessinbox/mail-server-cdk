@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@jwpkg/gitversion": "^1.4.0-pack-order.3",
-    "@serverlessinbox/artifact-registry": "^0.3.0",
+    "@serverlessinbox/artifact-registry": "^0.3.6",
     "@serverlessinbox/artifact-registry-cdk": "^0.3.0",
     "@serverlessinbox/artifact-registry-gitversion": "^0.3.4",
     "@serverlessinbox/eslint-plugin-mailbox": "workspace:*",

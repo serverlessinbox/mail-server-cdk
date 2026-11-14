@@ -1944,22 +1944,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serverlessinbox/artifact-registry@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@serverlessinbox/artifact-registry@npm:0.3.0"
-  dependencies:
-    "@aws-sdk/client-s3": "npm:^3"
-    clipanion: "npm:^3.2.1"
-    esbuild: "npm:^0.27.1"
-    fflate: "npm:^0.8.3"
-    semver: "npm:^7.8.1"
-    typanion: "npm:^3.14.0"
-  bin:
-    artifact-registry: dist/cli-entry.js
-  checksum: 10c0/94234b1d5bddbf8be584509bc6ef70aeb9f47a12a656e10b77b90cdac6ef7661fcba41f1501e2ae8834a63560748788e93193ffe622110af2d7fa0c3e124eeaf
-  languageName: node
-  linkType: hard
-
 "@serverlessinbox/artifact-registry@npm:^0.3.4":
   version: 0.3.4
   resolution: "@serverlessinbox/artifact-registry@npm:0.3.4"
@@ -1973,6 +1957,22 @@ __metadata:
   bin:
     artifact-registry: dist/cli-entry.js
   checksum: 10c0/a48f7f58f97fe942c9b977656fd6747a731d914e66ce957a794b797eea15b37ac7ea829967254100fdfefc2cd433eb6ee7574a093f269c77df76831e4d01327c
+  languageName: node
+  linkType: hard
+
+"@serverlessinbox/artifact-registry@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@serverlessinbox/artifact-registry@npm:0.3.6"
+  dependencies:
+    "@aws-sdk/client-s3": "npm:^3"
+    clipanion: "npm:^3.2.1"
+    esbuild: "npm:^0.27.1"
+    fflate: "npm:^0.8.3"
+    semver: "npm:^7.8.1"
+    typanion: "npm:^3.14.0"
+  bin:
+    artifact-registry: dist/cli-entry.js
+  checksum: 10c0/4e58bdcd88a79f33ab77e82e6919933e8720bd1c788e56a65f742872e21ca13d17f83e9501c79ed4eb574cb6e5837efdf831dbbdeb43483619742389bad6376f
   languageName: node
   linkType: hard
 
@@ -2043,7 +2043,7 @@ __metadata:
     "@aws-sdk/client-route-53": "npm:^3.1132.0"
     "@aws-sdk/client-s3": "npm:^3.1132.0"
     "@aws-sdk/client-sfn": "npm:^3.1132.0"
-    "@serverlessinbox/artifact-registry": "npm:^0.3.0"
+    "@serverlessinbox/artifact-registry": "npm:^0.3.6"
     "@serverlessinbox/artifact-registry-cdk": "npm:^0.3.0"
     "@serverlessinbox/mailbox-bundler": "workspace:*"
     "@types/jest": "npm:^29.0.0"
@@ -2073,7 +2073,7 @@ __metadata:
     "@aws-sdk/client-lambda": "npm:^3.1132.0"
     "@aws-sdk/client-sqs": "npm:^3.1132.0"
     "@bufbuild/protobuf": "npm:^2.2.3"
-    "@serverlessinbox/artifact-registry": "npm:^0.3.0"
+    "@serverlessinbox/artifact-registry": "npm:^0.3.6"
     "@serverlessinbox/artifact-registry-cdk": "npm:^0.3.0"
     "@serverlessinbox/mailbox": "workspace:*"
     "@serverlessinbox/mailbox-addon-sdk": "workspace:*"
@@ -2117,7 +2117,7 @@ __metadata:
     "@aws-sdk/client-route-53": "npm:^3.1132.0"
     "@aws-sdk/client-s3": "npm:^3.1132.0"
     "@aws-sdk/client-sfn": "npm:^3.1132.0"
-    "@serverlessinbox/artifact-registry": "npm:^0.3.0"
+    "@serverlessinbox/artifact-registry": "npm:^0.3.6"
     "@serverlessinbox/artifact-registry-cdk": "npm:^0.3.0"
     "@serverlessinbox/mailbox-bundler": "workspace:*"
     "@serverlessinbox/mailbox-cdk-shared": "workspace:*"
@@ -6845,7 +6845,7 @@ __metadata:
   resolution: "mailbox-cdk@workspace:."
   dependencies:
     "@jwpkg/gitversion": "npm:^1.4.0-pack-order.3"
-    "@serverlessinbox/artifact-registry": "npm:^0.3.0"
+    "@serverlessinbox/artifact-registry": "npm:^0.3.6"
     "@serverlessinbox/artifact-registry-cdk": "npm:^0.3.0"
     "@serverlessinbox/artifact-registry-gitversion": "npm:^0.3.4"
     "@serverlessinbox/eslint-plugin-mailbox": "workspace:*"
