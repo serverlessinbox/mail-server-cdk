@@ -31,6 +31,7 @@ import { JmapOAuthAddon }                                                       
 import { loadMailboxCognitoArtifactVersions }                                   from '../mailbox-cognito-artifact-versions';
 import { loadMailboxCognitoRegistryRecord }                                     from '../mailbox-cognito-registry-record';
 import { CognitoBootstrapUserLambda }                                           from '../resources/lambdas/bootstrap-user-lambda';
+import { SignInSyncLambda }                                                     from '../resources/lambdas/sign-in-sync-lambda';
 import type { BootstrapUserProperties }                                         from '../runtime/bootstrap-user/properties';
 
 import { CognitoScopeToPermissions }                                            from './cognito-scopemap';
@@ -39,7 +40,8 @@ import { DynamicClientRegistrationMode }                                        
 import type { MailboxUserPoolAdminUiConfig }                                    from './mailbox-user-pool-admin-ui-config';
 import type { MfaMode }                                                         from './mfa-mode';
 import { UserPoolAudience }                                                     from './user-pool-audience';
-import type { IMailboxUserPoolExtension, MailboxUserPoolExtensionRegistration } from './user-pool-extension';
+import type { IMailboxUserPoolExtension, MailboxUserPoolExtensionRegistration,
+  SignInSyncRule }                                                              from './user-pool-extension';
 
 /**
  * Maps Cognito groups to the two roles mailbox components distinguish.
@@ -307,6 +309,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
   private readonly allowNativeSignIn: boolean;
   private readonly clientSignInProviders: string[];
   private readonly extensionDependencies: IDependable[];
+  private readonly signInSync?: SignInSyncLambda;
 
   private readonly authFlows: cognito.AuthFlow;
   private readonly authzConfig: MailboxAuthorizationConfig;
@@ -336,6 +339,10 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
     };
     const extensions = props.extensions ?? [];
     this.assertAtMostOneSignInSync(extensions);
+    const signInSyncRule = extensions.find(extension => extension.signInSync !== undefined)?.signInSync;
+    if (signInSyncRule !== undefined) {
+      this.validateSignInSyncRule(signInSyncRule);
+    }
     this.allowNativeSignIn = props.allowNativeSignIn ?? true;
     this.scopeMap          = this.buildScopeMap();
     this.policies          = this.buildPolicies();
@@ -343,6 +350,14 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
       userPassword: false,
       userSrp:      false,
     };
+
+    this.signInSync = signInSyncRule === undefined
+      ? undefined
+      : new SignInSyncLambda(this, 'sign-in-sync', {
+        artifactResolver: this.artifacts,
+        adminGroups:      this.authzConfig.adminGroups,
+        rule:             signInSyncRule,
+      });
 
     // This construct is a composition root, so it resolves the deployer type itself.
     const deployerType = resolveDeployerType(this);
@@ -356,7 +371,9 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
       passwordMinLength: this.passwordMinLength,
       artifactResolver:  this.artifacts,
       deployerType,
-      rootStack: { name: Aws.STACK_NAME, id: StackIdentity.guid },
+      rootStack:               { name: Aws.STACK_NAME, id: StackIdentity.guid },
+      signInSyncLambdaArn:     this.signInSync?.functionArn,
+      signInSyncAttributeName: signInSyncRule?.groupAttribute,
     });
     const stackRef = cognitoDeployer.dataStackRef;
 
@@ -368,6 +385,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
     const registrations        = extensions.map(extension => extension.attach({ userPool: this.userPool }));
     this.clientSignInProviders = this.buildClientSignInProviders(registrations);
     this.extensionDependencies = registrations.map(registration => registration.dependable);
+    this.signInSync?.allowInvocationFrom(this.userPool);
   }
 
   /**
@@ -411,6 +429,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
    * the admin UI configuration. Returns no addon when native sign-in is off: the addon exists to manage native Cognito users.
    */
   public createAdminApiAddons(scope: Construct, ctx: AdminApiAddonContext): IAdminApiAddon[] {
+    this.signInSync?.enableProvisioning(ctx.identityProvisioner);
     if (!this.allowNativeSignIn) {
       return [];
     }
@@ -581,6 +600,24 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
       extension.signInSync !== undefined && extensions.slice(0, index).some(earlier => earlier.signInSync !== undefined));
     if (secondIndex !== -1) {
       throw new Error(`MailboxUserPool: only one extension may declare signInSync; extension '${secondIndex}' is the second.`);
+    }
+  }
+
+  private validateSignInSyncRule(rule: SignInSyncRule): void {
+    if (rule.userNamePrefix.length === 0) {
+      throw new Error('MailboxUserPool: signInSync userNamePrefix is empty');
+    }
+    if (!/^[a-z][a-z0-9_]{0,19}$/.test(rule.groupAttribute)) {
+      throw new Error(`MailboxUserPool: signInSync groupAttribute '${rule.groupAttribute}' is not a valid attribute name`);
+    }
+    const poolGroups = [...this.authzConfig.adminGroups, ...this.authzConfig.userGroups];
+    for (const [attributeValue, groupName] of Object.entries(rule.groupMapping)) {
+      if (attributeValue.length === 0) {
+        throw new Error(`MailboxUserPool: signInSync groupMapping key '${attributeValue}' is empty`);
+      }
+      if (!poolGroups.includes(groupName)) {
+        throw new Error(`MailboxUserPool: signInSync groupMapping value '${groupName}' for key '${attributeValue}' is not one of authorization.adminGroups or authorization.userGroups`);
+      }
     }
   }
 

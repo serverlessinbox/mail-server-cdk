@@ -121,6 +121,28 @@ describe('MailboxCognitoDataDeployer', () => {
         parameters: Match.not(Match.objectLike({ customDomainName: Match.anyValue() })),
       });
     });
+
+    it('passes the sign-in sync Lambda ARN and attribute name when both are set', () => {
+      const { template } = synthDeployer({
+        signInSyncLambdaArn:     'arn:aws:lambda:us-west-2:111122223333:function:sign-in-sync',
+        signInSyncAttributeName: 'member_of',
+      });
+
+      template.hasResourceProperties(DEPLOYER_RESOURCE_TYPE, {
+        parameters: Match.objectLike({
+          signInSyncLambdaArn:     'arn:aws:lambda:us-west-2:111122223333:function:sign-in-sync',
+          signInSyncAttributeName: 'member_of',
+        }),
+      });
+    });
+
+    it('leaves the sign-in sync parameters out without a sign-in sync Lambda', () => {
+      const { template } = synthDeployer();
+
+      template.hasResourceProperties(DEPLOYER_RESOURCE_TYPE, {
+        parameters: Match.not(Match.objectLike({ signInSyncLambdaArn: Match.anyValue() })),
+      });
+    });
   });
 
   describe('worker', () => {

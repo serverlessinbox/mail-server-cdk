@@ -27,7 +27,7 @@ import { MailboxUserPool, MailboxUserPoolProps }                                
 import { MfaMode }                                                              from '../mfa-mode';
 import { UserPoolAudience }                                                     from '../user-pool-audience';
 import type { IMailboxUserPoolExtension, MailboxUserPoolExtensionContext,
-  MailboxUserPoolExtensionRegistration }                                        from '../user-pool-extension';
+  MailboxUserPoolExtensionRegistration, SignInSyncRule }                        from '../user-pool-extension';
 
 const PINNED_VERSION = '0.0.1-test';
 
@@ -247,6 +247,106 @@ describe('MailboxUserPool addons', () => {
     });
     expect(Object.keys(registrationLambdas)).toHaveLength(expectedRegistrationLambdas);
   });
+});
+
+describe('MailboxUserPool sign-in sync', () => {
+  const SIGN_IN_SYNC_RULE: SignInSyncRule = {
+    userNamePrefix: 'sync_',
+    groupAttribute: 'member_of',
+    groupMapping:   { 'ops-group-id': 'admin' },
+  };
+  const SYNC_FUNCTION_FILTER = { Properties: { Environment: { Variables: { USER_NAME_PREFIX: Match.anyValue() } } } };
+  const identityProvisioner  = {
+    functionArn:  'arn:aws:lambda:us-west-2:123456789012:function:identity-provisioner',
+    functionName: 'identity-provisioner',
+    grantInvoke:  () => {},
+  };
+  const auditEventsQueue = {
+    queueUrl:  'https://sqs.us-west-2.amazonaws.com/123456789012/audit-events',
+    queueArn:  'arn:aws:sqs:us-west-2:123456789012:audit-events',
+    grantSend: () => {},
+  };
+  const table = { tableName: 'table', tableArn: 'arn:aws:dynamodb:us-west-2:123456789012:table/table', grantRead: () => {}, grantReadWrite: () => {}, grantConditionCheck: () => {} };
+
+  /** An extension that declares the sign-in sync rule and contributes no client sign-in name. */
+  function signInSyncExtension(rule: SignInSyncRule): IMailboxUserPoolExtension {
+    return {
+      signInSync: rule,
+      attach:     () => ({ clientSignInProviders: [], dependable: new DependencyGroup() }),
+    };
+  }
+
+  it('creates one sign-in sync function for an extension with a rule and hands its ARN to the deployer', () => {
+    const { stack } = createUserPool({ extensions: [signInSyncExtension(SIGN_IN_SYNC_RULE)] });
+
+    const template         = Template.fromStack(stack);
+    const syncFunctions    = template.findResources('AWS::Lambda::Function', SYNC_FUNCTION_FILTER);
+    const [syncFunctionId] = Object.keys(syncFunctions);
+    expect(Object.keys(syncFunctions)).toHaveLength(1);
+    template.hasResourceProperties('Custom::MailboxCognitoDataDeployer', {
+      parameters: Match.objectLike({
+        signInSyncLambdaArn:     { 'Fn::GetAtt': [syncFunctionId, 'Arn'] },
+        signInSyncAttributeName: 'member_of',
+      }),
+    });
+  });
+
+  it('creates no sign-in sync function and gives the deployer no sign-in sync parameter without a rule', () => {
+    const { stack } = createUserPool();
+
+    const template = Template.fromStack(stack);
+    expect(Object.keys(template.findResources('AWS::Lambda::Function', SYNC_FUNCTION_FILTER))).toHaveLength(0);
+    template.hasResourceProperties('Custom::MailboxCognitoDataDeployer', {
+      parameters: Match.not(Match.objectLike({ signInSyncLambdaArn: Match.anyValue() })),
+    });
+  });
+
+  it.each([
+    {
+      description: 'an empty user name prefix',
+      rule:        { ...SIGN_IN_SYNC_RULE, userNamePrefix: '' },
+      message:     'MailboxUserPool: signInSync userNamePrefix is empty',
+    },
+    {
+      description: 'an attribute name that is not a valid Cognito attribute name',
+      rule:        { ...SIGN_IN_SYNC_RULE, groupAttribute: 'Member-Of' },
+      message:     "MailboxUserPool: signInSync groupAttribute 'Member-Of' is not a valid attribute name",
+    },
+    {
+      description: 'an empty group mapping key',
+      rule:        { ...SIGN_IN_SYNC_RULE, groupMapping: { '': 'admin' } },
+      message:     "MailboxUserPool: signInSync groupMapping key '' is empty",
+    },
+    {
+      description: 'a group mapping value that is not an admin or user group of the pool',
+      rule:        { ...SIGN_IN_SYNC_RULE, groupMapping: { 'ops-group-id': 'nope' } },
+      message:     "MailboxUserPool: signInSync groupMapping value 'nope' for key 'ops-group-id' is not one of authorization.adminGroups or authorization.userGroups",
+    },
+  ])('rejects a sign-in sync rule with $description', ({ rule, message }) => {
+    expect(() => createUserPool({ extensions: [signInSyncExtension(rule)] })).toThrow(message);
+  });
+
+  it('enables the provisioner for the sign-in sync function even when native sign-in is off', () => {
+    const stack    = newStack();
+    const { pool } = createUserPool({
+      allowNativeSignIn: false,
+      extensions:        [extension(stack, 'ProviderA'), signInSyncExtension(SIGN_IN_SYNC_RULE)],
+    }, stack);
+
+    const addons = pool.createAdminApiAddons(stack, {
+      artifactResolver: pinnedResolver(stack, ['mailbox-cognito']),
+      auditEventsQueue,
+      configTable:   table,
+      auditLogTable: table,
+      identityProvisioner,
+    });
+
+    expect(addons).toEqual([]);
+    Template.fromStack(stack).hasResourceProperties('AWS::Lambda::Function', {
+      Environment: { Variables: Match.objectLike({ IDENTITY_PROVISIONER_FUNCTION_NAME: 'identity-provisioner' }) },
+    });
+  });
+
 });
 
 describe('MailboxUserPool UI client provisioning', () => {

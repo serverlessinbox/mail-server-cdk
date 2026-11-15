@@ -43,6 +43,10 @@ export interface MailboxCognitoDataDeployerProps {
   readonly deployerType: ServerlessInboxDeployerType;
   /** The root stack (name and guid), resolved once by the composition root and threaded down for tagging and the worker's grants. */
   readonly rootStack: RootStack;
+  /** ARN of the sign-in sync Lambda the pool's post-confirmation and post-authentication triggers invoke. Unset: the pool gets no triggers and no sync attribute. */
+  readonly signInSyncLambdaArn?: string;
+  /** Short name of the custom attribute that carries a user's group values; the data stack declares it as `custom:<name>`. Set together with `signInSyncLambdaArn`. */
+  readonly signInSyncAttributeName?: string;
 }
 
 /**
@@ -114,6 +118,12 @@ export class MailboxCognitoDataDeployer extends Construct {
           customDomainName:    props.customDomain.domainName,
           customDomainCertArn: props.customDomain.certificateArn,
         }
+        : {}),
+      ...(props.signInSyncLambdaArn !== undefined
+        ? { signInSyncLambdaArn: props.signInSyncLambdaArn }
+        : {}),
+      ...(props.signInSyncAttributeName !== undefined
+        ? { signInSyncAttributeName: props.signInSyncAttributeName }
         : {}),
     };
   }

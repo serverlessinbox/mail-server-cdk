@@ -127,6 +127,44 @@ describe('MailboxCognitoDataStack user pool', () => {
   });
 });
 
+describe('MailboxCognitoDataStack sign-in sync', () => {
+  it('declares the sign-in sync parameters with empty defaults', () => {
+    const template = synthesizeDataStack();
+    template.hasParameter('signInSyncLambdaArn', { Type: 'String', Default: '' });
+    template.hasParameter('signInSyncAttributeName', { Type: 'String', Default: '' });
+  });
+
+  it('has HasSignInSync exactly when the sign-in sync Lambda ARN parameter is not empty', () => {
+    synthesizeDataStack().hasCondition('HasSignInSync', {
+      'Fn::Not': [{ 'Fn::Equals': [{ Ref: 'signInSyncLambdaArn' }, ''] }],
+    });
+  });
+
+  it('adds the sync attribute to the pool schema only under the condition, named by its parameter', () => {
+    synthesizeDataStack().hasResourceProperties('AWS::Cognito::UserPool', {
+      Schema: {
+        'Fn::If': ['HasSignInSync', [{
+          Name:                       { Ref: 'signInSyncAttributeName' },
+          AttributeDataType:          'String',
+          Mutable:                    true,
+          StringAttributeConstraints: { MinLength: '0', MaxLength: '2048' },
+        }], { Ref: 'AWS::NoValue' }],
+      },
+    });
+  });
+
+  it('sets the post-sign-in triggers to the Lambda ARN only under the condition, and no other trigger', () => {
+    synthesizeDataStack().hasResourceProperties('AWS::Cognito::UserPool', {
+      LambdaConfig: {
+        'Fn::If': ['HasSignInSync', {
+          PostConfirmation:   { Ref: 'signInSyncLambdaArn' },
+          PostAuthentication: { Ref: 'signInSyncLambdaArn' },
+        }, { Ref: 'AWS::NoValue' }],
+      },
+    });
+  });
+});
+
 describe('MailboxCognitoDataStack domain', () => {
   it('has a custom domain exactly when the custom domain name parameter is not empty', () => {
     synthesizeDataStack().hasCondition(HAS_CUSTOM_DOMAIN, {

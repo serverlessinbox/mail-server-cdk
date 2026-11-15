@@ -22,12 +22,14 @@ export const USER_GROUP_NAME = 'user';
  * name fails the compile. Values are strings because CloudFormation parameters arrive as strings.
  */
 export type MailboxCognitoDataStackParameters = {
-  readonly cognitoDomainPrefix:  string;
-  readonly customDomainName?:    string;
-  readonly customDomainCertArn?: string;
-  readonly mfaMode:              MfaMode;
-  readonly passwordMinLength:    string;
-  readonly rootStack:            string;
-  readonly rootStackId:          string;
-  readonly deployerType:         ServerlessInboxDeployerType;
+  readonly cognitoDomainPrefix:      string;
+  readonly customDomainName?:        string;
+  readonly customDomainCertArn?:     string;
+  readonly mfaMode:                  MfaMode;
+  readonly passwordMinLength:        string;
+  readonly rootStack:                string;
+  readonly rootStackId:              string;
+  readonly deployerType:             ServerlessInboxDeployerType;
+  readonly signInSyncLambdaArn?:     string;
+  readonly signInSyncAttributeName?: string;
 };

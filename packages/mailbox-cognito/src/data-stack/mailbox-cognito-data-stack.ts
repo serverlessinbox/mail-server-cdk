@@ -56,8 +56,9 @@ export class MailboxCognitoDataStack extends cdk.Stack {
     const parameters = this.declareParameters();
     this.applyCorrelationTags(parameters);
     const hasCustomDomain = this.declareHasCustomDomain(parameters);
+    const hasSignInSync   = this.declareHasSignInSync(parameters);
 
-    const cfnPool = this.createUserPool(parameters);
+    const cfnPool = this.createUserPool(parameters, hasSignInSync);
     this.createUserPoolDomain(cfnPool, parameters, hasCustomDomain);
     this.createResourceServer(cfnPool);
     this.createDefaultGroups(cfnPool);
@@ -109,6 +110,16 @@ export class MailboxCognitoDataStack extends cdk.Stack {
         default:       'cfn',
         allowedValues: ['cdk', 'cfn', 'marketplace'],
       }),
+      signInSyncLambdaArn: this.declareParameter('signInSyncLambdaArn', {
+        type:        'String',
+        description: 'ARN of the sign-in sync Lambda. Empty leaves the pool without the extra attribute and the post-sign-in triggers.',
+        default:     '',
+      }),
+      signInSyncAttributeName: this.declareParameter('signInSyncAttributeName', {
+        type:        'String',
+        description: 'Name of the custom string attribute the sign-in sync reads.',
+        default:     '',
+      }),
     };
   }
 
@@ -137,12 +148,30 @@ export class MailboxCognitoDataStack extends cdk.Stack {
     });
   }
 
+  private declareHasSignInSync(parameters: DeclaredParameters): cdk.CfnCondition {
+    return new cdk.CfnCondition(this, 'HasSignInSync', {
+      expression: cdk.Fn.conditionNot(
+        cdk.Fn.conditionEquals(parameters.signInSyncLambdaArn.valueAsString, ''),
+      ),
+    });
+  }
+
   // L1 (CfnUserPool) is required here because CF parameter token strings cannot be assigned
   // to L2 enum properties (e.g. cognito.Mfa).
-  private createUserPool(parameters: DeclaredParameters): cognito.CfnUserPool {
+  private createUserPool(parameters: DeclaredParameters, hasSignInSync: cdk.CfnCondition): cognito.CfnUserPool {
     const mfaMapping = this.declareMfaConfigurationMapping();
     const cfnPool    = new cognito.CfnUserPool(this, 'user-pool', {
-      userPoolName:          Fn.sub('${AWS::AccountId}-${AWS::StackName}-users'),
+      userPoolName: Fn.sub('${AWS::AccountId}-${AWS::StackName}-users'),
+      schema:       Fn.conditionIf(hasSignInSync.logicalId, [{
+        Name:                       parameters.signInSyncAttributeName.valueAsString,
+        AttributeDataType:          'String',
+        Mutable:                    true,
+        StringAttributeConstraints: { MinLength: '0', MaxLength: '2048' },
+      }], Aws.NO_VALUE),
+      lambdaConfig: Fn.conditionIf(hasSignInSync.logicalId, {
+        PostConfirmation:   parameters.signInSyncLambdaArn.valueAsString,
+        PostAuthentication: parameters.signInSyncLambdaArn.valueAsString,
+      }, Aws.NO_VALUE),
       adminCreateUserConfig: { allowAdminCreateUserOnly: true },
       mfaConfiguration:      mfaMapping.findInMap(parameters.mfaMode.valueAsString, 'value'),
       enabledMfas:           ['SOFTWARE_TOKEN_MFA'],
