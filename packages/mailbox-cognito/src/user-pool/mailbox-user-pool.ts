@@ -36,10 +36,10 @@ import type { BootstrapUserProperties }                                         
 import { CognitoScopeToPermissions }                                            from './cognito-scopemap';
 import { CognitoScope, DeprecatedCognitoScopes, RESOURCE_SERVER_IDENTIFIER }    from './cognito-scope';
 import { DynamicClientRegistrationMode }                                        from './dynamic-client-registration-mode';
-import type { IMailboxIdentityProvider }                                        from './identity-provider';
 import type { MailboxUserPoolAdminUiConfig }                                    from './mailbox-user-pool-admin-ui-config';
 import type { MfaMode }                                                         from './mfa-mode';
 import { UserPoolAudience }                                                     from './user-pool-audience';
+import type { IMailboxUserPoolExtension, MailboxUserPoolExtensionRegistration } from './user-pool-extension';
 
 /**
  * Maps Cognito groups to the two roles mailbox components distinguish.
@@ -173,7 +173,7 @@ export interface MailboxUserPoolProps {
   readonly artifactResolver?: IArtifactResolver;
 
   /**
-   * Enable RFC 8414 OIDC discovery (`GET /.well-known/openid-configuration`) for the JMAP API.
+   * Enable RFC 8414 authorization-server metadata discovery (`GET /.well-known/openid-configuration`) for the JMAP API.
    * @default false
    */
   readonly enableJmapOAuthDiscovery?: boolean;
@@ -191,17 +191,17 @@ export interface MailboxUserPoolProps {
   readonly dynamicClientRegistration?: DynamicClientRegistrationMode;
 
   /**
-   * External identity providers that users sign in through. The pool attaches each one once, when it is
-   * constructed, and every OAuth client it creates lists each provider by name and waits for it. Provider
-   * names must be unique within the list.
+   * Extensions the pool attaches once, in list order, when it is constructed. Every OAuth client of the pool lists
+   * the client sign-in names the extensions contribute and waits for each extension's registration. At most one
+   * extension may declare a `signInSync` rule.
    * @default []
    */
-  readonly identityProviders?: IMailboxIdentityProvider[];
+  readonly extensions?: IMailboxUserPoolExtension[];
 
   /**
    * Whether users may sign in with native Cognito accounts of this pool. When `false`, no OAuth client lists
-   * the native `COGNITO` provider, so the pool signs users in only through `identityProviders`, and at least
-   * one identity provider must be registered.
+   * the native `COGNITO` provider, so the pool signs users in only through the names the `extensions` contribute,
+   * and at least one extension must contribute one.
    * @default true
    */
   readonly allowNativeSignIn?: boolean;
@@ -244,9 +244,6 @@ export interface IBootstrapUserHandle {
    */
   readonly temporaryPassword: string;
 }
-
-/** Name of the custom attribute that carries federated groups; handed to every identity provider the pool attaches. */
-const FEDERATED_GROUPS_ATTRIBUTE = 'custom:federated_groups';
 
 /**
  * The Cognito user pool that authenticates mailbox users and administrators, together with the OAuth
@@ -308,8 +305,8 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
   public readonly policies: MailboxAuthPolicies;
 
   private readonly allowNativeSignIn: boolean;
-  private readonly supportedIdentityProviders: string[];
-  private readonly identityProviderDependencies: IDependable[];
+  private readonly clientSignInProviders: string[];
+  private readonly extensionDependencies: IDependable[];
 
   private readonly authFlows: cognito.AuthFlow;
   private readonly authzConfig: MailboxAuthorizationConfig;
@@ -337,12 +334,12 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
       adminGroups: props.authorization?.adminGroups ?? [ADMIN_GROUP_NAME],
       userGroups:  props.authorization?.userGroups ?? [USER_GROUP_NAME],
     };
-    const identityProviders         = props.identityProviders ?? [];
-    this.allowNativeSignIn          = props.allowNativeSignIn ?? true;
-    this.supportedIdentityProviders = this.buildSupportedIdentityProviders(identityProviders);
-    this.scopeMap                   = this.buildScopeMap();
-    this.policies                   = this.buildPolicies();
-    this.authFlows                  = props.authFlows ?? {
+    const extensions = props.extensions ?? [];
+    this.assertAtMostOneSignInSync(extensions);
+    this.allowNativeSignIn = props.allowNativeSignIn ?? true;
+    this.scopeMap          = this.buildScopeMap();
+    this.policies          = this.buildPolicies();
+    this.authFlows         = props.authFlows ?? {
       userPassword: false,
       userSrp:      false,
     };
@@ -363,15 +360,14 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
     });
     const stackRef = cognitoDeployer.dataStackRef;
 
-    this.userPool                     = stackRef.userPool;
-    this.oauthDomain                  = stackRef.oauthDomain;
-    this.tokenEndpoint                = `https://${stackRef.oauthDomain}/oauth2/token`;
-    this.authorizationEndpoint        = `https://${stackRef.oauthDomain}/oauth2/authorize`;
-    this.issuer                       = `https://cognito-idp.${Aws.REGION}.amazonaws.com/${stackRef.userPool.userPoolId}`;
-    this.identityProviderDependencies = identityProviders.map(provider => provider.attach({
-      userPool:                 this.userPool,
-      federatedGroupsAttribute: FEDERATED_GROUPS_ATTRIBUTE,
-    }));
+    this.userPool              = stackRef.userPool;
+    this.oauthDomain           = stackRef.oauthDomain;
+    this.tokenEndpoint         = `https://${stackRef.oauthDomain}/oauth2/token`;
+    this.authorizationEndpoint = `https://${stackRef.oauthDomain}/oauth2/authorize`;
+    this.issuer                = `https://cognito-idp.${Aws.REGION}.amazonaws.com/${stackRef.userPool.userPoolId}`;
+    const registrations        = extensions.map(extension => extension.attach({ userPool: this.userPool }));
+    this.clientSignInProviders = this.buildClientSignInProviders(registrations);
+    this.extensionDependencies = registrations.map(registration => registration.dependable);
   }
 
   /**
@@ -431,7 +427,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
   }
 
   /**
-   * Creates the addon that publishes the OIDC discovery document of the JMAP API (RFC 8414) and, per
+   * Creates the addon that publishes the authorization-server metadata document of the JMAP API (RFC 8414) and, per
    * `dynamicClientRegistration`, its registration endpoint. Returns no addon unless
    * `enableJmapOAuthDiscovery` is set.
    */
@@ -464,7 +460,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
   }
 
   /**
-   * The admin UI configuration this pool contributes: it names Cognito as the identity provider the
+   * The admin UI configuration this pool contributes: it names Cognito as the sign-in source the
    * admin UI's users sign in with.
    */
   public adminUiConfig(): MailboxUserPoolAdminUiConfig {
@@ -580,18 +576,26 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
     return flows;
   }
 
-  private buildSupportedIdentityProviders(identityProviders: IMailboxIdentityProvider[]): string[] {
-    const providerNames = identityProviders.map(provider => provider.providerName);
-    const listedNames   = this.allowNativeSignIn
-      ? [cognito.UserPoolClientIdentityProvider.COGNITO.name, ...providerNames]
-      : providerNames;
+  private assertAtMostOneSignInSync(extensions: IMailboxUserPoolExtension[]): void {
+    const secondIndex = extensions.findIndex((extension, index) =>
+      extension.signInSync !== undefined && extensions.slice(0, index).some(earlier => earlier.signInSync !== undefined));
+    if (secondIndex !== -1) {
+      throw new Error(`MailboxUserPool: only one extension may declare signInSync; extension '${secondIndex}' is the second.`);
+    }
+  }
+
+  private buildClientSignInProviders(registrations: MailboxUserPoolExtensionRegistration[]): string[] {
+    const contributedNames = registrations.flatMap(registration => registration.clientSignInProviders);
+    const listedNames      = this.allowNativeSignIn
+      ? [cognito.UserPoolClientIdentityProvider.COGNITO.name, ...contributedNames]
+      : contributedNames;
 
     const duplicateName = listedNames.find((name, index) => listedNames.indexOf(name) !== index);
     if (duplicateName !== undefined) {
-      throw new Error(`MailboxUserPool: identity provider '${duplicateName}' is registered more than once; each identityProviders entry needs its own providerName, and 'COGNITO' is reserved for native sign-in.`);
+      throw new Error(`MailboxUserPool: client sign-in provider '${duplicateName}' is listed more than once; 'COGNITO' is reserved for native sign-in.`);
     }
-    if (!this.allowNativeSignIn && providerNames.length === 0) {
-      throw new Error('MailboxUserPool: allowNativeSignIn is false but no identityProviders are registered, so no user could sign in. Register at least one identity provider.');
+    if (!this.allowNativeSignIn && listedNames.length === 0) {
+      throw new Error('MailboxUserPool: allowNativeSignIn is false but no extension contributes a client sign-in provider, so no user could sign in.');
     }
 
     return listedNames;
@@ -616,7 +620,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
         refreshToken: 'days',
       },
       preventUserExistenceErrors:      'ENABLED',
-      supportedIdentityProviders:      this.supportedIdentityProviders,
+      supportedIdentityProviders:      this.clientSignInProviders,
       allowedOAuthFlows:               isClientCredentials ? ['client_credentials'] : ['code'],
       allowedOAuthFlowsUserPoolClient: true,
       allowedOAuthScopes:              [
@@ -631,7 +635,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
         }),
     });
 
-    cfnClient.node.addDependency(...this.identityProviderDependencies);
+    cfnClient.node.addDependency(...this.extensionDependencies);
 
     return {
       clientId:     cfnClient.ref,

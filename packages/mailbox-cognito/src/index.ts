@@ -23,9 +23,11 @@ export type {
   IBootstrapUserHandle,
 } from './user-pool/mailbox-user-pool';
 export type {
-  IMailboxIdentityProvider,
-  MailboxIdentityProviderContext,
-} from './user-pool/identity-provider';
+  IMailboxUserPoolExtension,
+  MailboxUserPoolExtensionContext,
+  MailboxUserPoolExtensionRegistration,
+  SignInSyncRule,
+} from './user-pool/user-pool-extension';
 
 
 
