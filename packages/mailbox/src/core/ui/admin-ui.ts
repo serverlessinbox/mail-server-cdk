@@ -88,8 +88,8 @@ export class AdminUi extends MailboxUi {
         packageName: 'mailbox-admin-ui',
         objectPath:  'admin-ui.zip',
       },
-      uiConfig:                 adminUiConfig,
-      artifactResolver:         props.artifactResolver,
+      uiConfig:         adminUiConfig,
+      artifactResolver: props.artifactResolver,
     });
     ComponentDescription.describe(this, 'Admin web console — S3-hosted static site behind CloudFront with an OAuth token-exchange backend (BFF).');
 

@@ -71,7 +71,7 @@ export class MailboxCognitoDataStack extends cdk.Stack {
         type:        'String',
         description: 'Cognito-managed domain prefix (globally unique). Required when no custom domain is provided.',
       }),
-      customDomainName:    this.declareParameter('customDomainName', {
+      customDomainName: this.declareParameter('customDomainName', {
         type:        'String',
         description: 'Custom domain hostname for the Cognito hosted UI (e.g. auth.example.com). Leave empty to use the Cognito-managed prefix domain.',
         default:     '',
@@ -81,29 +81,29 @@ export class MailboxCognitoDataStack extends cdk.Stack {
         description: 'ACM certificate ARN (must be in us-east-1) for the custom domain. Required when customDomainName is provided.',
         default:     '',
       }),
-      mfaMode:             this.declareParameter('mfaMode', {
+      mfaMode: this.declareParameter('mfaMode', {
         type:          'String',
         description:   'MFA enforcement: off disables MFA, optional lets users enroll TOTP, on requires TOTP for all users.',
         default:       DEFAULT_MFA_MODE,
         allowedValues: Object.values(MfaMode),
       }),
-      passwordMinLength:   this.declareParameter('passwordMinLength', {
+      passwordMinLength: this.declareParameter('passwordMinLength', {
         type:        'Number',
         description: 'Minimum password length (6–99).',
         default:     DEFAULT_PASSWORD_MIN_LENGTH,
         minValue:    6,
         maxValue:    99,
       }),
-      rootStack:           this.declareParameter('rootStack', {
+      rootStack: this.declareParameter('rootStack', {
         type:        'String',
         description: 'Root (main) CloudFormation stack name (regional stack that created this cognito stack)',
         default:     '',
       }),
-      rootStackId:         this.declareParameter('rootStackId', {
+      rootStackId: this.declareParameter('rootStackId', {
         type:        'String',
         description: 'Unique id (stack id guid) of the root (main) CloudFormation stack',
       }),
-      deployerType:        this.declareParameter('deployerType', {
+      deployerType: this.declareParameter('deployerType', {
         type:          'String',
         description:   'Deployment mechanism label (cdk|cfn|marketplace) used for tagging',
         default:       'cfn',
@@ -142,11 +142,11 @@ export class MailboxCognitoDataStack extends cdk.Stack {
   private createUserPool(parameters: DeclaredParameters): cognito.CfnUserPool {
     const mfaMapping = this.declareMfaConfigurationMapping();
     const cfnPool    = new cognito.CfnUserPool(this, 'user-pool', {
-      userPoolName:           Fn.sub('${AWS::AccountId}-${AWS::StackName}-users'),
-      adminCreateUserConfig:  { allowAdminCreateUserOnly: true },
-      mfaConfiguration:       mfaMapping.findInMap(parameters.mfaMode.valueAsString, 'value'),
-      enabledMfas:            ['SOFTWARE_TOKEN_MFA'],
-      policies:               {
+      userPoolName:          Fn.sub('${AWS::AccountId}-${AWS::StackName}-users'),
+      adminCreateUserConfig: { allowAdminCreateUserOnly: true },
+      mfaConfiguration:      mfaMapping.findInMap(parameters.mfaMode.valueAsString, 'value'),
+      enabledMfas:           ['SOFTWARE_TOKEN_MFA'],
+      policies:              {
         passwordPolicy: {
           minimumLength:                 parameters.passwordMinLength.valueAsNumber,
           requireLowercase:              true,
@@ -159,7 +159,7 @@ export class MailboxCognitoDataStack extends cdk.Stack {
       accountRecoverySetting: {
         recoveryMechanisms: [{ name: 'admin_only', priority: 1 }],
       },
-      deletionProtection:     'ACTIVE',
+      deletionProtection: 'ACTIVE',
     });
     cfnPool.applyRemovalPolicy(RemovalPolicy.RETAIN_ON_UPDATE_OR_DELETE);
     return cfnPool;
@@ -175,8 +175,8 @@ export class MailboxCognitoDataStack extends cdk.Stack {
 
   private createUserPoolDomain(cfnPool: cognito.CfnUserPool, parameters: DeclaredParameters, hasCustomDomain: cdk.CfnCondition): void {
     const cfnDomain = new cognito.CfnUserPoolDomain(this, 'user-pool-domain', {
-      userPoolId:         cfnPool.ref,
-      domain:             Fn.conditionIf(
+      userPoolId: cfnPool.ref,
+      domain:     Fn.conditionIf(
         hasCustomDomain.logicalId,
         parameters.customDomainName.valueAsString,
         parameters.cognitoDomainPrefix.valueAsString,

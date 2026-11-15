@@ -72,8 +72,8 @@ export class WebmailUi extends MailboxUi {
         packageName: 'mailbox-webmail-ui',
         objectPath:  'webmail-ui.zip',
       },
-      uiConfig:                 { jmapUrl: props.jmapUrl, userApiUrl: props.userApiUrl },
-      artifactResolver:         props.artifactResolver,
+      uiConfig:         { jmapUrl: props.jmapUrl, userApiUrl: props.userApiUrl },
+      artifactResolver: props.artifactResolver,
     });
     ComponentDescription.describe(this, 'Webmail client — S3-hosted static site behind CloudFront with an OAuth token-exchange backend (BFF).');
 

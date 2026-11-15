@@ -26,7 +26,7 @@ const isBootstrapUserResource = t.isPartial({ Properties: t.isRecord(isPropertyV
 function synthesizeBootstrapUser(passwordMinLength?: number): Record<string, t.InferType<typeof isPropertyValue>> {
   const app = new App({
     context: {
-      'serverlessinbox:artifacts':         {
+      'serverlessinbox:artifacts': {
         bucketBase: 'test-artifacts',
         packages:   {
           'mailbox-cognito':    { zone: 'regional', version: '0.0.1-test' },

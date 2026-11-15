@@ -12,7 +12,7 @@ const tester = new RuleTester({
 const coreFile = '/repo/packages/mailbox/src/core/x.ts';
 
 tester.run('iam-statement-home', iamStatementHome, {
-  valid:   [
+  valid: [
     {
       name:     'a statement in resources/',
       filename: '/repo/packages/mailbox/src/resources/lambdas/x.ts',

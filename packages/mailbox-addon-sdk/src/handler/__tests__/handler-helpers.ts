@@ -15,7 +15,7 @@ export function sinkDouble(): jest.Mocked<AuditSink> {
 /** The context of a request from a fixed admin caller, whose audit recording is a spy. */
 export function contextDouble(): jest.Mocked<HandlerContext> {
   return {
-    caller:      {
+    caller: {
       tenantId:      toTenantId('tenant-1'),
       principalId:   toPrincipalId('principal-1'),
       principalName: 'jane',

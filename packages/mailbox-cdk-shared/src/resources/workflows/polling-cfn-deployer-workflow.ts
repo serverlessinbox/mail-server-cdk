@@ -69,7 +69,7 @@ const CHECK_RESULT         = 'check';
 export class PollingCfnDeployerWorkflow extends sfn.StateMachine implements IPollingCfnDeployerWorkflow {
   constructor(scope: Construct, id: string, props: PollingCfnDeployerWorkflowProps) {
     super(scope, id, {
-      definitionBody:   sfn.DefinitionBody.fromChainable(
+      definitionBody: sfn.DefinitionBody.fromChainable(
         PollingCfnDeployerWorkflow.definition(new Construct(scope, `${id}-states`), props),
       ),
       timeout:          props.timeout ?? Duration.minutes(90),

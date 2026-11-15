@@ -19,9 +19,9 @@ const contractToSchema = (properties: ContentDeployerResourceProperties): Schema
 describe('isContentDeployerResourceProperties', () => {
   it('accepts a contract object with every field of every source kind populated', () => {
     const fullProperties: ContentDeployerResourceProperties = {
-      targetBucket:      'my-bucket',
-      deploymentNonce:   'nonce',
-      sources:           [
+      targetBucket:    'my-bucket',
+      deploymentNonce: 'nonce',
+      sources:         [
         { kind: 'data', key: 'config.json', body: '{}', contentType: 'application/json', cacheControl: 'no-store' },
         { kind: 'zip', sourceBucket: 'src-bucket', sourceKey: 'app.zip', targetPrefix: 'app/', sourceVersionId: 'v1' },
       ],

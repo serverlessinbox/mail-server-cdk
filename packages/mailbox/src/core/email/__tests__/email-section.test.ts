@@ -26,12 +26,12 @@ function newSection(stack: Stack): EmailSection {
   const bucket = new Bucket(stack, 'blob-store');
 
   return new EmailSection(stack, 'email', {
-    artifactResolver:    new PinnedArtifactResolver({
+    artifactResolver: new PinnedArtifactResolver({
       packages:         { 'mailbox-go': { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL } },
       location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
       deploymentRegion: stack.region,
     }),
-    data:                {
+    data: {
       configTable:       dataTable('config-table'),
       itemTable:         dataTable('item-table'),
       changelogTable:    dataTable('changelog-table'),

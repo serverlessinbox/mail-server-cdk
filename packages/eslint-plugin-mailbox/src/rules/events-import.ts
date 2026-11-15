@@ -9,10 +9,10 @@ import { createRule }           from './create-rule';
 // an event's interface is allowed everywhere.
 
 export const eventsImport = createRule({
-  name:           'events-import',
-  meta:           {
-    type:     'problem',
-    docs:     {
+  name: 'events-import',
+  meta: {
+    type: 'problem',
+    docs: {
       description: 'only resources/lambdas and resources/events import resources/events',
     },
     schema:   [],

@@ -25,7 +25,7 @@ describe('ItemTable', () => {
         Match.objectLike({ IndexName: 'gsi2' }),
         Match.objectLike({ IndexName: 'gsi3' }),
       ],
-      AttributeDefinitions:   Match.arrayWith([{ AttributeName: 'pk', AttributeType: 'S' }, { AttributeName: 'sk', AttributeType: 'S' }]),
+      AttributeDefinitions: Match.arrayWith([{ AttributeName: 'pk', AttributeType: 'S' }, { AttributeName: 'sk', AttributeType: 'S' }]),
     });
   });
 

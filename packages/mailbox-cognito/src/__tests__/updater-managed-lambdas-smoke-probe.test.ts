@@ -50,7 +50,7 @@ const dataTableStub = {
 function adminApiAddonContextOf(artifactResolver: IArtifactResolver): AdminApiAddonContext {
   return {
     artifactResolver,
-    auditEventsQueue:    {
+    auditEventsQueue: {
       queueUrl:  'https://sqs.us-west-2.amazonaws.com/123456789012/audit-events',
       queueArn:  'arn:aws:sqs:us-west-2:123456789012:audit-events',
       grantSend: () => undefined,
@@ -68,7 +68,7 @@ function adminApiAddonContextOf(artifactResolver: IArtifactResolver): AdminApiAd
 function synthesizeUserPool(): Template {
   const app = new App({
     context: {
-      'serverlessinbox:artifacts':         {
+      'serverlessinbox:artifacts': {
         bucketBase: 'test-artifacts',
         packages:   {
           'mailbox-cognito':    { zone: 'regional', version: '1.0.0' },

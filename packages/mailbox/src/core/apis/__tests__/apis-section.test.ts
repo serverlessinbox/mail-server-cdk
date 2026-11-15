@@ -75,7 +75,7 @@ describe('ApisSection', () => {
     };
     const inputs: SectionInputs = {
       artifactResolver: new PinnedArtifactResolver({
-        packages:         {
+        packages: {
           'mailbox-cdk':        { version: '1.0.0', zone: ArtifactZone.REGIONAL },
           'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
           'mailbox-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
@@ -84,7 +84,7 @@ describe('ApisSection', () => {
         deploymentRegion: stack.region,
       }),
       authProvider,
-      data:       {
+      data: {
         configTable:       new DataConfigTable(new Table(stack, 'config-table', { partitionKey: { name: 'pk', type: AttributeType.STRING } })),
         itemTable:         dataTable('item-table'),
         patTable:          patTable(stack, 'pat-table'),
@@ -94,7 +94,7 @@ describe('ApisSection', () => {
         blobStore:         new DataBlobStore(new Bucket(stack, 'blob-store')),
         auditEventsQueue:  new AuditEventsQueue(stack, 'audit-events-queue', { encryption: { kind: 'aws-managed' } }),
       },
-      auth:       {
+      auth: {
         authKeyStoreTable:   new AuthKeyStoreTable(stack, 'auth-key-store-table'),
         identityProvisioner: LambdaFunction.fromFunctionArn(
           stack,
@@ -102,7 +102,7 @@ describe('ApisSection', () => {
           'arn:aws:lambda:us-west-2:123456789012:function:identity-provisioner',
         ),
       },
-      email:      {
+      email: {
         submissionQueue:  new EmailSendingQueue(stack, 'email-submission-queue', { encryption: { kind: 'aws-managed' } }),
         sesRuleSetName:   'rule-set',
         sesConfigSetName: 'config-set',

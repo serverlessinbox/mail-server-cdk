@@ -56,7 +56,7 @@ const COGNITO_MESSAGE = 'Cognito said so';
 /** The context of a request from a fixed admin caller, whose audit recording is a spy. */
 function context(): jest.Mocked<HandlerContext> {
   return {
-    caller:      {
+    caller: {
       tenantId:      toCallerTenantId(TENANT_ID),
       principalId:   toCallerPrincipalId('caller-principal'),
       principalName: 'caller',

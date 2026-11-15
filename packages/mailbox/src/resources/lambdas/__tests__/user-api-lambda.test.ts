@@ -56,7 +56,7 @@ describe('UserApiLambda', () => {
     const importJobsQueue   = new ImportJobsQueue(stack, 'import-jobs-queue', { encryption: { kind: 'aws-managed' } });
     mailImportRunner        = fakeMailImportRunner('mail-import-runner');
     const artifactResolver  = new PinnedArtifactResolver({
-      packages:         {
+      packages: {
         'mailbox-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
         'mailbox-go':  { version: '1.0.0', zone: ArtifactZone.REGIONAL },
       },

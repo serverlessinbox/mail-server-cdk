@@ -16,10 +16,10 @@ const logicalIdMessage = 'G-model R4: overrideLogicalId is written by a Stack cl
 const stackClassNames = /^(Stack|NestedStack)$/;
 
 export const logicalIdHome = createRule({
-  name:           'logical-id-home',
-  meta:           {
-    type:     'problem',
-    docs:     {
+  name: 'logical-id-home',
+  meta: {
+    type: 'problem',
+    docs: {
       description: 'allow overrideLogicalId only in a Stack class or on the R4 allow-list',
     },
     schema:   [],

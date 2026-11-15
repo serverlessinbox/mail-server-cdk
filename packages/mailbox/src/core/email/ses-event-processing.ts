@@ -52,7 +52,7 @@ export class SesEventProcessing extends Construct {
     new CfnConfigurationSetEventDestination(this, 'ses-notification-destination', {
       configurationSetName: this.sesConfigSetName,
       eventDestination:     {
-        snsDestination:     {
+        snsDestination: {
           topicArn: sesEventTopic.topicArn,
         },
         enabled:            true,

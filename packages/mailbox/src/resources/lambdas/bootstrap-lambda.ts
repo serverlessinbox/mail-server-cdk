@@ -122,7 +122,7 @@ export class BootstrapLambda extends GoLambda {
 
   private grantSesEmailIdentityRegistration(domain: string): void {
     this.addToRolePolicy(new PolicyStatement({
-      actions:   [
+      actions: [
         'ses:CreateEmailIdentity',
         'ses:GetEmailIdentity',
         'ses:PutEmailIdentityDkimSigningAttributes',
@@ -142,8 +142,8 @@ export class BootstrapLambda extends GoLambda {
     const rootStack: RootStack = { name: Aws.STACK_NAME, id: StackIdentity.guid };
     for (const conditions of rootStackRequestTagConditions(rootStack)) {
       this.addToRolePolicy(new PolicyStatement({
-        actions:    ['ses:TagResource'],
-        resources:  [
+        actions:   ['ses:TagResource'],
+        resources: [
           `arn:${Aws.PARTITION}:ses:${Aws.REGION}:${Aws.ACCOUNT_ID}:identity/${domain}`,
         ],
         conditions: {

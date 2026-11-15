@@ -11,7 +11,7 @@ const restricted  = 'packages/mailbox/src/core/x.ts';
 const eventModule = '../resources/events/audit-events-queue-event';
 
 tester.run('events-import', eventsImport, {
-  valid:   [
+  valid: [
     {
       name:     'an importer allowed to import events imports an event value',
       filename: 'packages/mailbox/src/resources/lambdas/x.ts',

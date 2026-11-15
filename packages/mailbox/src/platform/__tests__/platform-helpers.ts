@@ -35,7 +35,7 @@ export function newTestStack(id: string, environment: TestEnvironment = DEFAULT_
 /** A resolver that pins every package the platform constructs take Lambda code from, all at one version, in the stack's region. */
 export function newArtifactResolver(stack: Stack, version = '1.0.0'): IArtifactResolver {
   return new PinnedArtifactResolver({
-    packages:         {
+    packages: {
       'mailbox-go':         { version, zone: ArtifactZone.REGIONAL },
       'mailbox-cdk':        { version, zone: ArtifactZone.REGIONAL },
       'mailbox-cdk-shared': { version, zone: ArtifactZone.REGIONAL },

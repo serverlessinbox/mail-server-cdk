@@ -17,7 +17,7 @@ export class BundlePackageCommand extends Command {
 
       The one required argument, \`package-folder\`, is the folder of the jsii package to bundle, relative to the current directory or absolute. It is given once.
     `,
-    examples:    [['Bundle current package', 'mailbox-bundler package .']],
+    examples: [['Bundle current package', 'mailbox-bundler package .']],
   });
 
   packageFolder = Option.String({ required: true, name: 'package-folder' });

@@ -32,7 +32,7 @@ function newSection(stack: Stack, overrides: Partial<OpsSectionProps> = {}): Ops
     data:             {
       configTable: newDataTable(stack, 'config-table'),
     },
-    edge:             { jmapBlobDownloadVersionArn: VERSION_ARN },
+    edge: { jmapBlobDownloadVersionArn: VERSION_ARN },
     ...overrides,
   });
   Template.fromStack(stack);

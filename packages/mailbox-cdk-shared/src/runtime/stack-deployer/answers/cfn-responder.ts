@@ -55,7 +55,7 @@ export class CfnResponder {
 
   targetForRequest(request: CfnRequest, logStreamName: string | undefined): CfnReplyTarget {
     return {
-      cfn:                {
+      cfn: {
         ResponseURL:        request.ResponseURL,
         StackId:            request.StackId,
         RequestId:          request.RequestId,

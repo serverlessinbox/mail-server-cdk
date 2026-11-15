@@ -44,7 +44,7 @@ export class ServiceRoutes {
         entityType: runtime.basePath.replace(/^\//, ''),
         action:     `${runtime.serviceName}/${method.name}`,
       },
-      work:     (context, body) => this.serve(method, context, body),
+      work: (context, body) => this.serve(method, context, body),
     };
   }
 

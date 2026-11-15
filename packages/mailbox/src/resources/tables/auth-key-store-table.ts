@@ -55,11 +55,11 @@ export class AuthKeyStoreTable extends StackNamedTable implements IAuthKeyStoreT
         name: 'pk',
         type: AttributeType.STRING,
       },
-      sortKey:           {
+      sortKey: {
         name: 'sk',
         type: AttributeType.STRING,
       },
-      billingMode:       BillingMode.PAY_PER_REQUEST,
+      billingMode: BillingMode.PAY_PER_REQUEST,
       ...(encryptionKey && { encryption: TableEncryption.CUSTOMER_MANAGED, encryptionKey }),
     });
   }

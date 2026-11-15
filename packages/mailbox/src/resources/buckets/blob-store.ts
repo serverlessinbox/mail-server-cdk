@@ -88,7 +88,7 @@ export class BlobStore extends StackNamedBucket {
   private grantS3UseOfEncryptionKey(encryptionKey: kms.IKey | undefined): void {
     encryptionKey?.addToResourcePolicy(
       new PolicyStatement({
-        actions:    [
+        actions: [
           'kms:Encrypt',
           'kms:Decrypt',
           'kms:ReEncrypt*',
@@ -101,7 +101,7 @@ export class BlobStore extends StackNamedBucket {
           StringEquals: {
             'aws:SourceAccount': Aws.ACCOUNT_ID,
           },
-          ArnLike:      {
+          ArnLike: {
             'aws:SourceArn': this.bucketArn,
           },
         },

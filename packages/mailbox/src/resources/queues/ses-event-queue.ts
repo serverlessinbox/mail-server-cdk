@@ -67,7 +67,7 @@ export class SesEventQueue extends BaseQueue implements ISesEventQueue {
   private allowTopicToUseKey(key: IKey, topic: ITopic): void {
     key.addToResourcePolicy(
       new PolicyStatement({
-        actions:    [
+        actions: [
           'kms:Decrypt',
           'kms:Encrypt',
           'kms:ReEncrypt*',
@@ -80,7 +80,7 @@ export class SesEventQueue extends BaseQueue implements ISesEventQueue {
           StringEquals: {
             'aws:SourceAccount': Aws.ACCOUNT_ID,
           },
-          ArnEquals:    {
+          ArnEquals: {
             'aws:SourceArn': topic.topicArn,
           },
         },

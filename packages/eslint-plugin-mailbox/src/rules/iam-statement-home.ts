@@ -18,10 +18,10 @@ const iamMethods      = new Set(['addToRolePolicy', 'addToPrincipalPolicy']);
 const coveredFolder   = /(^|\/)packages\/[^/]+\/src\/(resources|grants)\//;
 
 export const iamStatementHome = createRule({
-  name:           'iam-statement-home',
-  meta:           {
-    type:     'problem',
-    docs:     {
+  name: 'iam-statement-home',
+  meta: {
+    type: 'problem',
+    docs: {
       description: 'allow IAM statements only in resources/, grants/ and the R2 allow-list',
     },
     schema:   [],

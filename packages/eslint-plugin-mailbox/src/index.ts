@@ -2,7 +2,7 @@ import { recommendedConfig } from './configs/recommended-config';
 import { mailboxRules }      from './rules/mailbox-rules';
 
 const plugin = {
-  meta:    {
+  meta: {
     name:    '@serverlessinbox/eslint-plugin-mailbox',
     version: '0.0.0',
   },

@@ -102,10 +102,10 @@ export class MailboxEdgeDeployer extends Construct {
         artifactResolver: props.artifactResolver,
         edgeStackNamePattern,
         edgeStack,
-        rootStack:            Aws.STACK_NAME,
-        rootStackId:          StackIdentity.guid,
-        template:             new ArtifactObject(props.artifactResolver, JmapBlobDownloadLambda.ARTIFACT_PACKAGE, MailboxEdgeDeployer.TEMPLATE_OBJECT),
-        artifactObjects:      [
+        rootStack:       Aws.STACK_NAME,
+        rootStackId:     StackIdentity.guid,
+        template:        new ArtifactObject(props.artifactResolver, JmapBlobDownloadLambda.ARTIFACT_PACKAGE, MailboxEdgeDeployer.TEMPLATE_OBJECT),
+        artifactObjects: [
           new ArtifactObject(props.artifactResolver, JmapBlobDownloadLambda.ARTIFACT_PACKAGE, MailboxEdgeDeployer.BLOB_DOWNLOAD_OBJECT),
         ],
         hostedZoneId:         props.hostedZone?.hostedZoneId,
@@ -114,12 +114,12 @@ export class MailboxEdgeDeployer extends Construct {
     });
 
     this.resource = infra.deployStack(this, MailboxEdgeDeployer.EDGE_STACK_RESOURCE_ID, 'Custom::MailboxEdgeDeployer', {
-      stackName:             edgeStackName,
-      templateUrl:           props.artifactResolver.getUrl(JmapBlobDownloadLambda.ARTIFACT_PACKAGE, MailboxEdgeDeployer.TEMPLATE_OBJECT),
-      parameters:            {
+      stackName:   edgeStackName,
+      templateUrl: props.artifactResolver.getUrl(JmapBlobDownloadLambda.ARTIFACT_PACKAGE, MailboxEdgeDeployer.TEMPLATE_OBJECT),
+      parameters:  {
         ...this.templateParameters(props, props.artifactResolver.resolve(JmapBlobDownloadLambda.ARTIFACT_PACKAGE, MailboxEdgeDeployer.BLOB_DOWNLOAD_OBJECT)),
       },
-      tags:                  serverlessInboxSubStackTags({
+      tags: serverlessInboxSubStackTags({
         rootStack:   Aws.STACK_NAME,
         rootStackId: StackIdentity.guid,
         stack:       edgeStackName,

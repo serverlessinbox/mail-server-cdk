@@ -61,7 +61,7 @@ describe('StackUpdateApiLambda', () => {
   it('adds exactly two statements: change sets on the root stack, and the release objects of the registry project in every region', () => {
     expect(synthesize().statements).toEqual([
       {
-        Action:   [
+        Action: [
           'cloudformation:CreateChangeSet',
           'cloudformation:DescribeChangeSet',
           'cloudformation:DeleteChangeSet',

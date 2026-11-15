@@ -12,7 +12,7 @@ const tester = new RuleTester({
 const coreFile = '/repo/packages/mailbox/src/core/x.ts';
 
 tester.run('logical-id-home', logicalIdHome, {
-  valid:   [
+  valid: [
     {
       name:     'inside a class extending Stack',
       filename: coreFile,

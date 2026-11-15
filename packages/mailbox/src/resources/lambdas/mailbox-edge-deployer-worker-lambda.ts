@@ -101,7 +101,7 @@ export class MailboxEdgeDeployerWorkerLambda extends DeployerWorkerLambda {
     });
     this.addToRolePolicy(
       new PolicyStatement({
-        actions:   [
+        actions: [
           'acm:RequestCertificate',
         ],
         resources: [certificateArnPrefix],
@@ -109,7 +109,7 @@ export class MailboxEdgeDeployerWorkerLambda extends DeployerWorkerLambda {
     );
     this.addToRolePolicy(
       new PolicyStatement({
-        actions:   [
+        actions: [
           'acm:DescribeCertificate',
           'acm:ListTagsForCertificate',
         ],
@@ -209,7 +209,7 @@ export class MailboxEdgeDeployerWorkerLambda extends DeployerWorkerLambda {
     for (const conditions of rootStackResourceTagConditions(rootStack)) {
       this.addToRolePolicy(
         new PolicyStatement({
-          actions:    [
+          actions: [
             'lambda:DeleteFunction',
             'lambda:UpdateFunctionCode',
             'lambda:UpdateFunctionConfiguration',
@@ -265,7 +265,7 @@ export class MailboxEdgeDeployerWorkerLambda extends DeployerWorkerLambda {
     );
     this.addToRolePolicy(
       new PolicyStatement({
-        actions:   [
+        actions: [
           'resource-groups:DeleteGroup',
           'resource-groups:GetGroup',
           'resource-groups:GetGroupQuery',
@@ -285,7 +285,7 @@ export class MailboxEdgeDeployerWorkerLambda extends DeployerWorkerLambda {
   private grantDnsValidationAccess(hostedZoneId: string): void {
     this.addToRolePolicy(
       new PolicyStatement({
-        actions:   [
+        actions: [
           'route53:ChangeResourceRecordSets',
           'route53:ListResourceRecordSets',
         ],

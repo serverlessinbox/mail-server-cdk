@@ -67,7 +67,7 @@ export class DataTable implements IDataTable {
   public grantReadWrite(grantee: IGrantable): void {
     Grant.addToPrincipal({
       grantee,
-      actions:      [
+      actions: [
         'dynamodb:GetItem',
         'dynamodb:BatchGetItem',
         'dynamodb:Query',

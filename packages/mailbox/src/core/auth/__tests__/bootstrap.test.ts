@@ -36,7 +36,7 @@ describe('Bootstrap', () => {
 
   function createBootstrap(overrides: Partial<BootstrapProps> = {}): Bootstrap {
     return new Bootstrap(stack, 'bootstrap', {
-      configTable:       new DataTable(new Table(stack, 'config-table', {
+      configTable: new DataTable(new Table(stack, 'config-table', {
         partitionKey: { name: 'pk', type: AttributeType.STRING },
       })),
       authKeyStoreTable: new AuthKeyStoreTable(stack, 'auth-key-store'),
@@ -45,10 +45,10 @@ describe('Bootstrap', () => {
         location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
         deploymentRegion: stack.region,
       }),
-      domain:            'example.com',
-      oidcIssuer:        'https://example.com/issuer',
-      sesRuleSet:        new ReceiptRuleSet(stack, 'ses-rule-set', {}),
-      vendorLink:        { vendorAccountIds: [VENDOR_ACCOUNT_ID], stackIdentityTagKey: ServerlessInboxTagKeys.rootStack },
+      domain:     'example.com',
+      oidcIssuer: 'https://example.com/issuer',
+      sesRuleSet: new ReceiptRuleSet(stack, 'ses-rule-set', {}),
+      vendorLink: { vendorAccountIds: [VENDOR_ACCOUNT_ID], stackIdentityTagKey: ServerlessInboxTagKeys.rootStack },
       ...overrides,
     });
   }

@@ -18,7 +18,7 @@ export class StackDeployedEvent extends Rule {
           },
         },
       },
-      targets:      [new LambdaFunction(target)],
+      targets: [new LambdaFunction(target)],
     });
   }
 }

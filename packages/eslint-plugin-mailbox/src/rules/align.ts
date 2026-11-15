@@ -8,9 +8,8 @@ import { createRule }                                                    from '.
 // ends: a blank line, a comment line or a member that does not take part ends it. Every group
 // aligns, including a group of one, so a lone entry gets exactly one space. An entry whose `=`
 // or value would start past ALIGN_CAP_COLUMN is over the cap: it is a group of its own.
-// A declaration or assignment that spans more than one line joins the group above it, so its `=`
-// aligns with the single-line entries before it, and it ends that group: the statement after it
-// starts a new group. Object, interface and type-literal members are not affected by this.
+// A multi-line entry joins the group above it, so its `=` or value aligns with the single-line
+// entries before it, and it ends that group: the entry after it starts a new group.
 // Only the whitespace right before the `=` / after the `:` is rewritten.
 
 type AlignMessageId = 'alignEquals' | 'alignValue';
@@ -38,11 +37,11 @@ interface AlignedPair {
 const ALIGN_CAP_COLUMN = 80;
 
 export const align = createRule({
-  name:           'align',
-  meta:           {
-    type:     'layout',
-    fixable:  'whitespace',
-    docs:     {
+  name: 'align',
+  meta: {
+    type:    'layout',
+    fixable: 'whitespace',
+    docs:    {
       description: 'align = and : in groups of consecutive lines',
     },
     schema:   [],
@@ -202,7 +201,7 @@ class AlignChecker {
       gapStart:  gapStart.range[1],
       gapEnd:    gapEnd.range[0],
       overCap:   column + 1 > ALIGN_CAP_COLUMN,
-      endsGroup: messageId === 'alignEquals' && node.loc.end.line !== node.loc.start.line,
+      endsGroup: node.loc.end.line !== node.loc.start.line,
     };
   }
 

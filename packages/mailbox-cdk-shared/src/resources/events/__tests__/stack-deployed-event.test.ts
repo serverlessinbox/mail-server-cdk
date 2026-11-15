@@ -28,7 +28,7 @@ describe('StackDeployedEvent', () => {
           'status-details': { status: ['CREATE_COMPLETE', 'UPDATE_COMPLETE'] },
         },
       },
-      State:        'ENABLED',
+      State: 'ENABLED',
     });
   });
 

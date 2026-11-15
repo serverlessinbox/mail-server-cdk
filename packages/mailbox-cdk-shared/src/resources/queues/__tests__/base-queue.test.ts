@@ -145,7 +145,7 @@ describe('BaseQueue', () => {
           },
         ],
       },
-      Queues:         [{ Ref: queueId }],
+      Queues: [{ Ref: queueId }],
     });
   });
 

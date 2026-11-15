@@ -27,12 +27,12 @@ export interface MockAuthProviderOptions {
  */
 export function createMockAuthProvider(options: MockAuthProviderOptions = {}): IMailboxAuthProvider {
   return {
-    issuer:                  'https://example.com/issuer',
-    tokenEndpoint:           'https://example.com/token',
-    authorizationEndpoint:   'https://example.com/authorize',
-    authMethod:              AuthMethod.HEADER,
-    usePkce:                 false,
-    scopeMap:                options.scopeMap ?? {
+    issuer:                'https://example.com/issuer',
+    tokenEndpoint:         'https://example.com/token',
+    authorizationEndpoint: 'https://example.com/authorize',
+    authMethod:            AuthMethod.HEADER,
+    usePkce:               false,
+    scopeMap:              options.scopeMap ?? {
       'mail.read':  [Permission.MAIL_READ_ITEMS],
       'mail.write': [
         Permission.MAIL_ADD_ITEMS,
@@ -44,7 +44,7 @@ export function createMockAuthProvider(options: MockAuthProviderOptions = {}): I
         Permission.MAIL_DELETE,
       ],
     },
-    policies:                {
+    policies: {
       adminApi: { audiences: ['admin-api'], requireAnyOfGroups: ['admins'] },
       jmapApi:  { audiences: ['jmap-api'] },
     },

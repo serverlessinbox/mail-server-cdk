@@ -13,7 +13,7 @@ const opsFile     = '/repo/packages/mailbox/src/platform/ops/x.ts';
 const sweeperFile = '/repo/packages/mailbox/src/platform/ops/sweeper/x.ts';
 
 tester.run('removal-home', removalHome, {
-  valid:   [
+  valid: [
     {
       name:     'a bare IResourceRemoval implementation in the sweeper folder',
       filename: sweeperFile,

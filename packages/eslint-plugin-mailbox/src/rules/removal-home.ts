@@ -18,10 +18,10 @@ const statementMethod  = 'grantStatements';
 const statementType    = 'PolicyStatement';
 
 export const removalHome = createRule({
-  name:           'removal-home',
-  meta:           {
-    type:     'problem',
-    docs:     {
+  name: 'removal-home',
+  meta: {
+    type: 'problem',
+    docs: {
       description: 'allow resource-removal implementations only in platform/ops/sweeper/',
     },
     schema:   [],

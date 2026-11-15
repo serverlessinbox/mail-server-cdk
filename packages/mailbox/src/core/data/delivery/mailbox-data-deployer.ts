@@ -103,7 +103,7 @@ export class MailboxDataDeployer extends Construct {
 
     // An operator-supplied SSM override replaces a table's ARN, provided the override table exists and is ACTIVE.
     const resolver = new MailboxDataOverrideResolver(this, 'override-resolver', {
-      tableArns:        {
+      tableArns: {
         configTable:       resource.getAttString('configTableArn'),
         itemTable:         resource.getAttString('itemTableArn'),
         changelogTable:    resource.getAttString('changelogTableArn'),

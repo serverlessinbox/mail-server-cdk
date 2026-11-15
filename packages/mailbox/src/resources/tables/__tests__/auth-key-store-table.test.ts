@@ -119,7 +119,7 @@ describe('AuthKeyStoreTable', () => {
     const template = Template.fromStack(stack);
 
     template.hasResourceProperties('AWS::DynamoDB::Table', {
-      KeySchema:   [
+      KeySchema: [
         { AttributeName: 'pk', KeyType: 'HASH' },
         { AttributeName: 'sk', KeyType: 'RANGE' },
       ],

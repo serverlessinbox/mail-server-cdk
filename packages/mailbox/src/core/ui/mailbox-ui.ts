@@ -124,7 +124,7 @@ export class MailboxUi extends Construct {
         compress:             true,
         responseHeadersPolicy,
       },
-      errorResponses:         [
+      errorResponses: [
         {
           httpStatus:         404,
           responseHttpStatus: 200,
@@ -181,8 +181,8 @@ export class MailboxUi extends Construct {
           includeSubdomains:   false,
           override:            true,
         },
-        contentTypeOptions:      { override: true },
-        contentSecurityPolicy:   {
+        contentTypeOptions:    { override: true },
+        contentSecurityPolicy: {
           contentSecurityPolicy: "frame-ancestors 'none'",
           override:              true,
         },
@@ -267,8 +267,8 @@ export class MailboxUi extends Construct {
           eventType: FunctionEventType.VIEWER_REQUEST,
         },
       ],
-      compress:             false,
-      allowedMethods:       AllowedMethods.ALLOW_ALL,
+      compress:       false,
+      allowedMethods: AllowedMethods.ALLOW_ALL,
       responseHeadersPolicy,
     });
   }

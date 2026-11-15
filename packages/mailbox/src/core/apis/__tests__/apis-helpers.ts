@@ -110,23 +110,23 @@ export function newAdminApiProps(stack: cdk.Stack, overrides: Partial<AdminApiPr
     emailSubmissionQueue: new EmailSendingQueue(inputs, 'email-submission-queue', { encryption: { kind: 'aws-managed' } }),
     auditEventsQueue:     new AuditEventsQueue(inputs, 'audit-events-queue', { encryption: { kind: 'aws-managed' } }),
     artifactResolver:     new PinnedArtifactResolver({
-      packages:         {
+      packages: {
         'mailbox-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
         'mailbox-go':  { version: '1.0.0', zone: ArtifactZone.REGIONAL },
       },
       location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
       deploymentRegion: stack.region,
     }),
-    identityProvisioner:  LambdaFunction.fromFunctionArn(
+    identityProvisioner: LambdaFunction.fromFunctionArn(
       inputs,
       'identity-provisioner-ref',
       `arn:aws:lambda:${stack.region}:${stack.account}:function:identity-provisioner`,
     ),
-    sesRuleSetName:       'test-rule-set',
-    sesConfigSetName:     'test-config-set',
-    systemSenderAddress:  'noreply@example.com',
-    vendorLink:           { vendorAccountIds: [VENDOR_ACCOUNT_ID], stackIdentityTagKey: ServerlessInboxTagKeys.rootStack },
-    scopeMap:             {},
+    sesRuleSetName:      'test-rule-set',
+    sesConfigSetName:    'test-config-set',
+    systemSenderAddress: 'noreply@example.com',
+    vendorLink:          { vendorAccountIds: [VENDOR_ACCOUNT_ID], stackIdentityTagKey: ServerlessInboxTagKeys.rootStack },
+    scopeMap:            {},
     ...overrides,
   };
 }

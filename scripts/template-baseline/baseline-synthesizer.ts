@@ -73,7 +73,7 @@ export class BaselineSynthesizer {
   /** The app context of the main stack: every package resolves from the baseline bucket at version 1.0.0. */
   private artifactContext(): BaselineAppContext {
     return {
-      [ARTIFACTS_CONTEXT_KEY]:         {
+      [ARTIFACTS_CONTEXT_KEY]: {
         bucketBase: 'baseline-artifacts',
         packages:   {
           'mailbox-go':         { zone: ArtifactZone.REGIONAL, version: '1.0.0' },

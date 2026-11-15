@@ -37,7 +37,7 @@ describe('McpApi', () => {
       host:             'mcp.example.com',
       scopeMap:         { 'mail.read': [Permission.MAIL_READ_ITEMS] },
       artifactResolver: new PinnedArtifactResolver({
-        packages:         {
+        packages: {
           'mailbox-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
           'mailbox-go':  { version: '1.0.0', zone: ArtifactZone.REGIONAL },
         },

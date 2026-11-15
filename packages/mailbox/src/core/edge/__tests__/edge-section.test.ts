@@ -39,9 +39,9 @@ function newSection(overrides: Partial<EdgeSectionProps> = {}): { stack: Stack; 
       blobStoreBucket: new Bucket(stack, 'blob-store'),
       patTable:        new DataPatTable(Table.fromTableArn(stack, 'pat-table', 'arn:aws:dynamodb:us-west-2:111122223333:table/pat-table')),
     },
-    auth:           { authKeyStoreTable: new AuthKeyStoreTable(stack, 'auth-key-store-table') },
-    addressing:     { domains: new MailboxDomains({ domainName: 'example.com' }) },
-    hostedZone:     route53.HostedZone.fromHostedZoneAttributes(stack, 'zone', { hostedZoneId: 'Z0TESTZONE', zoneName: 'example.com' }),
+    auth:       { authKeyStoreTable: new AuthKeyStoreTable(stack, 'auth-key-store-table') },
+    addressing: { domains: new MailboxDomains({ domainName: 'example.com' }) },
+    hostedZone: route53.HostedZone.fromHostedZoneAttributes(stack, 'zone', { hostedZoneId: 'Z0TESTZONE', zoneName: 'example.com' }),
     ...overrides,
   });
   return { stack, section };

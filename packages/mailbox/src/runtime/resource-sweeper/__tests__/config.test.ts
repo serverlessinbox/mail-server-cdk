@@ -45,7 +45,7 @@ describe('resource-sweeper configs', () => {
         region:                 toRegion('eu-west-1'),
         sweeperStateMachineArn: STATE_MACHINE_ARN,
       },
-      error:  undefined,
+      error: undefined,
     });
   });
 

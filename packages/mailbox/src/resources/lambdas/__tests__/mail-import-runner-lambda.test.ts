@@ -49,7 +49,7 @@ function createStack(): cdk.Stack {
 
 function resolverFor(stack: cdk.Stack): PinnedArtifactResolver {
   return new PinnedArtifactResolver({
-    packages:         {
+    packages: {
       'mailbox-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
       'mailbox-go':  { version: '1.0.0', zone: ArtifactZone.REGIONAL },
     },

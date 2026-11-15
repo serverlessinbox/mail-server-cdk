@@ -13,7 +13,7 @@ const lambdasPath = 'packages/mailbox/src/resources/lambdas/example.ts';
 const topicsPath  = 'packages/mailbox/src/resources/topics/example.ts';
 
 tester.run('resource-kind-home', resourceKindHome, {
-  valid:   [
+  valid: [
     {
       name:     'a bare covered class in its own kind folder',
       code:     'const table = new Table();',

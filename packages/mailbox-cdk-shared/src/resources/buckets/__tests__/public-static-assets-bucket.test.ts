@@ -94,7 +94,7 @@ describe('PublicStaticAssetsBucket.getOrCreate', () => {
     PublicStaticAssetsBucket.getOrCreate(stack, fakeResolver);
 
     Template.fromStack(stack).hasResource('AWS::S3::Bucket', {
-      Properties:     {
+      Properties: {
         PublicAccessBlockConfiguration: Match.objectEquals({
           BlockPublicAcls:       true,
           BlockPublicPolicy:     false,

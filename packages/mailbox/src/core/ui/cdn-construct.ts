@@ -76,7 +76,7 @@ export class Cdn extends Construct {
           },
         ],
       },
-      priceClass:      cloudfront.PriceClass.PRICE_CLASS_100,
+      priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
     });
   }
 

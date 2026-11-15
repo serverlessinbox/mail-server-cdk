@@ -60,7 +60,7 @@ describe('JmapApi', () => {
       auditEventsQueue:     new AuditEventsQueue(stack, 'audit-events-queue', { encryption: { kind: 'aws-managed' } }),
       cdnHost:              'cdn.example.com',
       artifactResolver:     new PinnedArtifactResolver({
-        packages:         {
+        packages: {
           'mailbox-cdk':        { version: '1.0.0', zone: ArtifactZone.REGIONAL },
           'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
           'mailbox-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
@@ -74,7 +74,7 @@ describe('JmapApi', () => {
         'identity-provisioner-ref',
         'arn:aws:lambda:us-west-2:123456789012:function:identity-provisioner',
       ),
-      vendorAccountIds:    [VENDOR_ACCOUNT_ID],
+      vendorAccountIds: [VENDOR_ACCOUNT_ID],
       ...overrides,
     };
   }

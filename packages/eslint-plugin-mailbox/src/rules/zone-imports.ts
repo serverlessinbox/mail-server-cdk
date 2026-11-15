@@ -10,10 +10,10 @@ import { createRule }           from './create-rule';
 // platform-list file is not checked: the platform-list rule covers relative imports only.
 
 export const zoneImports = createRule({
-  name:           'zone-imports',
-  meta:           {
-    type:     'problem',
-    docs:     {
+  name: 'zone-imports',
+  meta: {
+    type: 'problem',
+    docs: {
       description: 'enforce the zone matrix between core, platform, platform-list, resources and contracts',
     },
     schema:   [],

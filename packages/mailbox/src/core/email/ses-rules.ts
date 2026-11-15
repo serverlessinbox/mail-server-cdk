@@ -53,8 +53,8 @@ export class SesRules extends Construct {
     this.ruleSet     = ruleSet;
 
     new ReceiptRule(this, 'email-rule', {
-      ruleSet:     ruleSet,
-      actions:     [
+      ruleSet: ruleSet,
+      actions: [
         new S3({
           bucket:          props.blobStoreBucket,
           objectKeyPrefix: BlobStore.INCOMING_EMAIL_PREFIX,

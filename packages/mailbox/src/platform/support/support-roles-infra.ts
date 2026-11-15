@@ -117,14 +117,14 @@ export class SupportRolesInfra extends Construct implements ISupportRoles {
           statements: [this.buildHopRoleAssumeStatement()],
         }),
       },
-      description:        'Support access hop role. Static trust to vendor support account. Can assume support-diag and support-config-read roles based on runtime tags.',
+      description: 'Support access hop role. Static trust to vendor support account. Can assume support-diag and support-config-read roles based on runtime tags.',
     });
   }
 
   private createTierRole(tier: SupportTier, roleName: string, hopRole: iam.Role): void {
     const supportRole = new iam.Role(this, tier.constructId, {
       roleName,
-      assumedBy:          new iam.PrincipalWithConditions(new iam.ArnPrincipal(this.hopRoleArn), {
+      assumedBy: new iam.PrincipalWithConditions(new iam.ArnPrincipal(this.hopRoleArn), {
         StringLike: {
           // Delimiter is '/' not '|': IAM tag values reject '|' (not in [\p{L}\p{Z}\p{N}_.:/=+\-@]).
           // Nanoid IDs use alphabet A-Za-z0-9_- so '/' never appears in case IDs, making it a safe separator.
@@ -135,7 +135,7 @@ export class SupportRolesInfra extends Construct implements ISupportRoles {
       inlinePolicies:     {
         [tier.inlinePolicyName]: new iam.PolicyDocument({ statements: this.buildTierStatements(tier) }),
       },
-      description:        tier.description,
+      description: tier.description,
     });
 
     // IAM validates principals in trust policies at creation time, so the hop role the tier role trusts
@@ -221,8 +221,8 @@ export class SupportRolesInfra extends Construct implements ISupportRoles {
     ];
 
     return new iam.PolicyStatement({
-      effect:    iam.Effect.ALLOW,
-      actions:   [
+      effect:  iam.Effect.ALLOW,
+      actions: [
         'logs:DescribeLogStreams',
         'logs:GetLogEvents',
         'logs:FilterLogEvents',
@@ -243,8 +243,8 @@ export class SupportRolesInfra extends Construct implements ISupportRoles {
    */
   private buildCloudFormationReadStatement(): iam.PolicyStatement {
     return new iam.PolicyStatement({
-      effect:    iam.Effect.ALLOW,
-      actions:   [
+      effect:  iam.Effect.ALLOW,
+      actions: [
         'cloudformation:DescribeStacks',
         'cloudformation:ListStackResources',
         'cloudformation:DescribeStackEvents',

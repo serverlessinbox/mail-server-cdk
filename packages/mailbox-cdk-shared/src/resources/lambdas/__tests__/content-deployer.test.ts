@@ -132,9 +132,9 @@ describe('StaticContentDeployer', () => {
       deployer.deploy(stack, 'ui-config', { targetBucket: targetBucket(), source });
 
       Template.fromStack(stack).hasResourceProperties('Custom::ContentDeployment', {
-        ServiceTimeout:    '900',
-        targetBucket:      'ui-bucket',
-        sources:           [
+        ServiceTimeout: '900',
+        targetBucket:   'ui-bucket',
+        sources:        [
           { kind: 'data', key: 'config/config.json', body: '{"a":1}', contentType: 'application/json' },
         ],
         distributionId:    Match.absent(),

@@ -80,15 +80,15 @@ describe('AdminUi', () => {
 
   function createAdminUi(overrides: Partial<AdminUiProps> = {}): AdminUi {
     return new AdminUi(stack, 'admin-ui', {
-      domainName:       'admin.example.com',
-      configTable:      new DataTable(new dynamodb.Table(stack, 'config-table', {
+      domainName:  'admin.example.com',
+      configTable: new DataTable(new dynamodb.Table(stack, 'config-table', {
         partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
       })),
       auditEventsQueue: new AuditEventsQueue(stack, 'audit-events-queue', { encryption: { kind: 'aws-managed' } }),
       authProvider:     createAuthProvider(),
       apiUrl:           'https://api.example.com/admin',
       artifactResolver: new PinnedArtifactResolver({
-        packages:         {
+        packages: {
           'mailbox-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
           'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
           'mailbox-admin-ui':   { version: '1.0.0', zone: ArtifactZone.REGIONAL },

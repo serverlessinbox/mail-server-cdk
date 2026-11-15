@@ -9,10 +9,10 @@ import { createRule }                 from './create-rule';
 // The kit package (mailbox-cdk-shared) never imports the mailbox package, by name or by path.
 
 export const kitIsolation = createRule({
-  name:           'kit-isolation',
-  meta:           {
-    type:     'problem',
-    docs:     {
+  name: 'kit-isolation',
+  meta: {
+    type: 'problem',
+    docs: {
       description: 'the kit never imports the mailbox package',
     },
     schema:   [],

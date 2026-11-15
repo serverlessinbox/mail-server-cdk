@@ -3,7 +3,7 @@ import typescriptEslint from 'typescript-eslint';
 
 import { align }        from '../align';
 
-// Pins the alignment of `=` and `:`: group membership by line adjacency, a multi-line statement
+// Pins the alignment of `=` and `:`: group membership by line adjacency, a multi-line entry
 // joining the group above it and ending that group, the column-80 cap, and the one-space gap of a
 // lone entry. Boundary cases use
 // names of 73 and 74 characters for `=` (the `=` on column 80, then one past it) and 76 and 77
@@ -18,7 +18,7 @@ const tester = new RuleTester({
 });
 
 tester.run('align', align, {
-  valid:   [
+  valid: [
     {
       name: 'an already aligned declaration group',
       code: code('export const a      = 1;', 'export const bcd    = 2;', 'export const efghij = 3;'),
@@ -108,9 +108,27 @@ tester.run('align', align, {
       errors: [{ messageId: 'alignEquals' }],
     },
     {
-      name:   'a multi-line object member still aligns with its neighbours',
+      name:   'a multi-line object member joins the group above it and aligns with it',
       code:   code('const o = {', '  a: 1,', '  bcd: {', '    x: 1,', '  },', '  efghij: 2,', '};'),
-      output: code('const o = {', '  a:      1,', '  bcd:    {', '    x: 1,', '  },', '  efghij: 2,', '};'),
+      output: code('const o = {', '  a:   1,', '  bcd: {', '    x: 1,', '  },', '  efghij: 2,', '};'),
+      errors: [{ messageId: 'alignValue' }],
+    },
+    {
+      name:   'a multi-line object member ends its group, so the single-line member after it gets one space',
+      code:   code('const o = {', '  a: 1,', '  b: {', '    x: 1,', '  },', '  efghij:   2,', '};'),
+      output: code('const o = {', '  a: 1,', '  b: {', '    x: 1,', '  },', '  efghij: 2,', '};'),
+      errors: [{ messageId: 'alignValue' }],
+    },
+    {
+      name:   'every member multi-line: each member gets one space after its colon',
+      code:   code('const o = { a:   f({', '  x: 1,', '}),', 'longerKey:   f({', '  y: 2,', '}) };'),
+      output: code('const o = { a: f({', '  x: 1,', '}),', 'longerKey: f({', '  y: 2,', '}) };'),
+      errors: [{ messageId: 'alignValue' }, { messageId: 'alignValue' }],
+    },
+    {
+      name:   'every interface member multi-line: each member gets one space after its colon',
+      code:   code('interface I {', '  a:   {', '    x: string;', '  };', '  longerKey:   {', '    y: number;', '  };', '}'),
+      output: code('interface I {', '  a: {', '    x: string;', '  };', '  longerKey: {', '    y: number;', '  };', '}'),
       errors: [{ messageId: 'alignValue' }, { messageId: 'alignValue' }],
     },
     {
@@ -150,9 +168,9 @@ tester.run('align', align, {
       errors: [{ messageId: 'alignValue' }, { messageId: 'alignValue' }],
     },
     {
-      name:   'a multi-line value ends its member on a later line and the next member joins the group',
-      code:   code('const o = {', '  a: {', '    x: 1,', '  },', '  bcd: 2,', '};'),
-      output: code('const o = {', '  a:   {', '    x: 1,', '  },', '  bcd: 2,', '};'),
+      name:   'a multi-line value ends its group, so the member after it gets one space',
+      code:   code('const o = {', '  a: {', '    x: 1,', '  },', '  bcd:   2,', '};'),
+      output: code('const o = {', '  a: {', '    x: 1,', '  },', '  bcd: 2,', '};'),
       errors: [{ messageId: 'alignValue' }],
     },
     {
@@ -174,8 +192,8 @@ tester.run('align', align, {
       errors: [{ messageId: 'alignEquals' }],
     },
     {
-      name:   'the declarations around an over-cap destructuring get one space before their equals sign',
-      code:   code(
+      name: 'the declarations around an over-cap destructuring get one space before their equals sign',
+      code: code(
         `const context${' '.repeat(68)}= this.resolveContext(props);`,
         `const { ${nameOf(70)} } = context;`,
         `const enabledUis${' '.repeat(65)}= { adminUi: true };`,

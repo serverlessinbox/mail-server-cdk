@@ -60,7 +60,7 @@ export class WebSocketTable extends StackNamedTable implements IWebSocketTable {
   public grantStoreConnection(grantee: IGrantable): void {
     Grant.addToPrincipal({
       grantee,
-      actions:      [
+      actions: [
         'dynamodb:GetItem',
         'dynamodb:PutItem',
       ],
@@ -71,7 +71,7 @@ export class WebSocketTable extends StackNamedTable implements IWebSocketTable {
   public grantRemoveConnection(grantee: IGrantable): void {
     Grant.addToPrincipal({
       grantee,
-      actions:      [
+      actions: [
         'dynamodb:Query',
         'dynamodb:DeleteItem',
       ],
@@ -82,7 +82,7 @@ export class WebSocketTable extends StackNamedTable implements IWebSocketTable {
   public grantBroadcast(grantee: IGrantable): void {
     Grant.addToPrincipal({
       grantee,
-      actions:      [
+      actions: [
         'dynamodb:Query',
       ],
       resourceArns: [this.tableArn, `${this.tableArn}/index/*`],

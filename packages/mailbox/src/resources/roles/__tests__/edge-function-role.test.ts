@@ -72,7 +72,7 @@ describe('EdgeFunctionRole', () => {
           { Action: 'sts:AssumeRole', Effect: 'Allow', Principal: { Service: 'edgelambda.amazonaws.com' } },
         ],
       },
-      ManagedPolicyArns:        Match.absent(),
+      ManagedPolicyArns: Match.absent(),
     });
   });
 

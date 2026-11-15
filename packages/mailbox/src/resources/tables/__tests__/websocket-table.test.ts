@@ -47,7 +47,7 @@ describe('WebSocketTable', () => {
     new WebSocketTable(stack, 'websocket-table');
 
     Template.fromStack(stack).hasResourceProperties('AWS::DynamoDB::Table', {
-      KeySchema:                        [
+      KeySchema: [
         { AttributeName: 'pk', KeyType: 'HASH' },
         { AttributeName: 'sk', KeyType: 'RANGE' },
       ],
@@ -56,8 +56,8 @@ describe('WebSocketTable', () => {
       PointInTimeRecoverySpecification: { PointInTimeRecoveryEnabled: false },
       GlobalSecondaryIndexes:           [
         {
-          IndexName:  'gsi1',
-          KeySchema:  [
+          IndexName: 'gsi1',
+          KeySchema: [
             { AttributeName: 'gsi1pk', KeyType: 'HASH' },
             { AttributeName: 'gsi1sk', KeyType: 'RANGE' },
           ],

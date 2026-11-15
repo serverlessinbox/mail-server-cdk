@@ -34,7 +34,7 @@ describe('IdpTokenExchangeApi', () => {
         location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
         deploymentRegion: stack.region,
       }),
-      configTable:      new DataTable(new dynamodb.Table(stack, 'config-table', {
+      configTable: new DataTable(new dynamodb.Table(stack, 'config-table', {
         partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
       })),
       auditEventsQueue: new AuditEventsQueue(stack, 'audit-events-queue', { encryption: { kind: 'aws-managed' } }),

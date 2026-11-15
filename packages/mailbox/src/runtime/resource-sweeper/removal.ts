@@ -73,9 +73,9 @@ export interface RemovalPartFields {
  * ARN. The detector is three resources: its rule, function and role.
  */
 export const REMOVAL_PARTS: { readonly [TId in RemovalId]: ReadonlyArray<RemovalPart<RemovalTargets[TId]>> } = {
-  'cert':         [{ identity: 'certArn', fields: ['certArn'] }],
-  'edge-fn':      [{ identity: 'edgeFnArn', fields: ['edgeFnArn'] }],
-  'detector':     [
+  'cert':     [{ identity: 'certArn', fields: ['certArn'] }],
+  'edge-fn':  [{ identity: 'edgeFnArn', fields: ['edgeFnArn'] }],
+  'detector': [
     { identity: 'ruleArn', fields: ['ruleArn', 'ruleTargetId'] },
     { identity: 'detectorFnArn', fields: ['detectorFnArn'] },
     { identity: 'detectorRoleArn', fields: ['detectorRoleArn', 'detectorRolePolicyName'] },

@@ -17,7 +17,7 @@ export class CheckDeclarationsCommand extends Command {
 
       The one required argument, \`package-folder\`, is the folder of the built package, relative to the current directory or absolute. It is given once.
     `,
-    examples:    [['Check the current package', 'mailbox-bundler check-declarations .']],
+    examples: [['Check the current package', 'mailbox-bundler check-declarations .']],
   });
 
   packageFolder = Option.String({ required: true, name: 'package-folder' });

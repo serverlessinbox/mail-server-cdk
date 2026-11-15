@@ -19,11 +19,11 @@ interface ImportEntry {
 const IMPORT_LANE_COLUMN = 80;
 
 export const importLayout = createRule({
-  name:           'import-layout',
-  meta:           {
-    type:     'layout',
-    fixable:  'whitespace',
-    docs:     {
+  name: 'import-layout',
+  meta: {
+    type:    'layout',
+    fixable: 'whitespace',
+    docs:    {
       description: 'lay out imports within a lane column and align "from" across each run of adjacent imports',
     },
     schema:   [],

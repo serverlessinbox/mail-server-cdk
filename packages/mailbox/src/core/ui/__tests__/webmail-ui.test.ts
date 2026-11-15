@@ -47,8 +47,8 @@ describe('WebmailUi', () => {
 
   function createWebmailUi(dependsOn?: cdk.CfnResource[]): WebmailUi {
     return new WebmailUi(stack, 'webmail-ui', {
-      domainName:       'webmail.example.com',
-      configTable:      new DataTable(new dynamodb.Table(stack, 'config-table', {
+      domainName:  'webmail.example.com',
+      configTable: new DataTable(new dynamodb.Table(stack, 'config-table', {
         partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
       })),
       auditEventsQueue: new AuditEventsQueue(stack, 'audit-events-queue', { encryption: { kind: 'aws-managed' } }),
@@ -56,7 +56,7 @@ describe('WebmailUi', () => {
       jmapUrl:          'https://jmap.example.com',
       userApiUrl:       'https://api.example.com/user',
       artifactResolver: new PinnedArtifactResolver({
-        packages:         {
+        packages: {
           'mailbox-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
           'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
           'mailbox-webmail-ui': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
@@ -89,8 +89,8 @@ describe('WebmailUi', () => {
 
     expect(provisionJmapApiClient).toHaveBeenCalledTimes(1);
     expect(provisionJmapApiClient).toHaveBeenCalledWith({
-      name:         'webmail-ui',
-      permissions:  [
+      name:        'webmail-ui',
+      permissions: [
         Permission.MAIL_READ_ITEMS,
         Permission.MAIL_ADD_ITEMS,
         Permission.MAIL_REMOVE_ITEMS,

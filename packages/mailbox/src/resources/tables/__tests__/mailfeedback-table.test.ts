@@ -24,7 +24,7 @@ describe('MailFeedbackTable', () => {
         Match.objectLike({ IndexName: 'gsi1' }),
         Match.objectLike({ IndexName: 'gsi2' }),
       ],
-      AttributeDefinitions:   Match.arrayWith([{ AttributeName: 'pk', AttributeType: 'S' }, { AttributeName: 'sk', AttributeType: 'S' }]),
+      AttributeDefinitions: Match.arrayWith([{ AttributeName: 'pk', AttributeType: 'S' }, { AttributeName: 'sk', AttributeType: 'S' }]),
     });
   });
 

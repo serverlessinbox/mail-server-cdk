@@ -54,56 +54,56 @@ export class MailboxEdgeStack extends cdk.Stack {
   };
 
   private static readonly PARAMETERS: Record<keyof MailboxEdgeStackParameters, cdk.CfnParameterProps> = {
-    rootStack:                   {
+    rootStack: {
       type:        'String',
       description: 'Root (main) CloudFormation stack name (regional stack that created this edge stack)',
     },
-    rootStackId:                 {
+    rootStackId: {
       type:        'String',
       description: 'Unique id (stack id guid) of the root (main) CloudFormation stack',
     },
-    rootRegion:                  {
+    rootRegion: {
       type:        'String',
       description: 'Root (main) AWS region (regional stack region that created this edge stack)',
     },
-    productVersion:              {
+    productVersion: {
       type:        'String',
       description: 'Serverless Inbox Mailbox stack version (for tagging/support)',
       default:     'unknown',
     },
-    deployerType:                {
+    deployerType: {
       type:          'String',
       description:   'Deployment mechanism label (cdk|cfn|marketplace) used for tagging',
       default:       'cfn',
       allowedValues: ['cdk', 'cfn', 'marketplace'],
     },
-    webmailHost:                 {
+    webmailHost: {
       ...MailboxEdgeStack.HOST_PARAMETER,
       description: 'Finished host name of the Webmail UI; the primary name of the edge certificate',
     },
-    adminHost:                   {
+    adminHost: {
       ...MailboxEdgeStack.HOST_PARAMETER,
       description: 'Finished host name of the Admin UI; a subject alternative name of the edge certificate',
     },
-    cdnHost:                     {
+    cdnHost: {
       ...MailboxEdgeStack.HOST_PARAMETER,
       description: 'Finished host name of the blob CDN; a subject alternative name of the edge certificate',
     },
-    hostedZoneId:                {
+    hostedZoneId: {
       type:        'String',
       description: 'Route53 hosted zone ID for DNS validation (optional)',
       default:     '',
     },
-    hostedZoneName:              {
+    hostedZoneName: {
       type:        'String',
       description: 'Route53 hosted zone name (required if HostedZoneId is provided)',
       default:     '',
     },
-    artifactBucket:              {
+    artifactBucket: {
       type:        'String',
       description: 'S3 bucket containing artifacts',
     },
-    jmapBlobDownloadKey:         {
+    jmapBlobDownloadKey: {
       type:        'String',
       description: 'S3 key for jmap-blob-download Lambda code (full path including artifact prefix)',
     },
@@ -112,23 +112,23 @@ export class MailboxEdgeStack extends cdk.Stack {
       description: 'S3 object version ID for jmap-blob-download Lambda code (optional)',
       default:     '',
     },
-    itemTableArn:                {
+    itemTableArn: {
       type:        'String',
       description: 'DynamoDB item table ARN (regional) used by jmap-blob-download',
     },
-    configTableArn:              {
+    configTableArn: {
       type:        'String',
       description: 'DynamoDB config table ARN (regional) used by jmap-blob-download',
     },
-    authKeyStoreTableArn:        {
+    authKeyStoreTableArn: {
       type:        'String',
       description: 'DynamoDB auth key store table ARN (regional) used by jmap-blob-download',
     },
-    logGroupName:                {
+    logGroupName: {
       type:        'String',
       description: 'Name of the shared "jmap" pipeline log group (home region) that jmap-blob-download logs into',
     },
-    jmapBlobDownloadRoleArn:     {
+    jmapBlobDownloadRoleArn: {
       type:        'String',
       description: 'ARN of the jmap-blob-download Lambda@Edge execution role (created in root stack)',
     },
@@ -227,12 +227,12 @@ export class MailboxEdgeStack extends cdk.Stack {
         bucket:    parameters.artifactBucket,
         versionId: parameters.jmapBlobDownloadS3VersionId,
       },
-      itemTableArn:              parameters.itemTableArn,
-      configTableArn:            parameters.configTableArn,
-      authKeyStoreTableArn:      parameters.authKeyStoreTableArn,
-      productVersion:            parameters.productVersion,
-      logGroupName:              parameters.logGroupName,
-      jmapBlobDownloadRoleArn:   parameters.jmapBlobDownloadRoleArn,
+      itemTableArn:            parameters.itemTableArn,
+      configTableArn:          parameters.configTableArn,
+      authKeyStoreTableArn:    parameters.authKeyStoreTableArn,
+      productVersion:          parameters.productVersion,
+      logGroupName:            parameters.logGroupName,
+      jmapBlobDownloadRoleArn: parameters.jmapBlobDownloadRoleArn,
     });
   }
 
@@ -244,7 +244,7 @@ export class MailboxEdgeStack extends cdk.Stack {
 
   private addOutputs(hasHostedZone: cdk.CfnCondition): void {
     const edgeCertificateArnOutput = new cdk.CfnOutput(this, 'EdgeCertificateArn', {
-      value:       cdk.Fn.conditionIf(
+      value: cdk.Fn.conditionIf(
         hasHostedZone.logicalId,
         this.construct.certificate.ref,
         '',

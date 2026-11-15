@@ -21,7 +21,7 @@ const isLogGroupProperties = t.isPartial({
     t.isString(),
     t.isPartial({ 'Fn::Join': t.isTuple([t.isString(), t.isArray(isTemplateValue)]) }),
   ])),
-  Tags:         t.isOptional(t.isArray(t.isPartial({ Key: t.isString(), Value: t.isOptional(isTemplateValue) }))),
+  Tags: t.isOptional(t.isArray(t.isPartial({ Key: t.isString(), Value: t.isOptional(isTemplateValue) }))),
 });
 
 const isFunctionProperties = t.isPartial({

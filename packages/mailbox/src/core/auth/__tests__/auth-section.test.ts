@@ -48,7 +48,7 @@ describe('AuthSection', () => {
     };
     return new AuthSection(stack, 'auth', {
       artifactResolver: new PinnedArtifactResolver({
-        packages:         {
+        packages: {
           'mailbox-cdk':        { version: '1.0.0', zone: ArtifactZone.REGIONAL },
           'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
           'mailbox-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
@@ -57,14 +57,14 @@ describe('AuthSection', () => {
         deploymentRegion: stack.region,
       }),
       authProvider,
-      data:         {
+      data: {
         configTable:      dataTable('config-table'),
         itemTable:        dataTable('item-table'),
         changelogTable:   dataTable('changelog-table'),
         auditEventsQueue: new AuditEventsQueue(stack, 'audit-events-queue', { encryption: { kind: 'aws-managed' } }),
         blobStore:        new DataBlobStore(new Bucket(stack, 'blob-store')),
       },
-      email:        {
+      email: {
         submissionQueue:  new EmailSendingQueue(stack, 'email-submission-queue', { encryption: { kind: 'aws-managed' } }),
         sesConfigSetName: 'config-set',
       },
@@ -231,7 +231,7 @@ describe('AuthSection', () => {
 
       Template.fromStack(stack).hasResourceProperties('Custom::Bootstrap', {
         oauthClients: {
-          adminUi:   Match.objectLike({
+          adminUi: Match.objectLike({
             clientId:    'admin-client',
             scopes:      ['openid', 'email', 'profile', 'admin-api/admin'],
             redirectUri: 'https://admin.example.com/callback',

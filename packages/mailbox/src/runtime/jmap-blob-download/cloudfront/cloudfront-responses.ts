@@ -23,7 +23,7 @@ export function errorResponse(status: number, message: string): CloudFrontRespon
     headers:           {
       'content-type': [{ key: 'Content-Type', value: 'application/json' }],
     },
-    body:              JSON.stringify({ error: message }),
+    body: JSON.stringify({ error: message }),
   };
 }
 
@@ -40,15 +40,15 @@ export function corsPreflightResponse(requestOrigin: string | undefined, allowed
     status:            '200',
     statusDescription: 'OK',
     headers:           {
-      'access-control-allow-origin':      [{
+      'access-control-allow-origin': [{
         key:   'Access-Control-Allow-Origin',
         value: requestOrigin,
       }],
-      'access-control-allow-methods':     [{
+      'access-control-allow-methods': [{
         key:   'Access-Control-Allow-Methods',
         value: 'GET, HEAD, OPTIONS',
       }],
-      'access-control-allow-headers':     [{
+      'access-control-allow-headers': [{
         key:   'Access-Control-Allow-Headers',
         value: 'Authorization, Content-Type, Cache-Control',
       }],
@@ -56,7 +56,7 @@ export function corsPreflightResponse(requestOrigin: string | undefined, allowed
         key:   'Access-Control-Allow-Credentials',
         value: 'true',
       }],
-      'access-control-max-age':           [{
+      'access-control-max-age': [{
         key:   'Access-Control-Max-Age',
         value: '3600',
       }],

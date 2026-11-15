@@ -7,8 +7,8 @@ import { CognitoScope } from './cognito-scope';
  * rights here; the mapping is the Cognito provider's, and the rights vocabulary is shared with every provider.
  */
 export const CognitoScopeToPermissions: Record<CognitoScope, Permission[]> = {
-  [CognitoScope.MAIL_READ]:         [Permission.MAIL_READ_ITEMS],
-  [CognitoScope.MAIL_WRITE]:        [
+  [CognitoScope.MAIL_READ]:  [Permission.MAIL_READ_ITEMS],
+  [CognitoScope.MAIL_WRITE]: [
     Permission.MAIL_ADD_ITEMS,
     Permission.MAIL_REMOVE_ITEMS,
     Permission.MAIL_SET_SEEN,

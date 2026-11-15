@@ -8,7 +8,7 @@ const tester = new RuleTester({
 });
 
 tester.run('kit-isolation', kitIsolation, {
-  valid:   [
+  valid: [
     {
       name:     'the kit imports its own package by name',
       filename: 'packages/mailbox-cdk-shared/src/x.ts',

@@ -23,7 +23,7 @@ export class DeployedStack implements IDeployedStack {
   public grantLifecycle(grantee: IGrantable): void {
     Grant.addToPrincipal({
       grantee,
-      actions:      [
+      actions: [
         'cloudformation:CreateStack',
         'cloudformation:UpdateStack',
         'cloudformation:DeleteStack',

@@ -47,7 +47,7 @@ function arrangeSweeper(stateChangeFanout?: IStateChangeFanout) {
   const auditEventsQueue = fakeQueue('audit-events');
   const lambda           = new ExpirySweeperLambda(stack, 'expiry-sweeper', {
     artifactResolver: new PinnedArtifactResolver({
-      packages:         {
+      packages: {
         'mailbox-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
         'mailbox-go':  { version: '1.0.0', zone: ArtifactZone.REGIONAL },
       },

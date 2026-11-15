@@ -153,7 +153,7 @@ export class AuthSection extends Construct {
           requireAnyOfGroups: adminRequiredGroups,
           requireAllScopes:   authProvider.policies.adminApi.requireAllScopes,
         },
-        jmapApi:  {
+        jmapApi: {
           audiences:        authProvider.policies.jmapApi.audiences,
           requireAllScopes: authProvider.policies.jmapApi.requireAllScopes,
         },

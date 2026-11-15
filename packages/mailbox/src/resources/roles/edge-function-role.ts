@@ -29,7 +29,7 @@ export interface EdgeFunctionRoleProps {
 export class EdgeFunctionRole extends iam.Role {
   constructor(scope: Construct, id: string, props: EdgeFunctionRoleProps) {
     super(scope, id, {
-      assumedBy:   new iam.CompositePrincipal(
+      assumedBy: new iam.CompositePrincipal(
         new iam.ServicePrincipal('lambda.amazonaws.com'),
         new iam.ServicePrincipal('edgelambda.amazonaws.com'),
       ),

@@ -49,7 +49,7 @@ export const ThingServiceRuntime = {
   basePath:    '/things',
   serviceName: 'ThingService',
   methods:     {
-    GetThing:   {
+    GetThing: {
       name:           'GetThing',
       handlerName:    'getThing',
       requestSchema:  GetThingRequestSchema,

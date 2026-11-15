@@ -352,9 +352,9 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
       customDomain:        props.domain.kind === 'custom'
         ? { domainName: props.domain.domainName, certificateArn: props.domain.certificateArn }
         : undefined,
-      mfaMode:             props.mfaMode,
-      passwordMinLength:   this.passwordMinLength,
-      artifactResolver:    this.artifacts,
+      mfaMode:           props.mfaMode,
+      passwordMinLength: this.passwordMinLength,
+      artifactResolver:  this.artifacts,
       deployerType,
       rootStack: { name: Aws.STACK_NAME, id: StackIdentity.guid },
     });
@@ -540,7 +540,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
         requireAnyOfGroups: this.authzConfig.adminGroups,
         requireAllScopes:   [this.toOAuthScope(Permission.ADMIN)],
       },
-      jmapApi:  {
+      jmapApi: {
         audiences:        [],
         requireAllScopes: [],
       },
@@ -607,14 +607,14 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
     const requestScopeList    = [...new Set(params.permissions.map((permission: Permission) => this.toOAuthScope(permission)))];
 
     const cfnClient = new cognito.CfnUserPoolClient(this, `user-pool-client-${clientKey}`, {
-      userPoolId:                      this.userPool.userPoolId,
-      clientName:                      `mailbox-client-${clientKey}`,
-      explicitAuthFlows:               this.buildExplicitAuthFlows(),
-      generateSecret:                  isClientCredentials,
-      accessTokenValidity:             1,
-      idTokenValidity:                 1,
-      refreshTokenValidity:            30,
-      tokenValidityUnits:              {
+      userPoolId:           this.userPool.userPoolId,
+      clientName:           `mailbox-client-${clientKey}`,
+      explicitAuthFlows:    this.buildExplicitAuthFlows(),
+      generateSecret:       isClientCredentials,
+      accessTokenValidity:  1,
+      idTokenValidity:      1,
+      refreshTokenValidity: 30,
+      tokenValidityUnits:   {
         accessToken:  'hours',
         idToken:      'hours',
         refreshToken: 'days',

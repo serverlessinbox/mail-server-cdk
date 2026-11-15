@@ -129,7 +129,7 @@ function buildHarness(
   });
 
   const addon = new JmapOAuthAddon(stack, 'jmap-oauth', {
-    pool:                {
+    pool: {
       userPool:              new UserPool(stack, 'user-pool'),
       issuer:                'https://cognito-idp.us-west-2.amazonaws.com/us-west-2_abcdefgh',
       authorizationEndpoint: 'https://test-oauth.auth.us-west-2.amazoncognito.com/oauth2/authorize',

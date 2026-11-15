@@ -325,8 +325,8 @@ describe('MailboxUserPool UI client provisioning', () => {
     const { pool } = createUserPool();
 
     const client = pool.provisionJmapApiClient({
-      name:         'webmail-ui',
-      permissions:  [
+      name:        'webmail-ui',
+      permissions: [
         Permission.MAIL_READ_ITEMS,
         Permission.MAIL_ADD_ITEMS,
         Permission.MAIL_REMOVE_ITEMS,

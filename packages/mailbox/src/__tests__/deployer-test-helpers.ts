@@ -18,7 +18,7 @@ export function newDeployerTestStack(): DeployerTestStack {
     synthesizer: new BootstraplessSynthesizer(),
   });
   const artifactResolver = new PinnedArtifactResolver({
-    packages:         {
+    packages: {
       mailbox:              { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
       'mailbox-go':         { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
       'mailbox-cdk':        { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },

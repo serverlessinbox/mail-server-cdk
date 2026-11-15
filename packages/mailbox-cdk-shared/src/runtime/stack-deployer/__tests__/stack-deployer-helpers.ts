@@ -144,7 +144,7 @@ const SERVICE_TOKEN = 'arn:aws:lambda:us-east-1:123456789012:function:stack-depl
  * stack deployer properties; CloudFormation adds them.
  */
 export const DEPLOYER_RESOURCE_PROPERTIES = {
-  edge:    {
+  edge: {
     ServiceToken:          SERVICE_TOKEN,
     ServiceTimeout:        '3600',
     stackName:             'mail-edge',
@@ -154,7 +154,7 @@ export const DEPLOYER_RESOURCE_PROPERTIES = {
     terminationProtection: 'false',
     region:                'us-east-1',
   },
-  data:    {
+  data: {
     ServiceToken:     SERVICE_TOKEN,
     ServiceTimeout:   '3600',
     stackName:        'mail-data',
@@ -183,8 +183,8 @@ export function deployerRequest(resource: keyof typeof DEPLOYER_RESOURCE_PROPERT
 
 export function sfnEvent(overrides: Partial<SfnInvokeEvent> = {}): SfnInvokeEvent {
   return {
-    mode:    'check',
-    cfn:     {
+    mode: 'check',
+    cfn:  {
       ResponseURL:       RESPONSE_URL,
       StackId:           STACK_ID,
       RequestId:         REQUEST_ID,

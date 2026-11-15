@@ -30,7 +30,7 @@ const tester = new RuleTester({
 });
 
 tester.run('import-layout', importLayout, {
-  valid:   [
+  valid: [
     {
       name: 'a short named import is left alone',
       code: `import { a, b } from 'x';`,

@@ -34,16 +34,16 @@ export function recommendedConfig(options: RecommendedConfigOptions): TSESLint.F
           tsconfigRootDir: options.tsconfigRootDir,
         },
       },
-      linterOptions:   {
+      linterOptions: {
         noInlineConfig:                true,
         reportUnusedDisableDirectives: 'error',
       },
-      plugins:         {
+      plugins: {
         '@typescript-eslint': tseslint.plugin,
         arca,
         mailbox: { rules: mailboxRules },
       },
-      rules:           {
+      rules: {
         ...typeSafetyRules,
         ...styleRules,
         ...forbiddenGrantRules,

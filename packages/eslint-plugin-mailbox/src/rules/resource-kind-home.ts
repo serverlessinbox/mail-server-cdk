@@ -17,10 +17,10 @@ interface CoveredClass {
 }
 
 export const resourceKindHome = createRule({
-  name:           'resource-kind-home',
-  meta:           {
-    type:     'problem',
-    docs:     {
+  name: 'resource-kind-home',
+  meta: {
+    type: 'problem',
+    docs: {
       description: 'a covered resource class is created only in the resources folder of its own kind',
     },
     schema:   [],

@@ -26,7 +26,7 @@ describe('CognitoBootstrapUserLambda', () => {
       synthesizer: new BootstraplessSynthesizer(),
     });
     const artifactResolver = new PinnedArtifactResolver({
-      packages:         {
+      packages: {
         'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
         'mailbox-cognito':    { version: '1.0.0', zone: ArtifactZone.REGIONAL },
       },

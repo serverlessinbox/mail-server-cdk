@@ -41,7 +41,7 @@ describe('cognito-idp-users-api config', () => {
         adminGroups:                     ['admin', 'superuser'],
         userGroups:                      ['user', 'viewer'],
       },
-      error:  undefined,
+      error: undefined,
     });
   });
 

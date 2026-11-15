@@ -30,7 +30,7 @@ describe('CfnResponder', () => {
       const request = cfnRequest({ ResourceType: 'Custom::MailboxDataDeployer' });
 
       expect(responder.targetForRequest(request, LOG_STREAM_NAME)).toEqual({
-        cfn:                {
+        cfn: {
           ResponseURL:       RESPONSE_URL,
           StackId:           STACK_ID,
           RequestId:         'request-123',

@@ -49,14 +49,14 @@ describe('BucketEmptier', () => {
           { Key: 'file1.txt', VersionId: 'v1' },
           { Key: 'deleted-file.txt', VersionId: 'dm1' },
         ],
-        Quiet:   true,
+        Quiet: true,
       },
     });
   });
 
   it('skips entries that lack a Key or a VersionId', async () => {
     s3Mock.on(ListObjectVersionsCommand).resolves({
-      Versions:      [
+      Versions: [
         { Key: 'file1.txt', VersionId: 'v1' },
         { Key: undefined, VersionId: 'v2' },
         { Key: 'file3.txt', VersionId: undefined },
@@ -123,7 +123,7 @@ describe('BucketEmptier', () => {
 
   describe('when S3 reports versions it did not delete', () => {
     const TWO_VERSIONS = {
-      Versions:    [
+      Versions: [
         { Key: 'file1.txt', VersionId: 'v1' },
         { Key: 'file2.txt', VersionId: 'v2' },
       ],

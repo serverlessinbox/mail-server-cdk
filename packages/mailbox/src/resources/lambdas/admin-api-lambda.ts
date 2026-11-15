@@ -124,7 +124,7 @@ export class AdminApiLambda extends GoLambda implements IStateChangeSource {
 
   private grantSesIdentityManagement(): void {
     this.addToRolePolicy(new PolicyStatement({
-      actions:   [
+      actions: [
         'ses:CreateEmailIdentity',
         'ses:GetEmailIdentity',
         'ses:DeleteEmailIdentity',
@@ -184,14 +184,14 @@ export class AdminApiLambda extends GoLambda implements IStateChangeSource {
       actions:    ['route53:ChangeResourceRecordSets'],
       resources:  [`arn:${Aws.PARTITION}:route53:::hostedzone/*`],
       conditions: {
-        'ForAllValues:StringLike':   {
+        'ForAllValues:StringLike': {
           'route53:ChangeResourceRecordSetsNormalizedRecordNames': ['*._domainkey.*', '_dmarc.*'],
         },
         'ForAllValues:StringEquals': {
           'route53:ChangeResourceRecordSetsRecordTypes': ['CNAME', 'TXT'],
           'route53:ChangeResourceRecordSetsActions':     ['UPSERT', 'DELETE'],
         },
-        Null:                        {
+        Null: {
           'route53:ChangeResourceRecordSetsNormalizedRecordNames': false,
           'route53:ChangeResourceRecordSetsRecordTypes':           false,
           'route53:ChangeResourceRecordSetsActions':               false,
@@ -214,7 +214,7 @@ export class AdminApiLambda extends GoLambda implements IStateChangeSource {
           'route53:ChangeResourceRecordSetsRecordTypes': ['MX', 'TXT'],
           'route53:ChangeResourceRecordSetsActions':     ['UPSERT', 'DELETE'],
         },
-        Null:                        {
+        Null: {
           'route53:ChangeResourceRecordSetsRecordTypes': false,
           'route53:ChangeResourceRecordSetsActions':     false,
         },

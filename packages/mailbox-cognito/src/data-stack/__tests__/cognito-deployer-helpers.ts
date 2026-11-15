@@ -16,7 +16,7 @@ export function newDeployerTestStack(): DeployerTestStack {
     synthesizer: new BootstraplessSynthesizer(),
   });
   const artifactResolver = new PinnedArtifactResolver({
-    packages:         {
+    packages: {
       'mailbox-cognito':    { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
       'mailbox-cdk-shared': { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
     },

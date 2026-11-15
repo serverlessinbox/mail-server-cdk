@@ -157,9 +157,9 @@ export class SweeperWorkflow extends sfn.StateMachine {
    */
   private static describeOwnResource(states: Construct, scope: Construct, id: string): tasks.CallAwsService {
     return new tasks.CallAwsService(states, 'self-cleanup-describe-own-resource', {
-      service:      'cloudformation',
-      action:       'describeStackResource',
-      parameters:   {
+      service:    'cloudformation',
+      action:     'describeStackResource',
+      parameters: {
         StackName:         Aws.STACK_NAME,
         LogicalResourceId: Lazy.string({ produce: () => defaultCfnResource(scope.node.findChild(id)).logicalId }),
       },
@@ -187,9 +187,9 @@ export class SweeperWorkflow extends sfn.StateMachine {
 
   private static deleteWorker(states: Construct, props: SweeperWorkflowProps): tasks.CallAwsService {
     return new tasks.CallAwsService(states, 'self-cleanup-delete-worker', {
-      service:      'lambda',
-      action:       'deleteFunction',
-      parameters:   {
+      service:    'lambda',
+      action:     'deleteFunction',
+      parameters: {
         FunctionName: props.worker.functionArn,
       },
       resultPath:   sfn.JsonPath.DISCARD,
@@ -199,9 +199,9 @@ export class SweeperWorkflow extends sfn.StateMachine {
 
   private static deleteWorkerRolePolicy(states: Construct, props: SweeperWorkflowProps): tasks.CallAwsService {
     return new tasks.CallAwsService(states, 'self-cleanup-delete-worker-role-policy', {
-      service:      'iam',
-      action:       'deleteRolePolicy',
-      parameters:   {
+      service:    'iam',
+      action:     'deleteRolePolicy',
+      parameters: {
         RoleName:   props.workerRoleName,
         PolicyName: SweeperPolicyNames.workerPolicy,
       },
@@ -212,9 +212,9 @@ export class SweeperWorkflow extends sfn.StateMachine {
 
   private static deleteWorkerRole(states: Construct, props: SweeperWorkflowProps): tasks.CallAwsService {
     return new tasks.CallAwsService(states, 'self-cleanup-delete-worker-role', {
-      service:      'iam',
-      action:       'deleteRole',
-      parameters:   {
+      service:    'iam',
+      action:     'deleteRole',
+      parameters: {
         RoleName: props.workerRoleName,
       },
       resultPath:   sfn.JsonPath.DISCARD,
@@ -224,9 +224,9 @@ export class SweeperWorkflow extends sfn.StateMachine {
 
   private static deleteStateMachine(states: Construct, props: SweeperWorkflowProps): tasks.CallAwsService {
     return new tasks.CallAwsService(states, 'self-cleanup-delete-state-machine', {
-      service:      'sfn',
-      action:       'deleteStateMachine',
-      parameters:   {
+      service:    'sfn',
+      action:     'deleteStateMachine',
+      parameters: {
         StateMachineArn: props.stateMachineArn,
       },
       resultPath:   sfn.JsonPath.DISCARD,

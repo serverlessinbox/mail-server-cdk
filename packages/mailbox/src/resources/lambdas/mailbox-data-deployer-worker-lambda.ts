@@ -46,7 +46,7 @@ export class MailboxDataDeployerWorkerLambda extends DeployerWorkerLambda {
   private grantDynamoDbTableManagement(nameBase: string | IResolvable): void {
     this.addToRolePolicy(
       new PolicyStatement({
-        actions:   [
+        actions: [
           'dynamodb:CreateTable',
           'dynamodb:DeleteTable',
           'dynamodb:DescribeTable',
@@ -69,7 +69,7 @@ export class MailboxDataDeployerWorkerLambda extends DeployerWorkerLambda {
   private grantS3BucketManagement(nameBase: string | IResolvable): void {
     this.addToRolePolicy(
       new PolicyStatement({
-        actions:   [
+        actions: [
           's3:CreateBucket',
           's3:DeleteBucket',
           's3:PutBucketPolicy',
@@ -98,9 +98,9 @@ export class MailboxDataDeployerWorkerLambda extends DeployerWorkerLambda {
   private grantKmsAccess(): void {
     this.addToRolePolicy(
       new PolicyStatement({
-        actions:    ['kms:DescribeKey', 'kms:CreateGrant'],
-        effect:     Effect.ALLOW,
-        resources:  [
+        actions:   ['kms:DescribeKey', 'kms:CreateGrant'],
+        effect:    Effect.ALLOW,
+        resources: [
           `arn:${Aws.PARTITION}:kms:${Aws.REGION}:${Aws.ACCOUNT_ID}:alias/aws/dynamodb`,
           `arn:${Aws.PARTITION}:kms:${Aws.REGION}:${Aws.ACCOUNT_ID}:alias/aws/s3`,
           `arn:${Aws.PARTITION}:kms:${Aws.REGION}:${Aws.ACCOUNT_ID}:key/*`,

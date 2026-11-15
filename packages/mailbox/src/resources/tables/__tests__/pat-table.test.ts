@@ -23,7 +23,7 @@ describe('PatTable', () => {
         Match.objectLike({ IndexName: 'gsi1', Projection: { ProjectionType: 'KEYS_ONLY' } }),
         Match.objectLike({ IndexName: 'gsi2', Projection: { ProjectionType: 'KEYS_ONLY' } }),
       ],
-      AttributeDefinitions:   Match.arrayWith([{ AttributeName: 'pk', AttributeType: 'S' }, { AttributeName: 'sk', AttributeType: 'S' }]),
+      AttributeDefinitions: Match.arrayWith([{ AttributeName: 'pk', AttributeType: 'S' }, { AttributeName: 'sk', AttributeType: 'S' }]),
     });
   });
 

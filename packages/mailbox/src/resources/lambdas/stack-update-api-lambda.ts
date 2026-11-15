@@ -64,7 +64,7 @@ export class StackUpdateApiLambda extends GoLambda {
   private grantRootStackChangeSets(rootStackArn: string): void {
     this.addToRolePolicy(
       new PolicyStatement({
-        actions:   [
+        actions: [
           'cloudformation:CreateChangeSet',
           'cloudformation:DescribeChangeSet',
           'cloudformation:DeleteChangeSet',

@@ -36,7 +36,7 @@ describe('UiSection', () => {
 
   function newResolver(): PinnedArtifactResolver {
     return new PinnedArtifactResolver({
-      packages:         {
+      packages: {
         'mailbox-cdk':        { version: '1.0.0', zone: ArtifactZone.REGIONAL },
         'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
         'mailbox-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
@@ -72,9 +72,9 @@ describe('UiSection', () => {
         configTable:      new DataTable(new Table(stack, 'config-table', { partitionKey: { name: 'pk', type: AttributeType.STRING } })),
         auditEventsQueue: new AuditEventsQueue(stack, 'audit-events-queue', { encryption: { kind: 'aws-managed' } }),
       },
-      auth:            { oauthClientsProvisioned: new DependencyGroup() },
-      apis:            { adminApiAddons: [] },
-      edge:            {},
+      auth: { oauthClientsProvisioned: new DependencyGroup() },
+      apis: { adminApiAddons: [] },
+      edge: {},
       ...overrides,
     });
   }

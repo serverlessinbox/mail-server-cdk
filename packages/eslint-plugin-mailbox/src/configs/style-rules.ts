@@ -1,11 +1,11 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 
 export const styleRules: TSESLint.FlatConfig.Rules = {
-  'arca/import-ordering':                 'error',
-  'arca/import-quotes':                   'error',
-  'arca/newline-after-import-section':    'error',
-  curly:                                  ['error', 'all'],
-  'id-length':                            [
+  'arca/import-ordering':              'error',
+  'arca/import-quotes':                'error',
+  'arca/newline-after-import-section': 'error',
+  curly:                               ['error', 'all'],
+  'id-length':                         [
     'error',
     {
       min:               3,
@@ -14,9 +14,9 @@ export const styleRules: TSESLint.FlatConfig.Rules = {
       exceptionPatterns: ['^[A-Z]'],
     },
   ],
-  'max-classes-per-file':                 ['error', 1],
-  'max-lines-per-function':               ['error', { max: 100, skipBlankLines: true, skipComments: true }],
-  '@typescript-eslint/member-ordering':   [
+  'max-classes-per-file':               ['error', 1],
+  'max-lines-per-function':             ['error', { max: 100, skipBlankLines: true, skipComments: true }],
+  '@typescript-eslint/member-ordering': [
     'error',
     {
       default: [

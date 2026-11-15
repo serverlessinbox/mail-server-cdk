@@ -8,7 +8,7 @@ const tester = new RuleTester({
 });
 
 tester.run('plan-labels', planLabels, {
-  valid:   [
+  valid: [
     {
       name: 'a plain comment',
       code: 'const value = 1; // reads the table',

@@ -26,13 +26,13 @@ function synthSection(stack: Stack): SearchSection {
       location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
       deploymentRegion: stack.region,
     }),
-    data:             {
+    data: {
       configTable:    dataTable('config-table'),
       itemTable:      dataTable('item-table'),
       changelogTable: dataTable('changelog-table'),
       blobStore:      new DataBlobStore(new Bucket(stack, 'blob-store')),
     },
-    queueEncryption:  { kind: 'aws-managed' },
+    queueEncryption: { kind: 'aws-managed' },
   });
   Template.fromStack(stack);
   return section;

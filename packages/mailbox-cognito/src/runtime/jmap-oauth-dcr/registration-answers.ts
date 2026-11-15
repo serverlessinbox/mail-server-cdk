@@ -54,7 +54,7 @@ export class RegistrationAnswers {
         'cache-control': 'no-store',
         pragma:          'no-cache',
       },
-      body:    JSON.stringify(body),
+      body: JSON.stringify(body),
     };
   }
 }

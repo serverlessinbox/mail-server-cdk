@@ -95,7 +95,7 @@ describe('AdminApiLambda IAM scoping', () => {
       PolicyDocument: {
         Statement: Match.arrayWith([
           Match.objectLike({
-            Action:   [
+            Action: [
               'ses:CreateEmailIdentity',
               'ses:GetEmailIdentity',
               'ses:DeleteEmailIdentity',
@@ -213,7 +213,7 @@ describe('AdminApiLambda IAM scoping', () => {
       PolicyDocument: {
         Statement: Match.arrayWith([
           Match.objectLike({
-            Action:   Match.arrayWith([
+            Action: Match.arrayWith([
               'ses:GetAccount',
               'ses:GetSendStatistics',
               'ses:ListEmailIdentities',
@@ -322,7 +322,7 @@ describe('AdminApiLambda IAM scoping', () => {
           Match.objectLike({
             Action:    'route53:ChangeResourceRecordSets',
             Condition: Match.objectLike({
-              'ForAllValues:StringLike':   Match.objectLike({
+              'ForAllValues:StringLike': Match.objectLike({
                 'route53:ChangeResourceRecordSetsNormalizedRecordNames': ['*._domainkey.*', '_dmarc.*'],
               }),
               'ForAllValues:StringEquals': Match.objectLike({
