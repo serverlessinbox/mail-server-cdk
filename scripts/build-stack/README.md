@@ -3,7 +3,7 @@
 Synthesizes one standalone stack and writes its CloudFormation template as formatted JSON. The templates
 are environment-agnostic.
 
-It runs in the build tasks of `packages/mail-server` (edge and data) and `packages/mailbox-cognito`
+It runs in the build tasks of `packages/mail-server` (edge and data) and `packages/mail-server-cognito`
 (cognito-data).
 
 ## Usage

@@ -11,7 +11,7 @@ export class BakedPackages {
    */
   public static forRepository(root: string, mailboxPinsFile: string): BakedPackage[] {
     const mailboxDirectory = path.join(root, 'packages', 'mail-server');
-    const cognitoDirectory = path.join(root, 'packages', 'mailbox-cognito');
+    const cognitoDirectory = path.join(root, 'packages', 'mail-server-cognito');
     const sharedDirectory  = path.join(root, 'packages', 'mail-server-cdk-shared');
     return [
       {

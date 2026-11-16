@@ -10,7 +10,7 @@ The workspaces live in `packages/`.
 | Package | What it is | Published |
 |---------|------------|-----------|
 | `@serverlessinbox/mail-server` (`packages/mail-server`) | The `Mailbox` construct: the JMAP email server and everything around it | Yes |
-| `@serverlessinbox/mailbox-cognito` (`packages/mailbox-cognito`) | Cognito user pool as the sign-in provider of a `Mailbox`, plus its user-management API | Yes |
+| `@serverlessinbox/mail-server-cognito` (`packages/mail-server-cognito`) | Cognito user pool as the sign-in provider of a `Mailbox`, plus its user-management API | Yes |
 | `@serverlessinbox/mail-server-cdk-shared` (`packages/mail-server-cdk-shared`) | Shared artifact resolution, Lambda base classes, tagging and naming helpers | Yes |
 | `@serverlessinbox/mail-server-addon-sdk` (`packages/mail-server-addon-sdk`) | Handler SDK for Lambdas that serve Admin API services of addons | No, internal; it is bundled into the Lambda code that serves addon routes |
 | `@serverlessinbox/mail-server-bundler` (`packages/mail-server-bundler`) | esbuild bundler for the jsii packages and the Lambda zips | No, `"private": true` |
@@ -98,7 +98,7 @@ An Admin API addon adds routes to the Admin API.
 3. The consuming stack passes the provider in `MailboxProps.adminApiAddonProviders`.
 4. Write the addon's Lambda with `@serverlessinbox/mail-server-addon-sdk`.
 
-`platform/update/artifact-updater-addon.ts` and `packages/mailbox-cognito/src/cognito-idp-users-addon.ts`
+`platform/update/artifact-updater-addon.ts` and `packages/mail-server-cognito/src/cognito-idp-users-addon.ts`
 are working examples.
 
 ## Running the checks
@@ -110,7 +110,7 @@ Run the root commands in the repository root and the package commands inside the
 | Lint | `yarn lint` (runs `eslint packages scripts`) |
 | Type check and tests of one package | `yarn workspace @serverlessinbox/mail-server test` (runs `tsc -p tsconfig.test.json && jest`) |
 | Everything | `yarn test` |
-| jsii build, in `packages/mail-server` or `packages/mailbox-cognito` | `yarn prepare-manifest build` |
+| jsii build, in `packages/mail-server` or `packages/mail-server-cognito` | `yarn prepare-manifest build` |
 | Published declarations name only declared packages, in the same package | `yarn check:declarations` |
 | Addon SDK public API against its baseline | `yarn api-report diff` |
 

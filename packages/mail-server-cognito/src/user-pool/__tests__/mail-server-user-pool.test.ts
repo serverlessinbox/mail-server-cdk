@@ -1,0 +1,832 @@
+/**
+ * MailServerUserPool's own behaviour: the artifacts its sub-constructs resolve, how its domain setting reaches
+ * the deployer, the OAuth clients it provisions, and the audiences, scopes and groups its policies carry.
+ *
+ * With no injected resolver the pool builds its own from the versions shipped with the package, overridden by
+ * CDK context.
+ *
+ * An OAuth client with the wrong flow or scope, or one missing from an API's audiences, deploys cleanly and is
+ * refused by the API only at runtime, so these tests pin the synthesized clients and the policies.
+ */
+
+import { ArtifactZone, PinnedArtifactResolver }                                 from '@serverlessinbox/artifact-registry-cdk';
+import { Permission }                                                           from '@serverlessinbox/mail-server';
+import { Match, Template }                                                      from 'aws-cdk-lib/assertions';
+import * as cognito                                                             from 'aws-cdk-lib/aws-cognito';
+import * as lambda                                                              from 'aws-cdk-lib/aws-lambda';
+import * as route53                                                             from 'aws-cdk-lib/aws-route53';
+import { App, BootstraplessSynthesizer, Stack }                                 from 'aws-cdk-lib';
+import { DependencyGroup }                                                      from 'constructs';
+
+import { CognitoIdpUsersAdminApiAddon }                                         from '../../cognito-idp-users-addon';
+import { JmapOAuthAddon }                                                       from '../../jmap-oauth-addon';
+import { CognitoScopeToPermissions }                                            from '../cognito-scopemap';
+import { CognitoScope }                                                         from '../cognito-scope';
+import { DynamicClientRegistrationMode }                                        from '../dynamic-client-registration-mode';
+import { MailServerUserPool, MailServerUserPoolProps }                          from '../mail-server-user-pool';
+import { MfaMode }                                                              from '../mfa-mode';
+import { UserPoolAudience }                                                     from '../user-pool-audience';
+import type { IMailServerUserPoolExtension, MailServerUserPoolExtensionContext,
+  MailServerUserPoolExtensionRegistration, SignInSyncRule }                     from '../user-pool-extension';
+
+const PINNED_VERSION = '0.0.1-test';
+
+function newStack(app: App = new App()): Stack {
+  return new Stack(app, 'TestStack', {
+    env:         { account: '123456789012', region: 'us-west-2' },
+    synthesizer: new BootstraplessSynthesizer(),
+  });
+}
+
+function pinnedResolver(stack: Stack, packageNames: string[]): PinnedArtifactResolver {
+  return new PinnedArtifactResolver({
+    packages:         Object.fromEntries(packageNames.map(name => [name, { zone: ArtifactZone.REGIONAL, version: PINNED_VERSION }])),
+    location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
+    deploymentRegion: stack.region,
+  });
+}
+
+/** A pool with an explicit Cognito domain prefix and a resolver pinning both packages the pool resolves; `overrides` replace those props. */
+function createUserPool(overrides: Partial<MailServerUserPoolProps> = {}, stack: Stack = newStack()): { pool: MailServerUserPool; stack: Stack } {
+  const pool = new MailServerUserPool(stack, 'user-pool', {
+    domain:           { kind: 'cognito', cognitoDomainPrefix: 'test-prefix' },
+    artifactResolver: pinnedResolver(stack, ['mailbox-cognito', 'mailbox-cdk-shared']),
+    ...overrides,
+  });
+  return { pool, stack };
+}
+
+/** An extension that contributes `providerName` as its client sign-in name, its resource created in `stack`, the stack the pool is in. */
+function extension(stack: Stack, providerName: string): IMailServerUserPoolExtension {
+  return {
+    attach: ({ userPool }) => ({
+      clientSignInProviders: [providerName],
+      dependable:            new cognito.CfnUserPoolIdentityProvider(stack, `idp-${providerName}`, {
+        userPoolId: userPool.userPoolId,
+        providerName,
+        providerType:    'SAML',
+        providerDetails: { MetadataURL: 'https://idp.example.com/metadata' },
+      }),
+    }),
+  };
+}
+
+describe('MailboxUserPool without an injected artifactResolver', () => {
+  function synthesizeWithPinnedContext(): Template {
+    const app = new App();
+    app.node.setContext('serverlessinbox:artifacts', {
+      bucketBase: 'test-artifacts',
+      packages:   {
+        'mailbox-cognito':    { zone: 'regional', version: PINNED_VERSION },
+        'mailbox-cdk-shared': { zone: 'regional', version: PINNED_VERSION },
+      },
+    });
+    app.node.setContext('serverlessinbox:artifact_versions', {});
+    const stack = newStack(app);
+
+    new MailServerUserPool(stack, 'user-pool', {
+      domain: { kind: 'cognito', cognitoDomainPrefix: 'test-prefix' },
+    });
+
+    return Template.fromStack(stack);
+  }
+
+  it('synthesizes the stack deployer Lambdas from the mailbox-cdk-shared package', () => {
+    const template = synthesizeWithPinnedContext();
+
+    template.hasResourceProperties('AWS::Lambda::Function', {
+      Code: { S3Key: Match.stringLikeRegexp('mailbox-cdk-shared/.*/lambdas/stack-deployer\\.zip') },
+    });
+  });
+});
+
+describe('MailboxUserPool domain', () => {
+  it('hands an explicit Cognito domain prefix to the deployer', () => {
+    const { stack } = createUserPool({ domain: { kind: 'cognito', cognitoDomainPrefix: 'explicit-prefix' } });
+
+    Template.fromStack(stack).hasResourceProperties('Custom::MailboxCognitoDataDeployer', {
+      parameters: Match.objectLike({ cognitoDomainPrefix: 'explicit-prefix' }),
+    });
+  });
+
+  it('derives the Cognito prefix from the zone name of the hosted zone through the stack helpers, without a Route 53 lookup', () => {
+    const stack = newStack();
+    const zone  = route53.HostedZone.fromHostedZoneAttributes(stack, 'zone', { hostedZoneId: 'Z1234567890ABC', zoneName: 'mail.example.com' });
+    new MailServerUserPool(stack, 'user-pool', {
+      domain:           { kind: 'cognito-auto', hostedZone: zone },
+      artifactResolver: pinnedResolver(stack, ['mailbox-cognito', 'mailbox-cdk-shared']),
+    });
+
+    const template  = Template.fromStack(stack);
+    const [helpers] = Object.keys(template.findResources('Custom::StackHelpers'));
+    template.resourceCountIs('Custom::StackHelpers', 1);
+    template.hasResourceProperties('Custom::StackHelpers', { DomainName: 'mail.example.com', HostedZoneId: Match.absent() });
+    template.hasResourceProperties('Custom::MailboxCognitoDataDeployer', {
+      parameters: Match.objectLike({ cognitoDomainPrefix: { 'Fn::GetAtt': [helpers, 'cognitoDomainPrefix'] } }),
+    });
+  });
+
+  it('hands a custom domain and its certificate to the deployer and names the Cognito prefix after the stack', () => {
+    const { stack } = createUserPool({
+      domain: { kind: 'custom', domainName: 'auth.example.com', certificateArn: 'arn:aws:acm:us-east-1:123456789012:certificate/abc' },
+    });
+
+    Template.fromStack(stack).hasResourceProperties('Custom::MailboxCognitoDataDeployer', {
+      parameters: Match.objectLike({
+        cognitoDomainPrefix: { Ref: 'AWS::StackName' },
+        customDomainName:    'auth.example.com',
+        customDomainCertArn: 'arn:aws:acm:us-east-1:123456789012:certificate/abc',
+      }),
+    });
+  });
+});
+
+describe('MailboxUserPool password length', () => {
+  it.each([
+    { passwordMinLength: undefined, expected: '8' },
+    { passwordMinLength: 12, expected: '12' },
+  ])('hands the deployer the password minimum $expected for passwordMinLength $passwordMinLength', ({ passwordMinLength, expected }) => {
+    const { stack } = createUserPool({ passwordMinLength });
+
+    Template.fromStack(stack).hasResourceProperties('Custom::MailboxCognitoDataDeployer', {
+      parameters: Match.objectLike({ passwordMinLength: expected }),
+    });
+  });
+});
+
+describe('MailboxUserPool auth flows', () => {
+  function expectClientAuthFlows(options: Partial<MailServerUserPoolProps>, explicitAuthFlows: string[]): void {
+    const { pool, stack } = createUserPool(options);
+
+    pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Cognito::UserPoolClient', { ExplicitAuthFlows: explicitAuthFlows });
+  }
+
+  it('allows only the refresh token flow of a client unless the authFlows prop enables more', () => {
+    expectClientAuthFlows({}, ['ALLOW_REFRESH_TOKEN_AUTH']);
+  });
+
+  it('adds one flow to the clients for each authFlows entry that is enabled', () => {
+    expectClientAuthFlows({ authFlows: { userPassword: true, userSrp: true, custom: true, adminUserPassword: true } }, [
+      'ALLOW_REFRESH_TOKEN_AUTH',
+      'ALLOW_USER_PASSWORD_AUTH',
+      'ALLOW_USER_SRP_AUTH',
+      'ALLOW_CUSTOM_AUTH',
+      'ALLOW_ADMIN_USER_PASSWORD_AUTH',
+    ]);
+  });
+});
+
+describe('MailboxUserPool addons', () => {
+  const identityProvisioner = {
+    functionArn:  'arn:aws:lambda:us-west-2:123456789012:function:identity-provisioner',
+    functionName: 'identity-provisioner',
+    grantInvoke:  () => {},
+  };
+  const auditEventsQueue = {
+    queueUrl:  'https://sqs.us-west-2.amazonaws.com/123456789012/audit-events',
+    queueArn:  'arn:aws:sqs:us-west-2:123456789012:audit-events',
+    grantSend: () => {},
+  };
+  const table = { tableName: 'table', tableArn: 'arn:aws:dynamodb:us-west-2:123456789012:table/table', grantRead: () => {}, grantReadWrite: () => {}, grantConditionCheck: () => {} };
+
+  it('creates the users admin API addon with the identity provider config and the groups of the pool', () => {
+    const { pool, stack } = createUserPool({ authorization: { adminGroups: ['ops'], userGroups: ['staff'] } });
+
+    const [addon] = pool.createAdminApiAddons(stack, {
+      artifactResolver: pinnedResolver(stack, ['mailbox-cognito']),
+      auditEventsQueue,
+      configTable:   table,
+      auditLogTable: table,
+      identityProvisioner,
+    });
+
+    expect(addon).toBeInstanceOf(CognitoIdpUsersAdminApiAddon);
+    expect(addon.uiConfig).toMatchObject({ idp: { type: 'cognito' } });
+    Template.fromStack(stack).hasResourceProperties('AWS::Lambda::Function', {
+      Environment: { Variables: Match.objectLike({ ADMIN_GROUPS: '["ops"]', USER_GROUPS: '["staff"]' }) },
+    });
+  });
+
+  it('creates no users admin API addon when native sign-in is off', () => {
+    const stack    = newStack();
+    const { pool } = createUserPool({ allowNativeSignIn: false, extensions: [extension(stack, 'ProviderA')], authorization: { adminGroups: ['ops'], userGroups: ['staff'] } }, stack);
+
+    const addons = pool.createAdminApiAddons(stack, {
+      artifactResolver: pinnedResolver(stack, ['mailbox-cognito']),
+      auditEventsQueue,
+      configTable:   table,
+      auditLogTable: table,
+      identityProvisioner,
+    });
+
+    expect(addons.length).toBe(0);
+    Template.fromStack(stack).resourcePropertiesCountIs('AWS::Lambda::Function', {
+      Environment: { Variables: Match.objectLike({ USER_GROUPS: Match.anyValue() }) },
+    }, 0);
+  });
+
+  it('creates no JMAP API addon unless OAuth discovery is enabled', () => {
+    const { pool, stack } = createUserPool();
+
+    expect(pool.createJmapApiAddons(stack, { apiBaseUrl: 'https://api.example.com', identityProvisioner })).toEqual([]);
+  });
+
+  it.each([
+    { mode: DynamicClientRegistrationMode.ENABLED, expectedRegistrationLambdas: 1 },
+    { mode: undefined, expectedRegistrationLambdas: 0 },
+  ])('creates the JMAP OAuth addon, with $expectedRegistrationLambdas registration Lambdas for dynamicClientRegistration $mode', ({ mode, expectedRegistrationLambdas }) => {
+    const { pool, stack } = createUserPool({ enableJmapOAuthDiscovery: true, dynamicClientRegistration: mode });
+
+    const [addon] = pool.createJmapApiAddons(stack, { apiBaseUrl: 'https://api.example.com', identityProvisioner });
+
+    expect(addon).toBeInstanceOf(JmapOAuthAddon);
+    const registrationLambdas = Template.fromStack(stack).findResources('AWS::Lambda::Function', {
+      Properties: { Environment: { Variables: { IDENTITY_PROVISIONER_FUNCTION_NAME: Match.anyValue() } } },
+    });
+    expect(Object.keys(registrationLambdas)).toHaveLength(expectedRegistrationLambdas);
+  });
+});
+
+describe('MailboxUserPool sign-in sync', () => {
+  const SIGN_IN_SYNC_RULE: SignInSyncRule = {
+    userNamePrefix: 'sync_',
+    groupAttribute: 'member_of',
+    groupMapping:   { 'ops-group-id': 'admin' },
+  };
+  const SYNC_FUNCTION_FILTER = { Properties: { Environment: { Variables: { USER_NAME_PREFIX: Match.anyValue() } } } };
+  const identityProvisioner  = {
+    functionArn:  'arn:aws:lambda:us-west-2:123456789012:function:identity-provisioner',
+    functionName: 'identity-provisioner',
+    grantInvoke:  () => {},
+  };
+  const auditEventsQueue = {
+    queueUrl:  'https://sqs.us-west-2.amazonaws.com/123456789012/audit-events',
+    queueArn:  'arn:aws:sqs:us-west-2:123456789012:audit-events',
+    grantSend: () => {},
+  };
+  const table = { tableName: 'table', tableArn: 'arn:aws:dynamodb:us-west-2:123456789012:table/table', grantRead: () => {}, grantReadWrite: () => {}, grantConditionCheck: () => {} };
+
+  /** An extension that declares the sign-in sync rule and contributes no client sign-in name. */
+  function signInSyncExtension(rule: SignInSyncRule): IMailServerUserPoolExtension {
+    return {
+      signInSync: rule,
+      attach:     () => ({ clientSignInProviders: [], dependable: new DependencyGroup() }),
+    };
+  }
+
+  it('creates one sign-in sync function for an extension with a rule and hands its ARN to the deployer', () => {
+    const { stack } = createUserPool({ extensions: [signInSyncExtension(SIGN_IN_SYNC_RULE)] });
+
+    const template         = Template.fromStack(stack);
+    const syncFunctions    = template.findResources('AWS::Lambda::Function', SYNC_FUNCTION_FILTER);
+    const [syncFunctionId] = Object.keys(syncFunctions);
+    expect(Object.keys(syncFunctions)).toHaveLength(1);
+    template.hasResourceProperties('Custom::MailboxCognitoDataDeployer', {
+      parameters: Match.objectLike({
+        signInSyncLambdaArn:     { 'Fn::GetAtt': [syncFunctionId, 'Arn'] },
+        signInSyncAttributeName: 'member_of',
+      }),
+    });
+  });
+
+  it('creates no sign-in sync function and gives the deployer no sign-in sync parameter without a rule', () => {
+    const { stack } = createUserPool();
+
+    const template = Template.fromStack(stack);
+    expect(Object.keys(template.findResources('AWS::Lambda::Function', SYNC_FUNCTION_FILTER))).toHaveLength(0);
+    template.hasResourceProperties('Custom::MailboxCognitoDataDeployer', {
+      parameters: Match.not(Match.objectLike({ signInSyncLambdaArn: Match.anyValue() })),
+    });
+  });
+
+  it.each([
+    {
+      description: 'an empty user name prefix',
+      rule:        { ...SIGN_IN_SYNC_RULE, userNamePrefix: '' },
+      message:     'MailboxUserPool: signInSync userNamePrefix is empty',
+    },
+    {
+      description: 'an attribute name that is not a valid Cognito attribute name',
+      rule:        { ...SIGN_IN_SYNC_RULE, groupAttribute: 'Member-Of' },
+      message:     "MailboxUserPool: signInSync groupAttribute 'Member-Of' is not a valid attribute name",
+    },
+    {
+      description: 'an empty group mapping key',
+      rule:        { ...SIGN_IN_SYNC_RULE, groupMapping: { '': 'admin' } },
+      message:     "MailboxUserPool: signInSync groupMapping key '' is empty",
+    },
+    {
+      description: 'a group mapping value that is not an admin or user group of the pool',
+      rule:        { ...SIGN_IN_SYNC_RULE, groupMapping: { 'ops-group-id': 'nope' } },
+      message:     "MailboxUserPool: signInSync groupMapping value 'nope' for key 'ops-group-id' is not one of authorization.adminGroups or authorization.userGroups",
+    },
+  ])('rejects a sign-in sync rule with $description', ({ rule, message }) => {
+    expect(() => createUserPool({ extensions: [signInSyncExtension(rule)] })).toThrow(message);
+  });
+
+  it('enables the provisioner for the sign-in sync function even when native sign-in is off', () => {
+    const stack    = newStack();
+    const { pool } = createUserPool({
+      allowNativeSignIn: false,
+      extensions:        [extension(stack, 'ProviderA'), signInSyncExtension(SIGN_IN_SYNC_RULE)],
+    }, stack);
+
+    const addons = pool.createAdminApiAddons(stack, {
+      artifactResolver: pinnedResolver(stack, ['mailbox-cognito']),
+      auditEventsQueue,
+      configTable:   table,
+      auditLogTable: table,
+      identityProvisioner,
+    });
+
+    expect(addons).toEqual([]);
+    Template.fromStack(stack).hasResourceProperties('AWS::Lambda::Function', {
+      Environment: { Variables: Match.objectLike({ IDENTITY_PROVISIONER_FUNCTION_NAME: 'identity-provisioner' }) },
+    });
+  });
+
+});
+
+describe('MailboxUserPool UI client provisioning', () => {
+  it('names an Admin-API client after its kind and app: mailbox-client-admin-api-admin-ui', () => {
+    const { pool, stack } = createUserPool();
+
+    pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: ['https://a.example.com/cb'], logoutUrls: ['https://a.example.com/'] });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Cognito::UserPoolClient', {
+      ClientName: 'mailbox-client-admin-api-admin-ui',
+    });
+  });
+
+  it('names a JMAP-API client after its kind and app: mailbox-client-jmap-api-webmail-ui', () => {
+    const { pool, stack } = createUserPool();
+
+    pool.provisionJmapApiClient({
+      name:         'webmail-ui',
+      permissions:  [Permission.MAIL_READ_ITEMS],
+      callbackUrls: ['https://w.example.com/cb'],
+      logoutUrls:   ['https://w.example.com/'],
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Cognito::UserPoolClient', {
+      ClientName: 'mailbox-client-jmap-api-webmail-ui',
+    });
+  });
+
+  it('gives an Admin-API client the code flow, the admin scope and its callback URLs, without a secret', () => {
+    const { pool, stack } = createUserPool();
+
+    pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: ['https://a.example.com/cb'], logoutUrls: ['https://a.example.com/'] });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Cognito::UserPoolClient', {
+      GenerateSecret:     false,
+      AllowedOAuthFlows:  ['code'],
+      AllowedOAuthScopes: ['openid', 'email', 'profile', 'si/admin'],
+      CallbackURLs:       ['https://a.example.com/cb'],
+      LogoutURLs:         ['https://a.example.com/'],
+    });
+  });
+
+  it('gives a JMAP-API client exactly the scopes of the permissions it asks for', () => {
+    const { pool, stack } = createUserPool();
+
+    const client = pool.provisionJmapApiClient({
+      name:         'webmail-ui',
+      permissions:  [Permission.MAIL_READ_ITEMS, Permission.MAIL_SUBMIT],
+      callbackUrls: ['https://w.example.com/cb'],
+      logoutUrls:   ['https://w.example.com/'],
+    });
+
+    expect(client.requestScopeList).toEqual(['si/mail.read', 'si/mail.send']);
+    Template.fromStack(stack).hasResourceProperties('AWS::Cognito::UserPoolClient', {
+      AllowedOAuthScopes: ['openid', 'email', 'profile', 'si/mail.read', 'si/mail.send'],
+    });
+  });
+
+  it('requests the Cognito scope that contains each right, and that scope once for several rights of it', () => {
+    const { pool, stack } = createUserPool();
+
+    const client = pool.provisionJmapApiClient({
+      name:         'webmail-ui',
+      permissions:  [Permission.MAIL_ADD_ITEMS, Permission.MAIL_DELETE],
+      callbackUrls: ['https://w.example.com/cb'],
+      logoutUrls:   ['https://w.example.com/'],
+    });
+
+    expect(client.requestScopeList).toEqual(['si/mail.write']);
+    Template.fromStack(stack).hasResourceProperties('AWS::Cognito::UserPoolClient', {
+      AllowedOAuthScopes: ['openid', 'email', 'profile', 'si/mail.write'],
+    });
+  });
+
+  it('requests the webmail client\'s Cognito scopes as before rights, less si/account.read and si/alias.read', () => {
+    const { pool } = createUserPool();
+
+    const client = pool.provisionJmapApiClient({
+      name:        'webmail-ui',
+      permissions: [
+        Permission.MAIL_READ_ITEMS,
+        Permission.MAIL_ADD_ITEMS,
+        Permission.MAIL_REMOVE_ITEMS,
+        Permission.MAIL_SET_SEEN,
+        Permission.MAIL_SET_KEYWORDS,
+        Permission.MAIL_CREATE_CHILD,
+        Permission.MAIL_RENAME,
+        Permission.MAIL_DELETE,
+        Permission.MAIL_SUBMIT,
+        Permission.PREFERENCES_READ,
+        Permission.PREFERENCES_WRITE,
+        Permission.IMPORT_READ,
+        Permission.IMPORT_WRITE,
+        Permission.CONTACTS_READ,
+        Permission.CONTACTS_WRITE,
+        Permission.SIEVE_READ,
+        Permission.SIEVE_WRITE,
+        Permission.TOKENS_MANAGE,
+        Permission.PUSH_MANAGE,
+      ],
+      callbackUrls: ['https://w.example.com/cb'],
+      logoutUrls:   ['https://w.example.com/'],
+    });
+
+    expect(client.requestScopeList).toEqual([
+      'si/mail.read',
+      'si/mail.write',
+      'si/mail.send',
+      'si/preferences.read',
+      'si/preferences.write',
+      'si/contacts.read',
+      'si/contacts.write',
+      'si/sieve.read',
+      'si/sieve.write',
+      'si/tokens.manage',
+      'si/push.manage',
+    ]);
+    expect(client.requestScopeList).not.toContain('si/user.read');
+  });
+
+  it('maps the PREFERENCES_WRITE right to si/preferences.write, the only scope whose rights contain it', () => {
+    const { pool } = createUserPool();
+
+    const client = pool.provisionJmapApiClient({ name: 'contacts-ui', permissions: [Permission.PREFERENCES_WRITE], callbackUrls: [], logoutUrls: [] });
+
+    expect(client.requestScopeList).toEqual(['si/preferences.write']);
+  });
+
+  it('maps the TOKENS_MANAGE right to si/tokens.manage, the only scope whose rights contain it', () => {
+    const { pool } = createUserPool();
+
+    const client = pool.provisionJmapApiClient({ name: 'token-manager', permissions: [Permission.TOKENS_MANAGE], callbackUrls: [], logoutUrls: [] });
+
+    expect(client.requestScopeList).toEqual(['si/tokens.manage']);
+  });
+
+  it('maps the PREFERENCES_READ right to si/preferences.read, never to the deprecated si/user.read that also contains it', () => {
+    const { pool } = createUserPool();
+
+    const client = pool.provisionJmapApiClient({ name: 'prefs-reader', permissions: [Permission.PREFERENCES_READ], callbackUrls: [], logoutUrls: [] });
+
+    expect(client.requestScopeList).toEqual(['si/preferences.read']);
+  });
+
+  it('throws at synth when the scope table names no Cognito scope for a right', () => {
+    const { pool }                                    = createUserPool();
+    const mailReadRights                              = CognitoScopeToPermissions[CognitoScope.MAIL_READ];
+    CognitoScopeToPermissions[CognitoScope.MAIL_READ] = [];
+    try {
+      expect(() => pool.provisionJmapApiClient({ name: 'webmail-ui', permissions: [Permission.MAIL_READ_ITEMS], callbackUrls: [], logoutUrls: [] }))
+        .toThrow(/is in 0 Cognito scopes/);
+    } finally {
+      CognitoScopeToPermissions[CognitoScope.MAIL_READ] = mailReadRights;
+    }
+  });
+
+  it('throws at synth when the scope table names two Cognito scopes for a right', () => {
+    const { pool }                                    = createUserPool();
+    const mailSendRights                              = CognitoScopeToPermissions[CognitoScope.MAIL_SEND];
+    CognitoScopeToPermissions[CognitoScope.MAIL_SEND] = [...mailSendRights, Permission.MAIL_READ_ITEMS];
+    try {
+      expect(() => pool.provisionJmapApiClient({ name: 'webmail-ui', permissions: [Permission.MAIL_READ_ITEMS], callbackUrls: [], logoutUrls: [] }))
+        .toThrow(/is in 2 Cognito scopes/);
+    } finally {
+      CognitoScopeToPermissions[CognitoScope.MAIL_SEND] = mailSendRights;
+    }
+  });
+
+  it('registers each UI client as an audience of its own API only', () => {
+    const { pool } = createUserPool();
+
+    const adminClient = pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
+    const jmapClient  = pool.provisionJmapApiClient({ name: 'webmail-ui', permissions: [Permission.MAIL_READ_ITEMS], callbackUrls: [], logoutUrls: [] });
+
+    expect(pool.policies.adminApi.audiences).toEqual([adminClient.clientId]);
+    expect(pool.policies.jmapApi.audiences).toEqual([jmapClient.clientId]);
+  });
+
+  it('returns the existing client when the same app is provisioned twice', () => {
+    const { pool, stack } = createUserPool();
+    const config          = { name: 'admin-ui', callbackUrls: ['https://a.example.com/cb'], logoutUrls: ['https://a.example.com/'] };
+
+    const first  = pool.provisionAdminApiClient(config);
+    const second = pool.provisionAdminApiClient(config);
+
+    expect(second).toBe(first);
+    Template.fromStack(stack).resourceCountIs('AWS::Cognito::UserPoolClient', 1);
+  });
+
+  it('lists COGNITO and each client sign-in name on every client, machine clients included', () => {
+    const stack    = newStack();
+    const { pool } = createUserPool({ extensions: [extension(stack, 'ProviderA'), extension(stack, 'ProviderB')] }, stack);
+
+    pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
+    pool.provisionHeadlessClient({ name: 'sweeper', audiences: [UserPoolAudience.JMAP_API], permissions: [Permission.MAIL_READ_ITEMS] });
+
+    const template = Template.fromStack(stack);
+    template.resourceCountIs('AWS::Cognito::UserPoolClient', 2);
+    template.allResourcesProperties('AWS::Cognito::UserPoolClient', {
+      SupportedIdentityProviders: ['COGNITO', 'ProviderA', 'ProviderB'],
+    });
+  });
+
+  it('makes every client depend on each extension registration the pool attached', () => {
+    const stack    = newStack();
+    const { pool } = createUserPool({ extensions: [extension(stack, 'ProviderA'), extension(stack, 'ProviderB')] }, stack);
+
+    pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
+    pool.provisionHeadlessClient({ name: 'sweeper', audiences: [UserPoolAudience.JMAP_API], permissions: [Permission.MAIL_READ_ITEMS] });
+
+    const template    = Template.fromStack(stack);
+    const providerIds = Object.keys(template.findResources('AWS::Cognito::UserPoolIdentityProvider'));
+    const clients     = Object.values(template.findResources('AWS::Cognito::UserPoolClient'));
+    expect(providerIds).toHaveLength(2);
+    expect(clients).toHaveLength(2);
+    for (const client of clients) {
+      expect(client.DependsOn).toEqual(expect.arrayContaining(providerIds));
+    }
+  });
+
+  it('lists only COGNITO and no dependency when no identity provider is registered', () => {
+    const { pool, stack } = createUserPool();
+
+    pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
+
+    Template.fromStack(stack).hasResource('AWS::Cognito::UserPoolClient', {
+      Properties: { SupportedIdentityProviders: ['COGNITO'] },
+      DependsOn:  Match.absent(),
+    });
+  });
+
+  it('removes COGNITO from every client when native sign-in is off', () => {
+    const stack    = newStack();
+    const { pool } = createUserPool({ allowNativeSignIn: false, extensions: [extension(stack, 'ProviderA')] }, stack);
+
+    pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
+
+    Template.fromStack(stack).allResourcesProperties('AWS::Cognito::UserPoolClient', {
+      SupportedIdentityProviders: ['ProviderA'],
+    });
+  });
+
+  it('attaches each extension once, with the pool as its context', () => {
+    const stack  = newStack();
+    const attach = jest.fn<MailServerUserPoolExtensionRegistration, [MailServerUserPoolExtensionContext]>(() => ({
+      clientSignInProviders: [],
+      dependable:            new DependencyGroup(),
+    }));
+
+    const { pool } = createUserPool({ extensions: [{ attach }] }, stack);
+
+    expect(attach).toHaveBeenCalledTimes(1);
+    const [context] = attach.mock.calls[0];
+    expect(context.userPool).toBe(pool.userPool);
+  });
+
+  it('lists only COGNITO and no dependency when an extension contributes no client sign-in name yet', () => {
+    const stack    = newStack();
+    const { pool } = createUserPool({
+      extensions: [{ attach: () => ({ clientSignInProviders: [], dependable: new DependencyGroup() }) }],
+    }, stack);
+
+    pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
+
+    Template.fromStack(stack).hasResource('AWS::Cognito::UserPoolClient', {
+      Properties: { SupportedIdentityProviders: ['COGNITO'] },
+      DependsOn:  Match.absent(),
+    });
+  });
+
+  it('throws at construction when native sign-in is off and no extension contributes a client sign-in name', () => {
+    const stack = newStack();
+
+    expect(() => createUserPool({
+      allowNativeSignIn: false,
+      extensions:        [{ attach: () => ({ clientSignInProviders: [], dependable: new DependencyGroup() }) }],
+    }, stack)).toThrow('allowNativeSignIn is false but no extension contributes a client sign-in provider');
+  });
+
+  it('throws at construction when a second extension declares signInSync', () => {
+    const stack = newStack();
+    const rule  = { userNamePrefix: 'Prefix_', groupAttribute: 'groups', groupMapping: {} };
+
+    expect(() => createUserPool({
+      extensions: [{ ...extension(stack, 'ProviderA'), signInSync: rule }, { ...extension(stack, 'ProviderB'), signInSync: rule }],
+    }, stack)).toThrow("only one extension may declare signInSync; extension '1' is the second");
+  });
+
+  it('throws at construction, naming the provider, when a client sign-in name is listed twice', () => {
+    const stack = newStack();
+
+    const nameOnly = (): IMailServerUserPoolExtension => ({
+      attach: () => ({ clientSignInProviders: ['ProviderA'], dependable: new DependencyGroup() }),
+    });
+
+    expect(() => createUserPool({ extensions: [nameOnly(), nameOnly()] }, stack))
+      .toThrow("client sign-in provider 'ProviderA' is listed more than once");
+  });
+
+  it('throws at construction when an extension lists COGNITO while native sign-in is on', () => {
+    const stack = newStack();
+
+    expect(() => createUserPool({ extensions: [extension(stack, 'COGNITO')] }, stack))
+      .toThrow("client sign-in provider 'COGNITO' is listed more than once");
+  });
+});
+
+describe('MailboxUserPool headless client provisioning', () => {
+  it('creates a client-credentials client with a secret, its scopes and no sign-in URLs', () => {
+    const { pool, stack } = createUserPool();
+
+    pool.provisionHeadlessClient({ name: 'sweeper', audiences: [UserPoolAudience.JMAP_API], permissions: [Permission.MAIL_READ_ITEMS] });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Cognito::UserPoolClient', {
+      ClientName:         'mailbox-client-sweeper',
+      GenerateSecret:     true,
+      AllowedOAuthFlows:  ['client_credentials'],
+      AllowedOAuthScopes: ['si/mail.read'],
+      CallbackURLs:       Match.absent(),
+      LogoutURLs:         Match.absent(),
+    });
+  });
+
+  it('registers the client as an audience of the listed APIs only', () => {
+    const { pool } = createUserPool();
+
+    const client = pool.provisionHeadlessClient({ name: 'sweeper', audiences: [UserPoolAudience.JMAP_API], permissions: [Permission.MAIL_READ_ITEMS] });
+
+    expect(pool.policies.jmapApi.audiences).toEqual([client.clientId]);
+    expect(pool.policies.adminApi.audiences).toEqual([]);
+  });
+
+  it('registers the client for the audience strings a CloudFormation parameter carries', () => {
+    const { pool } = createUserPool();
+    const audience = 'adminApi' as UserPoolAudience;
+
+    const client = pool.provisionHeadlessClient({ name: 'sweeper', audiences: [audience], permissions: [Permission.MAIL_READ_ITEMS] });
+
+    expect(pool.policies.adminApi.audiences).toEqual([client.clientId]);
+    expect(pool.policies.jmapApi.audiences).toEqual([]);
+  });
+
+  it('returns the existing client when the name is provisioned again and registers the audiences it is now listed for', () => {
+    const { pool, stack } = createUserPool();
+
+    const first  = pool.provisionHeadlessClient({ name: 'sweeper', audiences: [UserPoolAudience.JMAP_API], permissions: [Permission.MAIL_READ_ITEMS] });
+    const second = pool.provisionHeadlessClient({ name: 'sweeper', audiences: [UserPoolAudience.ADMIN_API], permissions: [Permission.MAIL_READ_ITEMS] });
+
+    expect(second).toBe(first);
+    expect(pool.policies.adminApi.audiences).toEqual([first.clientId]);
+    Template.fromStack(stack).resourceCountIs('AWS::Cognito::UserPoolClient', 1);
+  });
+});
+
+describe('MailboxUserPool authorization', () => {
+  it('rejects an explicit empty adminGroups list, naming the prop, rather than gating the Admin API on no group', () => {
+    expect(() => createUserPool({ authorization: { adminGroups: [] } })).toThrow(/authorization\.adminGroups is an empty list/);
+  });
+
+  it('requires the admin scope and the default admin group for the Admin API, and no scope for the JMAP API', () => {
+    const { pool } = createUserPool();
+
+    expect(pool.policies.adminApi.requireAllScopes).toEqual(['si/admin']);
+    expect(pool.policies.adminApi.requireAnyOfGroups).toEqual(['admin']);
+    expect(pool.policies.jmapApi.requireAllScopes).toEqual([]);
+  });
+
+  it('takes the groups of the policies, of the clients and of the authorization config from the authorization prop', () => {
+    const { pool } = createUserPool({ authorization: { adminGroups: ['ops'], userGroups: ['staff'] } });
+
+    const adminClient = pool.provisionAdminApiClient({ name: 'admin-ui', callbackUrls: [], logoutUrls: [] });
+    const jmapClient  = pool.provisionJmapApiClient({ name: 'webmail-ui', permissions: [Permission.MAIL_READ_ITEMS], callbackUrls: [], logoutUrls: [] });
+
+    expect(pool.policies.adminApi.requireAnyOfGroups).toEqual(['ops']);
+    expect(adminClient.groups).toEqual(['ops']);
+    expect(jmapClient.groups).toEqual(['staff']);
+    expect(pool.authorizationConfig()).toEqual({ adminGroups: ['ops'], userGroups: ['staff'] });
+  });
+
+  it('prefixes every scope in the scope map with the resource server and maps it to its permission', () => {
+    const { pool } = createUserPool();
+
+    expect(pool.scopeMap['si/mail.read']).toEqual([Permission.MAIL_READ_ITEMS]);
+    expect(pool.scopeMap['si/admin']).toEqual([Permission.ADMIN]);
+    expect(Object.keys(pool.scopeMap).every(scope => scope.startsWith('si/'))).toBe(true);
+  });
+});
+
+describe('MailboxUserPool MFA mode', () => {
+  it('hands the deployer the mfaMode string a CloudFormation parameter carries', () => {
+    const { stack } = createUserPool({ mfaMode: MfaMode.ON });
+
+    Template.fromStack(stack).hasResourceProperties('Custom::MailboxCognitoDataDeployer', {
+      parameters: Match.objectLike({ mfaMode: 'on' }),
+    });
+  });
+
+});
+
+describe('MailboxUserPool OAuth endpoints', () => {
+  it('serves the token and authorization endpoints from the OAuth domain', () => {
+    const { pool } = createUserPool();
+
+    expect(pool.tokenEndpoint).toBe(`https://${pool.oauthDomain}/oauth2/token`);
+    expect(pool.authorizationEndpoint).toBe(`https://${pool.oauthDomain}/oauth2/authorize`);
+  });
+});
+
+describe('MailboxUserPool admin UI config', () => {
+  it('names Cognito as the identity provider', () => {
+    const { pool } = createUserPool();
+
+    expect(pool.adminUiConfig()).toEqual({ idp: { type: 'cognito' } });
+  });
+});
+
+describe('MailboxUserPool JMAP OAuth discovery', () => {
+  it('publishes no issuer URL unless discovery is enabled', () => {
+    const { pool } = createUserPool();
+
+    expect(pool.jmapOAuthIssuerUrl()).toBeUndefined();
+  });
+
+  it('publishes the pool issuer when discovery is enabled', () => {
+    const { pool } = createUserPool({ enableJmapOAuthDiscovery: true });
+
+    expect(pool.jmapOAuthIssuerUrl()).toBe(pool.issuer);
+  });
+});
+
+describe('MailboxUserPool.grantAdminAccess', () => {
+  it('grants the function user administration on the pool itself, never on every resource', () => {
+    const { pool, stack } = createUserPool();
+    const adminLambda     = new lambda.Function(stack, 'fn', {
+      runtime: lambda.Runtime.NODEJS_LATEST,
+      handler: 'index.handler',
+      code:    lambda.Code.fromInline('exports.handler = async () => {};'),
+    });
+
+    pool.grantAdminAccess(adminLambda);
+
+    Template.fromStack(stack).hasResourceProperties('AWS::IAM::Policy', {
+      PolicyDocument: {
+        Statement: Match.arrayWith([
+          Match.objectLike({
+            Action:   Match.arrayWith(['cognito-idp:ListUsers', 'cognito-idp:AdminDeleteUser']),
+            Resource: Match.not('*'),
+          }),
+        ]),
+      },
+    });
+  });
+
+  it('grants exactly the Cognito actions the users Lambda calls', () => {
+    const { pool, stack } = createUserPool();
+    const usersLambda     = new lambda.Function(stack, 'users-lambda', {
+      runtime: lambda.Runtime.NODEJS_LATEST,
+      handler: 'index.handler',
+      code:    lambda.Code.fromInline('exports.handler = async () => {};'),
+    });
+
+    pool.grantAdminAccess(usersLambda);
+
+    Template.fromStack(stack).hasResourceProperties('AWS::IAM::Policy', {
+      PolicyDocument: {
+        Statement: Match.arrayWith([
+          Match.objectLike({
+            Action: Match.arrayEquals([
+              'cognito-idp:ListUsers',
+              'cognito-idp:AdminCreateUser',
+              'cognito-idp:AdminDeleteUser',
+              'cognito-idp:AdminSetUserPassword',
+              'cognito-idp:AdminGetUser',
+              'cognito-idp:AdminDisableUser',
+              'cognito-idp:AdminEnableUser',
+              'cognito-idp:AdminAddUserToGroup',
+            ]),
+          }),
+        ]),
+      },
+    });
+  });
+});

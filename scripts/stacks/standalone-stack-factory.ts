@@ -1,8 +1,8 @@
 import { App, BootstraplessSynthesizer, type Environment, type StackProps } from 'aws-cdk-lib';
 
+import { CognitoDataStack }                                                 from '../../packages/mail-server-cognito/src/data-stack/cognito-data-stack';
 import { DataStack }                                                        from '../../packages/mail-server/src/core/data/mail-server-data-stack';
 import { EdgeStack }                                                        from '../../packages/mail-server/src/core/edge/mail-server-edge-stack';
-import { MailboxCognitoDataStack }                                          from '../../packages/mailbox-cognito/src/data-stack/mailbox-cognito-data-stack';
 
 /**
  * Creates the standalone data, edge and cognito-data stacks with the ids, environments and synthesizer
@@ -31,8 +31,8 @@ export class StandaloneStackFactory {
   }
 
   /** An undefined environment leaves the stack environment-agnostic, so its account and region stay unresolved. */
-  createCognitoDataStack(app: App): MailboxCognitoDataStack {
-    return new MailboxCognitoDataStack(app, `${this.idPrefix}CognitoData`, this.stackProps(this.cognitoDataEnvironment));
+  createCognitoDataStack(app: App): CognitoDataStack {
+    return new CognitoDataStack(app, `${this.idPrefix}CognitoData`, this.stackProps(this.cognitoDataEnvironment));
   }
 
   private stackProps(environment: Environment | undefined): StackProps {

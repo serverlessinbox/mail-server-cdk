@@ -125,7 +125,7 @@ export interface MailServerAuthorizationConfig {
  * Admin API addons the provider contributes, and optionally JMAP API addons and an authorization
  * mapping.
  *
- * Implementations are typically provider-owned CDK constructs (e.g. Cognito's `MailboxUserPool`).
+ * Implementations are typically provider-owned CDK constructs (e.g. Cognito's `MailServerUserPool`).
  */
 export interface IAuthProvider extends IAuthProviderBase, IAdminApiAddonProvider {
   /** Optional: register additional JMAP API routes (provider-specific, e.g. OAuth DCR). */

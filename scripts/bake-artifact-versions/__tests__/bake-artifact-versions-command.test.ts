@@ -23,7 +23,7 @@ describe('BakeArtifactVersionsCommand', () => {
 
   function repositoryRoot(): string {
     const root = newFolder('bake-artifact-versions-command-');
-    for (const name of ['mail-server', 'mailbox-cognito', 'mail-server-cdk-shared']) {
+    for (const name of ['mail-server', 'mail-server-cognito', 'mail-server-cdk-shared']) {
       mkdirSync(path.join(root, 'packages', name), { recursive: true });
       writeFileSync(path.join(root, 'packages', name, 'package.json'), JSON.stringify({ name, version: '4.5.6' }));
     }
@@ -60,7 +60,7 @@ describe('BakeArtifactVersionsCommand', () => {
       const root         = repositoryRoot();
       const unrelatedCwd = newFolder('bake-artifact-versions-cwd-');
       const mailboxFile  = path.join(root, 'packages', 'mail-server', 'artifact-versions.json');
-      const cognitoFile  = path.join(root, 'packages', 'mailbox-cognito', 'artifact-versions.json');
+      const cognitoFile  = path.join(root, 'packages', 'mail-server-cognito', 'artifact-versions.json');
       jest.spyOn(process, 'cwd').mockReturnValue(unrelatedCwd);
 
       const run = await runCommand('--mailbox-pins', writePins(root), '--root', root);

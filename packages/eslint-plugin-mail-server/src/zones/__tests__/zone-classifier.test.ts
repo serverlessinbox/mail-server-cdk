@@ -47,7 +47,7 @@ describe('ZoneClassifier.locate', () => {
   });
 
   it('finds the package for an absolute path', () => {
-    expect(classifier.locate('/home/dev/repo/packages/mailbox-cognito/src/a/b.ts')).toEqual({ packageRoot: cognitoPackage, rest: 'a/b' });
+    expect(classifier.locate('/home/dev/repo/packages/mail-server-cognito/src/a/b.ts')).toEqual({ packageRoot: cognitoPackage, rest: 'a/b' });
   });
 
   it('has no package root for a file outside every package', () => {
@@ -124,8 +124,8 @@ describe('ZoneClassifier.eventsRestricted', () => {
     ['an exempt test file', 'packages/mail-server/src/core/__tests__/x.test.ts', false],
     ['a kit file', 'packages/mail-server-cdk-shared/src/x.ts', true],
     ['the kit index', 'packages/mail-server-cdk-shared/src/index.ts', false],
-    ['a cognito wiring file', 'packages/mailbox-cognito/src/resources/lambdas/x.ts', false],
-    ['a cognito file', 'packages/mailbox-cognito/src/x.ts', true],
+    ['a cognito wiring file', 'packages/mail-server-cognito/src/resources/lambdas/x.ts', false],
+    ['a cognito file', 'packages/mail-server-cognito/src/x.ts', true],
   ])('%s', (_title, path, expected) => {
     expect(classifier.eventsRestricted(classifier.locate(path))).toBe(expected);
   });

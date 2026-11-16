@@ -7,7 +7,7 @@ export interface IamAllowListEntry {
 // stays within one path segment. The list may only shrink.
 export const iamAllowList: readonly IamAllowListEntry[] = [
   {
-    path:   'packages/mailbox-cognito/src/user-pool/mailbox-user-pool.ts',
+    path:   'packages/mail-server-cognito/src/user-pool/mail-server-user-pool.ts',
     reason: "Non-covered target: the Cognito user pool's own grantAdminAccess method.",
   },
   {

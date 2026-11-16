@@ -12,7 +12,7 @@ function build(modules) {
   });
 
   const zone = new mailbox.HostedZoneLookup(stack, 'Zone', { hostedZoneId: 'Z0123456789ABCDEFGHIJ' });
-  const userPool = new cognito.MailboxUserPool(stack, 'UserPool', {
+  const userPool = new cognito.MailServerUserPool(stack, 'UserPool', {
     domain: { kind: 'cognito-auto', hostedZone: zone.hostedZone },
     enableJmapOAuthDiscovery: true,
   });

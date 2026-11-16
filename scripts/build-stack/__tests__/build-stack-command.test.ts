@@ -4,7 +4,7 @@ import { tmpdir }                                 from 'node:os';
 import * as path                                  from 'node:path';
 import { Writable }                               from 'node:stream';
 
-import { COGNITO_DATA_STACK_TEMPLATE_OBJECT }     from '../../../packages/mailbox-cognito/src/data-stack/mailbox-cognito-data-stack-contract';
+import { COGNITO_DATA_STACK_TEMPLATE_OBJECT }     from '../../../packages/mail-server-cognito/src/data-stack/mail-server-cognito-data-stack-contract';
 import { BuildCognitoDataStackCommand }           from '../build-cognito-data-stack-command';
 import { BuildDataStackCommand }                  from '../build-data-stack-command';
 import { BuildEdgeStackCommand }                  from '../build-edge-stack-command';

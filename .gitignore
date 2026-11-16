@@ -24,8 +24,8 @@ build.log
 /build
 
 # LICENSE copied into each published package by its prepack (root LICENSE is the source)
-/packages/mailbox/LICENSE
-/packages/mailbox-cognito/LICENSE
+/packages/mail-server/LICENSE
+/packages/mail-server-cognito/LICENSE
 /packages/mail-server-cdk-shared/LICENSE
 /packages/mail-server-addon-sdk/LICENSE
 

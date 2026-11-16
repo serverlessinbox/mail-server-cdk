@@ -35,8 +35,8 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/mail-server-cdk-shared"\
     },\
     {\
-      "name": "@serverlessinbox/mailbox-cognito",\
-      "reference": "workspace:packages/mailbox-cognito"\
+      "name": "@serverlessinbox/mail-server-cognito",\
+      "reference": "workspace:packages/mail-server-cognito"\
     }\
   ],\
   "enableTopLevelFallback": true,\
@@ -44,11 +44,11 @@ const RAW_RUNTIME_STATE =
   "pnpZipBackend": "libzip",\
   "fallbackExclusionList": [\
     ["@serverlessinbox/eslint-plugin-mail-server", ["workspace:packages/eslint-plugin-mail-server"]],\
-    ["@serverlessinbox/mail-server", ["virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server", "workspace:packages/mail-server"]],\
-    ["@serverlessinbox/mail-server-addon-sdk", ["virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server-addon-sdk", "workspace:packages/mail-server-addon-sdk"]],\
+    ["@serverlessinbox/mail-server", ["virtual:964d5eed898cce8021c7f31dac625a7f521c89c8ec9bdce94d8c6ad29c80cc6cda1f09a37a509c933d2f6f5932b95f06058d03a77e598207a32d551eaffba083#workspace:packages/mail-server", "workspace:packages/mail-server"]],\
+    ["@serverlessinbox/mail-server-addon-sdk", ["virtual:964d5eed898cce8021c7f31dac625a7f521c89c8ec9bdce94d8c6ad29c80cc6cda1f09a37a509c933d2f6f5932b95f06058d03a77e598207a32d551eaffba083#workspace:packages/mail-server-addon-sdk", "workspace:packages/mail-server-addon-sdk"]],\
     ["@serverlessinbox/mail-server-bundler", ["virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#workspace:packages/mail-server-bundler", "workspace:packages/mail-server-bundler"]],\
     ["@serverlessinbox/mail-server-cdk-shared", ["workspace:packages/mail-server-cdk-shared"]],\
-    ["@serverlessinbox/mailbox-cognito", ["workspace:packages/mailbox-cognito"]],\
+    ["@serverlessinbox/mail-server-cognito", ["workspace:packages/mail-server-cognito"]],\
     ["mailbox-cdk", ["workspace:."]]\
   ],\
   "fallbackPool": [\
@@ -746,11 +746,11 @@ const RAW_RUNTIME_STATE =
     ],\
     [\
       "@serverlessinbox/mail-server",\
-      "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server"\
+      "virtual:964d5eed898cce8021c7f31dac625a7f521c89c8ec9bdce94d8c6ad29c80cc6cda1f09a37a509c933d2f6f5932b95f06058d03a77e598207a32d551eaffba083#workspace:packages/mail-server"\
     ],\
     [\
       "@serverlessinbox/mail-server-addon-sdk",\
-      "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server-addon-sdk"\
+      "virtual:964d5eed898cce8021c7f31dac625a7f521c89c8ec9bdce94d8c6ad29c80cc6cda1f09a37a509c933d2f6f5932b95f06058d03a77e598207a32d551eaffba083#workspace:packages/mail-server-addon-sdk"\
     ],\
     [\
       "@serverlessinbox/mail-server-bundler",\
@@ -761,8 +761,8 @@ const RAW_RUNTIME_STATE =
       "workspace:packages/mail-server-cdk-shared"\
     ],\
     [\
-      "@serverlessinbox/mailbox-cognito",\
-      "workspace:packages/mailbox-cognito"\
+      "@serverlessinbox/mail-server-cognito",\
+      "workspace:packages/mail-server-cognito"\
     ],\
     [\
       "@sigstore/bundle",\
@@ -5880,8 +5880,8 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@serverlessinbox/mail-server", [\
-      ["virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server", {\
-        "packageLocation": "./.yarn/__virtual__/@serverlessinbox-mail-server-virtual-5e1363d600/1/packages/mail-server/",\
+      ["virtual:964d5eed898cce8021c7f31dac625a7f521c89c8ec9bdce94d8c6ad29c80cc6cda1f09a37a509c933d2f6f5932b95f06058d03a77e598207a32d551eaffba083#workspace:packages/mail-server", {\
+        "packageLocation": "./.yarn/__virtual__/@serverlessinbox-mail-server-virtual-2cc36d421e/1/packages/mail-server/",\
         "packageDependencies": [\
           ["@aws-sdk/client-acm", "npm:3.1132.0"],\
           ["@aws-sdk/client-cloudformation", "npm:3.1132.0"],\
@@ -5896,7 +5896,7 @@ const RAW_RUNTIME_STATE =
           ["@aws-sdk/client-sfn", "npm:3.1132.0"],\
           ["@serverlessinbox/artifact-registry", "npm:0.3.6"],\
           ["@serverlessinbox/artifact-registry-cdk", "virtual:18aa64ba92d78387e200e5b44bcf43b06204cbf3f763f86636ce57acb7635002abe16b7ea7f442476cd390df45560c2a09ada9212b44aaa7a06df1e86d6d5320#npm:0.3.0"],\
-          ["@serverlessinbox/mail-server", "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server"],\
+          ["@serverlessinbox/mail-server", "virtual:964d5eed898cce8021c7f31dac625a7f521c89c8ec9bdce94d8c6ad29c80cc6cda1f09a37a509c933d2f6f5932b95f06058d03a77e598207a32d551eaffba083#workspace:packages/mail-server"],\
           ["@serverlessinbox/mail-server-bundler", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#workspace:packages/mail-server-bundler"],\
           ["@serverlessinbox/mail-server-cdk-shared", "workspace:packages/mail-server-cdk-shared"],\
           ["@types/aws-cdk-lib", null],\
@@ -5981,12 +5981,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@serverlessinbox/mail-server-addon-sdk", [\
-      ["virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server-addon-sdk", {\
-        "packageLocation": "./.yarn/__virtual__/@serverlessinbox-mail-server-addon-sdk-virtual-90b4d4a1ae/1/packages/mail-server-addon-sdk/",\
+      ["virtual:964d5eed898cce8021c7f31dac625a7f521c89c8ec9bdce94d8c6ad29c80cc6cda1f09a37a509c933d2f6f5932b95f06058d03a77e598207a32d551eaffba083#workspace:packages/mail-server-addon-sdk", {\
+        "packageLocation": "./.yarn/__virtual__/@serverlessinbox-mail-server-addon-sdk-virtual-e8a01b1b4b/1/packages/mail-server-addon-sdk/",\
         "packageDependencies": [\
           ["@aws-sdk/client-sqs", "npm:3.1132.0"],\
           ["@bufbuild/protobuf", "npm:2.10.2"],\
-          ["@serverlessinbox/mail-server-addon-sdk", "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server-addon-sdk"],\
+          ["@serverlessinbox/mail-server-addon-sdk", "virtual:964d5eed898cce8021c7f31dac625a7f521c89c8ec9bdce94d8c6ad29c80cc6cda1f09a37a509c933d2f6f5932b95f06058d03a77e598207a32d551eaffba083#workspace:packages/mail-server-addon-sdk"],\
           ["@types/aws-lambda", "npm:8.10.159"],\
           ["@types/bufbuild__protobuf", null],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6094,9 +6094,9 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@serverlessinbox/mailbox-cognito", [\
-      ["workspace:packages/mailbox-cognito", {\
-        "packageLocation": "./packages/mailbox-cognito/",\
+    ["@serverlessinbox/mail-server-cognito", [\
+      ["workspace:packages/mail-server-cognito", {\
+        "packageLocation": "./packages/mail-server-cognito/",\
         "packageDependencies": [\
           ["@aws-sdk/client-cloudformation", "npm:3.1132.0"],\
           ["@aws-sdk/client-cognito-identity-provider", "npm:3.1132.0"],\
@@ -6105,11 +6105,11 @@ const RAW_RUNTIME_STATE =
           ["@bufbuild/protobuf", "npm:2.10.2"],\
           ["@serverlessinbox/artifact-registry", "npm:0.3.6"],\
           ["@serverlessinbox/artifact-registry-cdk", "virtual:18aa64ba92d78387e200e5b44bcf43b06204cbf3f763f86636ce57acb7635002abe16b7ea7f442476cd390df45560c2a09ada9212b44aaa7a06df1e86d6d5320#npm:0.3.0"],\
-          ["@serverlessinbox/mail-server", "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server"],\
-          ["@serverlessinbox/mail-server-addon-sdk", "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server-addon-sdk"],\
+          ["@serverlessinbox/mail-server", "virtual:964d5eed898cce8021c7f31dac625a7f521c89c8ec9bdce94d8c6ad29c80cc6cda1f09a37a509c933d2f6f5932b95f06058d03a77e598207a32d551eaffba083#workspace:packages/mail-server"],\
+          ["@serverlessinbox/mail-server-addon-sdk", "virtual:964d5eed898cce8021c7f31dac625a7f521c89c8ec9bdce94d8c6ad29c80cc6cda1f09a37a509c933d2f6f5932b95f06058d03a77e598207a32d551eaffba083#workspace:packages/mail-server-addon-sdk"],\
           ["@serverlessinbox/mail-server-bundler", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#workspace:packages/mail-server-bundler"],\
           ["@serverlessinbox/mail-server-cdk-shared", "workspace:packages/mail-server-cdk-shared"],\
-          ["@serverlessinbox/mailbox-cognito", "workspace:packages/mailbox-cognito"],\
+          ["@serverlessinbox/mail-server-cognito", "workspace:packages/mail-server-cognito"],\
           ["@types/aws-lambda", "npm:8.10.159"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:24.10.1"],\

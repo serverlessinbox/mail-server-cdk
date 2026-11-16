@@ -20,7 +20,7 @@ describe('ImportTargetResolver.resolve', () => {
   });
 
   it('maps a package-name subpath onto the package src folder', () => {
-    expect(resolver.resolve('@serverlessinbox/mail-server/core/x', 'packages/mailbox-cognito/src/a.ts')).toEqual({
+    expect(resolver.resolve('@serverlessinbox/mail-server/core/x', 'packages/mail-server-cognito/src/a.ts')).toEqual({
       relative: false,
       location: { packageRoot: mailServerPackage, rest: 'core/x' },
     });

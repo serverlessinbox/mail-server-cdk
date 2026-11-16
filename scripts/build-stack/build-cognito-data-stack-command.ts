@@ -1,6 +1,6 @@
 import type { App, Stack }                    from 'aws-cdk-lib';
 
-import { COGNITO_DATA_STACK_TEMPLATE_OBJECT } from '../../packages/mailbox-cognito/src/data-stack/mailbox-cognito-data-stack-contract';
+import { COGNITO_DATA_STACK_TEMPLATE_OBJECT } from '../../packages/mail-server-cognito/src/data-stack/mail-server-cognito-data-stack-contract';
 import type { StandaloneStackFactory }        from '../stacks/standalone-stack-factory';
 
 import { BuildStackCommand }                  from './build-stack-command';

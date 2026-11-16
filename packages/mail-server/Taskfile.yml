@@ -21,7 +21,7 @@ tasks:
     desc: Bundle jmap-blob-download lambda zip to dist/lambdas
     sources:
       - src/runtime/jmap-blob-download/**/*.ts
-      - ../mailbox-cdk-shared/src/runtime/**/*.ts
+      - ../mail-server-cdk-shared/src/runtime/**/*.ts
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/jmap-blob-download.zip'
     cmds:
@@ -31,7 +31,7 @@ tasks:
     desc: Bundle resource-sweeper lambda zip to dist/lambdas
     sources:
       - src/runtime/resource-sweeper/**/*.ts
-      - ../mailbox-cdk-shared/src/runtime/**/*.ts
+      - ../mail-server-cdk-shared/src/runtime/**/*.ts
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/resource-sweeper.zip'
     cmds:
@@ -41,7 +41,7 @@ tasks:
     desc: Bundle artifact-updater lambda zip to dist/lambdas
     sources:
       - src/runtime/artifact-updater/**/*.ts
-      - ../mailbox-cdk-shared/src/runtime/**/*.ts
+      - ../mail-server-cdk-shared/src/runtime/**/*.ts
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/artifact-updater.zip'
     cmds:
@@ -51,7 +51,7 @@ tasks:
     desc: Bundle data-override-resolver lambda zip to dist/lambdas
     sources:
       - src/runtime/data-override-resolver/**/*.ts
-      - ../mailbox-cdk-shared/src/runtime/**/*.ts
+      - ../mail-server-cdk-shared/src/runtime/**/*.ts
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/data-override-resolver.zip'
     cmds:

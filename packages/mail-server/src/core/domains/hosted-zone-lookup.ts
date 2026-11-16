@@ -33,7 +33,7 @@ export interface HostedZoneLookupProps {
 /**
  * Looks a Route53 hosted zone up once, at deploy time, and offers it as a `hostedZone` that every
  * construct of your app can share. Create one in your stack, and pass its `hostedZone` to the
- * `MailServer` and to a `MailboxUserPool` that derives its domain from the zone, so the zone is
+ * `MailServer` and to a `MailServerUserPool` that derives its domain from the zone, so the zone is
  * looked up once however many constructs need it.
  *
  * The lookup needs the Lambda of the shared stack helpers, which this construct adds to your stack

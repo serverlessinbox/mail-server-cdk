@@ -3,6 +3,8 @@ import { Template }                                             from 'aws-cdk-li
 import { App, BootstraplessSynthesizer, Stack }                 from 'aws-cdk-lib';
 
 import { ARTIFACT_VERSIONS_CONTEXT_KEY, ARTIFACTS_CONTEXT_KEY } from '../../packages/mail-server-cdk-shared/src/context/context-keys';
+import { DynamicClientRegistrationMode }                        from '../../packages/mail-server-cognito/src/user-pool/dynamic-client-registration-mode';
+import { MailServerUserPool }                                   from '../../packages/mail-server-cognito/src/user-pool/mail-server-user-pool';
 import { SesReceivingMode }                                     from '../../packages/mail-server/src/contracts/ses-receiving-mode';
 import { HostedZoneLookup }                                     from '../../packages/mail-server/src/core/domains/hosted-zone-lookup';
 import { MailServer }                                           from '../../packages/mail-server/src/mail-server';
@@ -11,8 +13,6 @@ import { SupportAddonProvider }                                 from '../../pack
 import { SupportMode }                                          from '../../packages/mail-server/src/platform/support/support-addon';
 import { AutoUpdater }                                          from '../../packages/mail-server/src/platform/update/auto-updater';
 import { StackUpdateAddonProvider }                             from '../../packages/mail-server/src/platform/update/stack-update-addon-provider';
-import { DynamicClientRegistrationMode }                        from '../../packages/mailbox-cognito/src/user-pool/dynamic-client-registration-mode';
-import { MailboxUserPool }                                      from '../../packages/mailbox-cognito/src/user-pool/mailbox-user-pool';
 import { StandaloneStackFactory }                               from '../stacks/standalone-stack-factory';
 import { parseJsonObject }                                      from '../utils/json-value';
 
@@ -95,7 +95,7 @@ export class BaselineSynthesizer {
     const stack = this.createStack(app, 'BaselineMailbox', BASELINE_REGION);
 
     const autoUpdater  = new AutoUpdater(stack, 'auto-updater');
-    const authProvider = new MailboxUserPool(stack, 'user-pool', {
+    const authProvider = new MailServerUserPool(stack, 'user-pool', {
       domain:                    { kind: 'cognito', cognitoDomainPrefix: 'baseline-auth' },
       enableJmapOAuthDiscovery:  true,
       dynamicClientRegistration: DynamicClientRegistrationMode.ENABLED,

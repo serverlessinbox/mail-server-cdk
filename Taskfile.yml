@@ -11,17 +11,17 @@ tasks:
     cmds:
       - task -d packages/mail-server-cdk-shared publish:dev
       - task -d packages/mail-server publish:dev
-      - task -d packages/mailbox-cognito publish:dev
+      - task -d packages/mail-server-cognito publish:dev
 
   pack:local:
     desc: Build all CDK artifacts locally (prerequisites for gitversion pack)
     cmds:
       - task -d packages/mail-server-cdk-shared bundle
       - task -d packages/mail-server bundle
-      - task -d packages/mailbox-cognito bundle
+      - task -d packages/mail-server-cognito bundle
       - yarn workspace @serverlessinbox/mail-server build:data-stack
       - yarn workspace @serverlessinbox/mail-server build:edge-stack
-      - yarn workspace @serverlessinbox/mailbox-cognito build:cognito-data-stack
+      - yarn workspace @serverlessinbox/mail-server-cognito build:cognito-data-stack
 
   resolve-artifacts:
     desc: Resolve component artifact versions from the S3 registry (pass --output after --)
@@ -32,4 +32,4 @@ tasks:
     desc: Fetch the mailbox and mailbox-cognito registry records from S3
     cmds:
       - artifact-registry registry-record fetch {{.REGISTRY_FLAGS}} --output packages/mail-server/registry-record.json {{.CLI_ARGS}}
-      - artifact-registry registry-record fetch {{.REGISTRY_FLAGS}} --output packages/mailbox-cognito/registry-record.json {{.CLI_ARGS}}
+      - artifact-registry registry-record fetch {{.REGISTRY_FLAGS}} --output packages/mail-server-cognito/registry-record.json {{.CLI_ARGS}}

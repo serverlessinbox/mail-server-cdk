@@ -15,7 +15,7 @@ Built for [ServerlessInbox](https://github.com/serverlessinbox/serverlessinbox).
   `authProvider`; everything else has a default.
 - **The auth provider** supplies sign-in: the token issuer, its endpoints, the authorization policies and
   the OAuth clients. The MailServer is provider-neutral and trusts whatever implements `IAuthProvider`.
-  [`@serverlessinbox/mailbox-cognito`](../mailbox-cognito/) is the Cognito implementation.
+  [`@serverlessinbox/mail-server-cognito`](../mail-server-cognito/) is the Cognito implementation.
 - **Admin API addons** are optional capabilities of the Admin API. You opt in by listing an
   `IAdminApiAddonProvider` in `MailServerProps.adminApiAddonProviders`; nothing is enabled by being installed.
   `StackUpdateAddonProvider` and `SupportAddonProvider` are such providers.
@@ -118,7 +118,7 @@ The code is organised in the top-level folders of `src/`:
 ## Usage
 
 ```sh
-npm install @serverlessinbox/mail-server @serverlessinbox/mailbox-cognito \
+npm install @serverlessinbox/mail-server @serverlessinbox/mail-server-cognito \
   @serverlessinbox/artifact-registry-cdk aws-cdk-lib constructs
 ```
 
@@ -129,7 +129,7 @@ by the MailServer and the user pool:
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { HostedZoneLookup, MailServer } from '@serverlessinbox/mail-server';
-import { MailboxUserPool } from '@serverlessinbox/mailbox-cognito';
+import { MailServerUserPool } from '@serverlessinbox/mail-server-cognito';
 
 export class MyMailServerStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -139,7 +139,7 @@ export class MyMailServerStack extends Stack {
       hostedZoneId: 'Z0123456789ABCDEFGHIJ',
     });
 
-    const authProvider = new MailboxUserPool(this, 'UserPool', {
+    const authProvider = new MailServerUserPool(this, 'UserPool', {
       domain: { kind: 'cognito-auto', hostedZone: zone.hostedZone },
     });
 
@@ -167,7 +167,7 @@ import {
   SupportAddonProvider,
   SupportMode,
 } from '@serverlessinbox/mail-server';
-import { MailboxUserPool } from '@serverlessinbox/mailbox-cognito';
+import { MailServerUserPool } from '@serverlessinbox/mail-server-cognito';
 
 export class MyManagedMailServerStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -176,7 +176,7 @@ export class MyManagedMailServerStack extends Stack {
     const zone = new HostedZoneLookup(this, 'Zone', {
       hostedZoneId: 'Z0123456789ABCDEFGHIJ',
     });
-    const authProvider = new MailboxUserPool(this, 'UserPool', {
+    const authProvider = new MailServerUserPool(this, 'UserPool', {
       domain: { kind: 'cognito-auto', hostedZone: zone.hostedZone },
     });
     const updater = new AutoUpdater(this, 'Updater', {

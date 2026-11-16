@@ -7,7 +7,7 @@ export const mailServerPackage: PackageRoot = { name: '@serverlessinbox/mail-ser
 
 export const kitPackage: PackageRoot = { name: '@serverlessinbox/mail-server-cdk-shared', dir: 'mail-server-cdk-shared' };
 
-export const cognitoPackage: PackageRoot = { name: '@serverlessinbox/mailbox-cognito', dir: 'mailbox-cognito' };
+export const cognitoPackage: PackageRoot = { name: '@serverlessinbox/mail-server-cognito', dir: 'mail-server-cognito' };
 
 export const packageRoots: readonly PackageRoot[] = [mailServerPackage, kitPackage, cognitoPackage];
 

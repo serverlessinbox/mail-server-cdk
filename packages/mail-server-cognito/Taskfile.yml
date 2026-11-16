@@ -1,0 +1,86 @@
+version: '3'
+
+dotenv: ['.env', '../../.env']
+
+tasks:
+  build:cognito-data-stack:
+    desc: Synthesize CloudFormation template for cognito data stack
+    cmds:
+      - yarn workspace mailbox-cdk build-stack cognito-data --out-dir {{.TASKFILE_DIR}}/dist
+    generates:
+      - dist/cognito-data-stack-template.json
+
+  generate:proto:idp-users:
+    desc: Generate TypeScript types + client for IdP Users admin API (buf). Generated output is committed.
+    cmds:
+      - rm -rf {{.TASKFILE_DIR}}/src/runtime/cognito-idp-users-api/generated
+      - mkdir -p {{.TASKFILE_DIR}}/src/runtime/cognito-idp-users-api/generated
+      - >-
+        task -d {{.TASKFILE_DIR}}/../../remote-git/mailbox-idl/admin-api generate:ts
+        OUTPUT_DIR={{.TASKFILE_DIR}}/src/runtime/cognito-idp-users-api/generated
+        HANDLER_CONTEXT_MODULE=@serverlessinbox/mail-server-addon-sdk
+        PROTO_PATH=proto/idp_users.proto
+
+  verify:proto:idp-users:
+    desc: Regenerate and fail if idp-users generated output differs from what is committed
+    cmds:
+      - task: generate:proto:idp-users
+      - git diff --exit-code -- {{.TASKFILE_DIR}}/src/runtime/cognito-idp-users-api/generated
+
+  # Regional artifact publishing
+  bundle:idp-users-api:
+    desc: Bundle cognito idp-users API lambda zip to dist/lambdas
+    sources:
+      - src/runtime/cognito-idp-users-api/**/*.ts
+      - src/runtime/shared/**/*.ts
+      - ../mail-server-cdk-shared/src/runtime/**/*.ts
+    generates:
+      - '{{.TASKFILE_DIR}}/dist/lambdas/cognito-idp-users-api.zip'
+    cmds:
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/cognito-idp-users-api/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/cognito-idp-users-api.zip
+
+  bundle:bootstrap-user:
+    desc: Bundle cognito bootstrap-user custom resource lambda zip to dist/lambdas
+    sources:
+      - src/runtime/bootstrap-user/**/*.ts
+      - src/runtime/shared/**/*.ts
+      - ../mail-server-cdk-shared/src/runtime/**/*.ts
+    generates:
+      - '{{.TASKFILE_DIR}}/dist/lambdas/cognito-bootstrap-user.zip'
+    cmds:
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/bootstrap-user/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/cognito-bootstrap-user.zip
+
+  # The output must publish as objectName `lambdas/jmap-oauth-dcr.zip` in artifact-registry.json:
+  # JmapOAuthDcrLambda passes `lambdaId: 'jmap-oauth-dcr'` and TypeScriptLambda resolves
+  # `lambdas/${lambdaId}.zip`.
+  bundle:jmap-oauth-dcr:
+    desc: Bundle RFC 7591 dynamic client registration lambda zip to dist/lambdas
+    sources:
+      - src/runtime/jmap-oauth-dcr/**/*.ts
+      - src/runtime/shared/**/*.ts
+      - src/user-pool/cognito-scope.ts
+      - src/user-pool/offered-scopes.ts
+      - ../mail-server-cdk-shared/src/runtime/**/*.ts
+    generates:
+      - '{{.TASKFILE_DIR}}/dist/lambdas/jmap-oauth-dcr.zip'
+    cmds:
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/jmap-oauth-dcr/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/jmap-oauth-dcr.zip
+
+  bundle:
+    desc: Bundle all cognito lambdas to dist/lambdas/*.zip
+    cmds:
+      - task: bundle:idp-users-api
+      - task: bundle:bootstrap-user
+      - task: bundle:jmap-oauth-dcr
+
+  publish:dev:
+    desc: Bundle and publish the cognito lambdas (idp-users-api, bootstrap-user, jmap-oauth-dcr) and the cognito data stack template to the dev channel
+    cmds:
+      - task: bundle:idp-users-api
+      - task: bundle:bootstrap-user
+      - task: bundle:jmap-oauth-dcr
+      - task: build:cognito-data-stack
+      - yarn  artifact-registry publish channel --channel dev --cwd {{.TASKFILE_DIR}} --object lambdas/cognito-idp-users-api.zip
+      - yarn  artifact-registry publish channel --channel dev --cwd {{.TASKFILE_DIR}} --object lambdas/cognito-bootstrap-user.zip
+      - yarn  artifact-registry publish channel --channel dev --cwd {{.TASKFILE_DIR}} --object lambdas/jmap-oauth-dcr.zip
+      - yarn  artifact-registry publish channel --channel dev --cwd {{.TASKFILE_DIR}} --object cognito-data-stack-template.json

@@ -22,7 +22,7 @@ tester.run('kit-isolation', kitIsolation, {
     {
       name:     'the kit imports cognito by relative path',
       filename: 'packages/mail-server-cdk-shared/src/x.ts',
-      code:     "import { value } from '../../mailbox-cognito/src/x';",
+      code:     "import { value } from '../../mail-server-cognito/src/x';",
     },
     {
       name:     'an exempt runtime file of the kit may import the mailbox',

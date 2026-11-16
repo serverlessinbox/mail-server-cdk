@@ -1,0 +1,99 @@
+import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
+import { IAdminApiAddon, type AdminApiRouteSpec, type IAuditEventsQueue,
+  type IIdentityProvisioner }                                                   from '@serverlessinbox/mail-server';
+import { HttpMethod }                                                           from 'aws-cdk-lib/aws-apigatewayv2';
+import type { IFunction }                                                       from 'aws-cdk-lib/aws-lambda';
+import { Construct }                                                            from 'constructs';
+
+import type { ICognitoIdpUsersPoolConfig }                                      from './cognito-idp-users-pool-config';
+import { CognitoIdpUsersApiLambda }                                             from './resources/lambdas/cognito-idp-users-api-lambda';
+import type { MailServerUserPoolAdminUiConfig }                                 from './user-pool/mail-server-user-pool-admin-ui-config';
+
+/** What `CognitoIdpUsersAdminApiAddon` needs to mount the users API and create the Lambda behind it. */
+export interface CognitoIdpUsersAdminApiAddonProps {
+  /** Resolves the code artifact of the users API Lambda. */
+  readonly artifactResolver: IArtifactResolver;
+
+  /** The queue the users API Lambda sends its audit events to. */
+  readonly auditEventsQueue: IAuditEventsQueue;
+
+  /** The `identity-provisioner` Lambda the users API Lambda invokes to pre-provision a mailbox principal when it creates a user. */
+  readonly identityProvisioner: IIdentityProvisioner;
+
+  /** The user pool to manage: its id and the grant of administrative access to the Lambda. */
+  readonly pool: ICognitoIdpUsersPoolConfig;
+
+  /** The path the API is mounted under; defaults to `/idp-users`. */
+  readonly basePath?: string;
+
+  /** UI config merged into the admin UI config; the `idp.users` fragment of this addon takes precedence. */
+  readonly uiConfig?: MailServerUserPoolAdminUiConfig;
+}
+
+/** The features of the users API that the admin UI offers. */
+type IdpUsersUiFeatures = {
+  readonly setPassword: boolean;
+};
+
+/** The `idp.users` fragment of the admin UI config: where the users API is mounted and what it supports. */
+type IdpUsersUiConfig = {
+  readonly provider: 'cognito';
+  readonly basePath: string;
+  readonly features: IdpUsersUiFeatures;
+};
+
+/** The `idp` section of the admin UI config as this addon completes it: the provider's keys plus `users`. */
+type IdpUiConfig = {
+  readonly type?: string;
+  readonly users: IdpUsersUiConfig;
+};
+
+/** The admin UI config this addon contributes. */
+type CognitoIdpUsersUiConfig = {
+  readonly idp: IdpUiConfig;
+};
+
+const DEFAULT_BASE_PATH = '/idp-users';
+
+/**
+ * Mounts a Cognito-specific IdP user management API under the main Admin API.
+ *
+ * Routes: `${basePath}/{proxy+}` (POST)
+ */
+export class CognitoIdpUsersAdminApiAddon extends Construct implements IAdminApiAddon {
+  public readonly basePath: string;
+  public readonly uiConfig: CognitoIdpUsersUiConfig;
+  public readonly routeSpec: AdminApiRouteSpec;
+
+  /** The underlying Lambda function. */
+  public readonly lambdaFunction: IFunction;
+
+  constructor(scope: Construct, id: string, props: CognitoIdpUsersAdminApiAddonProps) {
+    super(scope, id);
+
+    this.basePath = props.basePath ?? DEFAULT_BASE_PATH;
+    this.uiConfig = this.mergeUiConfig(props.uiConfig);
+
+    const authorization = props.pool.authorizationConfig?.();
+    this.lambdaFunction = new CognitoIdpUsersApiLambda(this, 'idp-users', {
+      artifactResolver:    props.artifactResolver,
+      auditEventsQueue:    props.auditEventsQueue,
+      identityProvisioner: props.identityProvisioner,
+      pool:                props.pool,
+      adminGroups:         authorization?.adminGroups,
+      userGroups:          authorization?.userGroups,
+    });
+    this.routeSpec = {
+      basePath: this.basePath,
+      methods:  [HttpMethod.POST],
+      handler:  this.lambdaFunction,
+    };
+  }
+
+  /** The `idp.users` fragment of this addon wins over the same key of the provider's `idp` section, which is otherwise kept as given. */
+  private mergeUiConfig(providerUiConfig: MailServerUserPoolAdminUiConfig | undefined): CognitoIdpUsersUiConfig {
+    const users: IdpUsersUiConfig = { provider: 'cognito', basePath: this.basePath, features: { setPassword: true } };
+
+    return { idp: { ...providerUiConfig?.idp, users } };
+  }
+}

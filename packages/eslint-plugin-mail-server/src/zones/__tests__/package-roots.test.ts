@@ -5,7 +5,7 @@ describe('sourceRuleScope', () => {
     expect(sourceRuleScope.files).toEqual([
       'packages/mail-server/src/**/*.ts',
       'packages/mail-server-cdk-shared/src/**/*.ts',
-      'packages/mailbox-cognito/src/**/*.ts',
+      'packages/mail-server-cognito/src/**/*.ts',
     ]);
   });
 
@@ -15,8 +15,8 @@ describe('sourceRuleScope', () => {
       'packages/mail-server/src/**/__tests__/**',
       'packages/mail-server-cdk-shared/src/runtime/**',
       'packages/mail-server-cdk-shared/src/**/__tests__/**',
-      'packages/mailbox-cognito/src/runtime/**',
-      'packages/mailbox-cognito/src/**/__tests__/**',
+      'packages/mail-server-cognito/src/runtime/**',
+      'packages/mail-server-cognito/src/**/__tests__/**',
     ]);
   });
 });

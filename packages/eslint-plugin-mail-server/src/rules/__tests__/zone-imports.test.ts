@@ -31,7 +31,7 @@ const targetFiles: Record<TargetZone, string> = {
   contracts:             'packages/mail-server/src/contracts/auth-names.ts',
   'utils-runtime':       'packages/mail-server/src/utils/g4-util.ts',
   other:                 'packages/mail-server/src/mail-server-props.ts',
-  foreign:               'packages/mailbox-cognito/src/g4-x.ts',
+  foreign:               'packages/mail-server-cognito/src/g4-x.ts',
 };
 
 type CellCase = {

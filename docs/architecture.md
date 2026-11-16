@@ -1,6 +1,6 @@
 # Architecture
 
-This page describes how the constructs in `packages/mail-server` and `packages/mailbox-cognito` are put
+This page describes how the constructs in `packages/mail-server` and `packages/mail-server-cognito` are put
 together and how a request travels through what they deploy. For the rules to follow when changing
 them, see [CONTRIBUTING.md](../CONTRIBUTING.md).
 
@@ -74,9 +74,9 @@ A mailbox deploys as one main stack plus the stacks that custom resources create
   custom resource of type `Custom::MailboxEdgeDeployer`, and the main stack reads the certificate ARN
   and the published function version from the stack outputs. The `Cdn` in the main stack attaches
   that function version to the distribution.
-- **Cognito data stack.** `MailboxCognitoDataStack`, from `mailbox-cognito`, holds the retained user
-  pool, its domain, the resource server and the default groups. `MailboxCognitoDataDeployer` deploys
-  it with a custom resource of type `Custom::MailboxCognitoDataDeployer`.
+- **Cognito data stack.** `CognitoDataStack`, from `mailbox-cognito`, holds the retained user
+  pool, its domain, the resource server and the default groups. `CognitoDataDeployer` deploys
+  it with a custom resource of type `Custom::CognitoDataDeployer`.
 
 The deployer constructs are built on `DeployerInfra` from `mailbox-cdk-shared`. The stack classes
 are the only place that declare CloudFormation parameters and outputs.

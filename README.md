@@ -24,7 +24,7 @@ You need an AWS account, Node.js 24 and the
 [AWS CDK CLI](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html).
 
 ```sh
-npm install @serverlessinbox/mail-server @serverlessinbox/mailbox-cognito \
+npm install @serverlessinbox/mail-server @serverlessinbox/mail-server-cognito \
   @serverlessinbox/artifact-registry-cdk aws-cdk-lib constructs
 ```
 
@@ -35,7 +35,7 @@ zone serving the domain:
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { HostedZoneLookup, Mailbox } from '@serverlessinbox/mail-server';
-import { MailboxUserPool } from '@serverlessinbox/mailbox-cognito';
+import { MailServerUserPool } from '@serverlessinbox/mail-server-cognito';
 
 export class MyStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -45,7 +45,7 @@ export class MyStack extends Stack {
       hostedZoneId: 'Z0123456789ABCDEFGHIJ',
     });
 
-    const authProvider = new MailboxUserPool(this, 'UserPool', {
+    const authProvider = new MailServerUserPool(this, 'UserPool', {
       domain: { kind: 'cognito-auto', hostedZone: zone.hostedZone },
     });
 
@@ -60,7 +60,7 @@ export class MyStack extends Stack {
 flowchart LR
   app["Your CDK app"] -->|new| zone["HostedZoneLookup"]
   app -->|new| mailbox["Mailbox"]
-  app -->|new| pool["MailboxUserPool"]
+  app -->|new| pool["MailServerUserPool"]
   zone -->|hostedZone| mailbox
   zone -->|hostedZone| pool
   pool -->|authProvider| mailbox
@@ -68,12 +68,12 @@ flowchart LR
     zone
     mailbox
   end
-  subgraph pkgC["@serverlessinbox/mailbox-cognito"]
+  subgraph pkgC["@serverlessinbox/mail-server-cognito"]
     pool
   end
 ```
 
-The app looks up your hosted zone, creates a `MailboxUserPool` in it and passes the pool to the
+The app looks up your hosted zone, creates a `MailServerUserPool` in it and passes the pool to the
 `Mailbox` as its `authProvider`.
 
 ## Packages
@@ -81,7 +81,7 @@ The app looks up your hosted zone, creates a `MailboxUserPool` in it and passes 
 | Package | Description |
 |---------|-------------|
 | [`@serverlessinbox/mail-server`](packages/mail-server/) | The `Mailbox` construct: the JMAP email server and everything around it |
-| [`@serverlessinbox/mailbox-cognito`](packages/mailbox-cognito/) | Cognito user pool as the sign-in provider of a `Mailbox`, plus the user-management API for it |
+| [`@serverlessinbox/mail-server-cognito`](packages/mail-server-cognito/) | Cognito user pool as the sign-in provider of a `Mailbox`, plus the user-management API for it |
 
 ## Contributing and architecture
 
@@ -95,11 +95,11 @@ The app looks up your hosted zone, creates a `MailboxUserPool` in it and passes 
 | Question | Where |
 |----------|-------|
 | How do I create a mailbox in my own stack? | [`packages/mail-server/src/mail-server.ts`](packages/mail-server/src/mail-server.ts) and its props in [`packages/mail-server/src/mail-server-props.ts`](packages/mail-server/src/mail-server-props.ts) |
-| How do I sign users in? | [`packages/mailbox-cognito/src/user-pool/`](packages/mailbox-cognito/src/user-pool/) |
+| How do I sign users in? | [`packages/mail-server-cognito/src/user-pool/`](packages/mail-server-cognito/src/user-pool/) |
 | Which Lambdas, tables, queues and state machines exist? | [`packages/mail-server/src/resources/`](packages/mail-server/src/resources/), one file per resource |
 | Where is a feature such as email, auth or the APIs assembled? | [`packages/mail-server/src/core/`](packages/mail-server/src/core/) |
 | How does the mailbox update itself? | [`packages/mail-server/src/platform/`](packages/mail-server/src/platform/) |
-| Where is the code that runs inside the TypeScript Lambdas? | `src/runtime/` of [`mailbox`](packages/mail-server/src/runtime/), `src/runtime/` of [`mailbox-cognito`](packages/mailbox-cognito/src/runtime/) |
+| Where is the code that runs inside the TypeScript Lambdas? | `src/runtime/` of [`mailbox`](packages/mail-server/src/runtime/), `src/runtime/` of [`mailbox-cognito`](packages/mail-server-cognito/src/runtime/) |
 | Where are the architecture and the contribution rules? | [`docs/architecture.md`](docs/architecture.md), [`CONTRIBUTING.md`](CONTRIBUTING.md) |
 | What changed between releases? | [`CHANGELOG.md`](CHANGELOG.md) |
 
