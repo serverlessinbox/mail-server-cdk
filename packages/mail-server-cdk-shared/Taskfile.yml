@@ -40,7 +40,7 @@ tasks:
       - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/stack-helpers/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/stack-helpers.zip
 
   bundle:
-    desc: Bundle all mailbox-cdk-shared lambdas to dist/lambdas/*.zip
+    desc: Bundle all mail-server-cdk-shared lambdas to dist/lambdas/*.zip
     cmds:
       - task: bundle:content-deployer
       - task: bundle:bucket-auto-empty

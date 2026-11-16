@@ -27,7 +27,7 @@ function createStack(): cdk.Stack {
 
 function createProps(stack: cdk.Stack): SesEventProcessingProps {
   const artifactResolver: IArtifactResolver = new PinnedArtifactResolver({
-    packages:         { 'mailbox-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
+    packages:         { 'mail-server-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
     location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
     deploymentRegion: stack.region,
   });

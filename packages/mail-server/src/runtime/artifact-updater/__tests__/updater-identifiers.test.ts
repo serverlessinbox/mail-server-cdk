@@ -9,8 +9,8 @@ import { toDistributionArn, toLambdaFunctionArn } from '../updater-identifiers';
 
 describe('toLambdaFunctionArn', () => {
   it('accepts a Lambda function ARN', () => {
-    expect(toLambdaFunctionArn('arn:aws:lambda:us-east-1:123456789012:function:mailbox-go')).toBe(
-      'arn:aws:lambda:us-east-1:123456789012:function:mailbox-go',
+    expect(toLambdaFunctionArn('arn:aws:lambda:us-east-1:123456789012:function:mail-server-go')).toBe(
+      'arn:aws:lambda:us-east-1:123456789012:function:mail-server-go',
     );
   });
 
@@ -18,7 +18,7 @@ describe('toLambdaFunctionArn', () => {
     { value: 'a CloudFront distribution', arn: 'arn:aws:cloudfront::123456789012:distribution/ABCD1234' },
     { value: 'a Lambda layer', arn: 'arn:aws:lambda:us-east-1:123456789012:layer:shared:3' },
     { value: 'a CloudFront function', arn: 'arn:aws:cloudfront::123456789012:function/redirect' },
-    { value: 'text that is not an ARN', arn: 'mailbox-go' },
+    { value: 'text that is not an ARN', arn: 'mail-server-go' },
   ])('rejects $value', ({ arn }) => {
     expect(() => toLambdaFunctionArn(arn)).toThrow();
   });
@@ -38,7 +38,7 @@ describe('toDistributionArn', () => {
   });
 
   it('rejects the ARN of a Lambda function', () => {
-    const arn = 'arn:aws:lambda:us-east-1:123456789012:function:mailbox-go';
+    const arn = 'arn:aws:lambda:us-east-1:123456789012:function:mail-server-go';
 
     expect(() => toDistributionArn(arn)).toThrow(`Invalid ARN "${arn}": expected a cloudfront distribution`);
   });

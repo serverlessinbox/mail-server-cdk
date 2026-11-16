@@ -48,7 +48,7 @@ describe('MailboxCognitoDataDeployer', () => {
   describe('custom resource', () => {
     it('deploys the cognito data stack template into the deploying stack’s region, preserved on delete', () => {
       const { stack, artifactResolver, template } = synthDeployer();
-      const templateUrl: unknown                  = stack.resolve(artifactResolver.getUrl('mailbox-cognito', 'cognito-data-stack-template.json'));
+      const templateUrl: unknown                  = stack.resolve(artifactResolver.getUrl('mail-server-cognito', 'cognito-data-stack-template.json'));
 
       template.hasResourceProperties(DEPLOYER_RESOURCE_TYPE, {
         stackName: COGNITO_STACK_NAME,
@@ -167,7 +167,7 @@ describe('MailboxCognitoDataDeployer', () => {
       const statements = statementsForAction(template, 's3:GetObject');
       expect(statements).toHaveLength(1);
       expect(statements[0].Resource).toEqual(
-        stack.resolve(artifactResolver.getArn('mailbox-cognito', 'cognito-data-stack-template.json')),
+        stack.resolve(artifactResolver.getArn('mail-server-cognito', 'cognito-data-stack-template.json')),
       );
     });
   });

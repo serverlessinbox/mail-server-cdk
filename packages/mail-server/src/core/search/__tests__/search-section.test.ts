@@ -22,7 +22,7 @@ function synthSection(stack: Stack): SearchSection {
   }));
   const section = new SearchSection(stack, 'search', {
     artifactResolver: new PinnedArtifactResolver({
-      packages:         { 'mailbox-go': { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL } },
+      packages:         { 'mail-server-go': { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL } },
       location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
       deploymentRegion: stack.region,
     }),

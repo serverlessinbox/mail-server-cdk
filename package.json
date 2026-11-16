@@ -1,8 +1,8 @@
 {
-  "name": "mailbox-cdk",
+  "name": "mail-server-cdk",
   "version": "0.0.0",
   "private": true,
-  "repository": "git@github.com:serverlessinbox/mailbox-cdk.git",
+  "repository": "git@github.com:serverlessinbox/mail-server-cdk.git",
   "author": "Joost van der Waal <joost@jvdwaal.nl>",
   "license": "Apache-2.0",
   "packageManager": "yarn@4.16.0",

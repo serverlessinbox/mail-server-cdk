@@ -89,7 +89,7 @@ describe('LambdaCodeUpdater', () => {
     expect(updates[0].args[0].input).toEqual({
       FunctionName: lambdaTarget().arn,
       S3Bucket:     'mailbox-artifacts-us-east-1',
-      S3Key:        'serverlessinbox/packages/mailbox-go/releases/v1.2.4/lambdas/mailbox-go.zip',
+      S3Key:        'serverlessinbox/packages/mail-server-go/releases/v1.2.4/lambdas/mail-server-go.zip',
     });
     const tags = lambdaMock.commandCalls(TagResourceCommand);
     expect(tags).toHaveLength(1);
@@ -103,7 +103,7 @@ describe('LambdaCodeUpdater', () => {
 
     await newUpdater().advanceIfStale(
       euClients.deployment,
-      lambdaTarget({ arn: 'arn:aws:lambda:eu-west-1:123456789012:function:mailbox-go' }),
+      lambdaTarget({ arn: 'arn:aws:lambda:eu-west-1:123456789012:function:mail-server-go' }),
     );
 
     const callsOnGivenClient = lambdaMock.calls().filter((call) => call.thisValue === euClients.deployment.lambda);
@@ -132,8 +132,8 @@ describe('LambdaCodeUpdater', () => {
       expect(updated).toBe(false);
       const updates = lambdaMock.commandCalls(UpdateFunctionCodeCommand);
       expect(updates.map((call) => call.args[0].input.S3Key)).toEqual([
-        'serverlessinbox/packages/mailbox-go/releases/v1.2.4/lambdas/mailbox-go.zip',
-        'serverlessinbox/packages/mailbox-go/releases/v1.2.3/lambdas/mailbox-go.zip',
+        'serverlessinbox/packages/mail-server-go/releases/v1.2.4/lambdas/mail-server-go.zip',
+        'serverlessinbox/packages/mail-server-go/releases/v1.2.3/lambdas/mail-server-go.zip',
       ]);
       expect(lambdaMock.commandCalls(TagResourceCommand)).toHaveLength(0);
     });

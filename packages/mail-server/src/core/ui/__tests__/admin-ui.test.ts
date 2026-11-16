@@ -89,9 +89,9 @@ describe('AdminUi', () => {
       apiUrl:           'https://api.example.com/admin',
       artifactResolver: new PinnedArtifactResolver({
         packages: {
-          'mailbox-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-          'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-          'mailbox-admin-ui':   { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mail-server-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mail-server-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mail-server-admin-ui':   { version: '1.0.0', zone: ArtifactZone.REGIONAL },
         },
         location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
         deploymentRegion: stack.region,

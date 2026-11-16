@@ -4,7 +4,7 @@ import * as path                               from 'node:path';
 import { loadMailServerCognitoRegistryRecord } from '../mail-server-cognito-registry-record';
 
 /**
- * Pins that the loader resolves the `registry-record.json` at the root of the `mailbox-cognito`
+ * Pins that the loader resolves the `registry-record.json` at the root of the `mail-server-cognito`
  * package (the file that package publishes), not one belonging to another package.
  */
 describe('loadMailboxCognitoRegistryRecord', () => {

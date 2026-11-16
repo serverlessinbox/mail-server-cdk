@@ -17,7 +17,7 @@ Run it from the repository root. It takes no arguments.
 
 ## What it does
 
-1. Synthesizes the example stack from the packages in this repository (`mailbox` and `mailbox-cognito`).
+1. Synthesizes the example stack from the packages in this repository (`mailbox` and `mail-server-cognito`).
 2. Packs `@serverlessinbox/mail-server` and then `@serverlessinbox/mail-server-cognito` with `yarn workspace <name> pack`,
    which runs each package's `prepack` chain.
 3. Installs the two tarballs into a temporary project. The packages' other peers are pinned to the versions

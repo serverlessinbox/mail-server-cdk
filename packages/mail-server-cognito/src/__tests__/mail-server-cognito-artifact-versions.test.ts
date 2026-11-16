@@ -5,7 +5,7 @@ import { loadMailServerCognitoArtifactVersions } from '../mail-server-cognito-ar
 
 /**
  * Pins that the loader resolves and accepts the `artifact-versions.json` at the root of the
- * `mailbox-cognito` package (the file that package publishes), not one belonging to another package.
+ * `mail-server-cognito` package (the file that package publishes), not one belonging to another package.
  */
 describe('loadMailboxCognitoArtifactVersions', () => {
   it('loads the artifact versions at the package root', () => {

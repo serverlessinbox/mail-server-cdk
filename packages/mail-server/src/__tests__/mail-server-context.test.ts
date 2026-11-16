@@ -2,7 +2,7 @@
 
 /**
  * Pins the two branches of the foundation a MailServer resolves. A supplied artifact resolver is used as
- * is, so its `mailbox-cdk` version becomes the stack version every base tag carries. Without one, the
+ * is, so its `mail-server-cdk` version becomes the stack version every base tag carries. Without one, the
  * resolver is pinned from the versions the package ships with, so consumers that pass nothing still
  * deploy the release they were built against. The vendor link is keyed by the root-stack identity tag,
  * the deployer type comes from the CDK context, and everything under the scope is tagged.
@@ -19,7 +19,7 @@ import { MailServerContext }                                 from '../mail-serve
 import { newDeployerTestStack, TEST_ARTIFACT_VERSION }       from './deployer-test-helpers';
 
 describe('MailboxContext', () => {
-  it('uses the supplied artifact resolver and its mailbox-cdk version', () => {
+  it('uses the supplied artifact resolver and its mail-server-cdk version', () => {
     const { stack, artifactResolver } = newDeployerTestStack();
 
     const context = MailServerContext.resolve(stack, { artifactResolver });
@@ -28,12 +28,12 @@ describe('MailboxContext', () => {
     expect(context.stackVersion).toBe(TEST_ARTIFACT_VERSION);
   });
 
-  it('pins the shipped mailbox-cdk version when no resolver is supplied', () => {
+  it('pins the shipped mail-server-cdk version when no resolver is supplied', () => {
     const { stack } = newDeployerTestStack();
 
     const context = MailServerContext.resolve(stack, {});
 
-    expect(context.stackVersion).toBe(loadMailServerArtifactVersions()['mailbox-cdk'].version);
+    expect(context.stackVersion).toBe(loadMailServerArtifactVersions()['mail-server-cdk'].version);
   });
 
   it('keys the vendor link by the root-stack identity tag', () => {

@@ -6,14 +6,14 @@ tasks:
   build:edge-stack:
     desc: Synthesize CloudFormation template for edge stack
     cmds:
-      - yarn workspace mailbox-cdk build-stack edge --out-dir {{.TASKFILE_DIR}}/dist
+      - yarn workspace mail-server-cdk build-stack edge --out-dir {{.TASKFILE_DIR}}/dist
     generates:
       - dist/edge-stack-template.json
 
   build:data-stack:
     desc: Synthesize CloudFormation template for data stack
     cmds:
-      - yarn workspace mailbox-cdk build-stack data --out-dir {{.TASKFILE_DIR}}/dist
+      - yarn workspace mail-server-cdk build-stack data --out-dir {{.TASKFILE_DIR}}/dist
     generates:
       - dist/data-stack-template.json
 

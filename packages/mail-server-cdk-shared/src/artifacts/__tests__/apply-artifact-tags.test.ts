@@ -19,7 +19,7 @@ function synthWrapper(): Template {
     role,
   });
 
-  applyArtifactTags(wrapper, 'mailbox-cdk', 'probe-lambda', '1.2.3', 'edge');
+  applyArtifactTags(wrapper, 'mail-server-cdk', 'probe-lambda', '1.2.3', 'edge');
 
   return Template.fromStack(stack);
 }
@@ -51,7 +51,7 @@ describe('applyArtifactTags', () => {
 
     const expected = {
       'serverless-inbox:artifact-name':    'probe-lambda',
-      'serverless-inbox:artifact-package': 'mailbox-cdk',
+      'serverless-inbox:artifact-package': 'mail-server-cdk',
       'serverless-inbox:auto-update-type': 'edge',
     };
 

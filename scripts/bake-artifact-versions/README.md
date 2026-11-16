@@ -1,6 +1,6 @@
 # bake-artifact-versions
 
-Writes the `artifact-versions.json` of the `mailbox` and `mailbox-cognito` packages. Each file pins the
+Writes the `artifact-versions.json` of the `mailbox` and `mail-server-cognito` packages. Each file pins the
 externally released packages, taken from a `resolve-artifacts` output, plus the packages this repository
 releases itself at the version the version bump wrote into their `package.json`.
 
@@ -10,12 +10,12 @@ are packed.
 ## Usage
 
 ```
-yarn bake-artifact-versions --mailbox-pins <file> [--root <folder>]
+yarn bake-artifact-versions --mail-server-pins <file> [--root <folder>]
 ```
 
 | Option | Meaning |
 |---|---|
-| `--mailbox-pins` | Path to the `resolve-artifacts` output that holds the externally released packages the `mailbox` package needs. Relative to the current directory, or absolute. Required. |
+| `--mail-server-pins` | Path to the `resolve-artifacts` output that holds the externally released packages the `mailbox` package needs. Relative to the current directory, or absolute. Required. |
 | `--root` | Repository root that holds the `packages` folder. Defaults to the current directory. |
 
 Each option is given once.
@@ -23,7 +23,7 @@ Each option is given once.
 ## Example
 
 ```
-yarn resolve-artifacts --output /tmp/mailbox-external-pins.json && yarn bake-artifact-versions --mailbox-pins /tmp/mailbox-external-pins.json
+yarn resolve-artifacts --output /tmp/mail-server-external-pins.json && yarn bake-artifact-versions --mail-server-pins /tmp/mail-server-external-pins.json
 ```
 
 ## Output

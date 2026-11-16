@@ -69,7 +69,7 @@ export class WebmailUi extends MailServerUi {
       oauthClientName:          OAuthClientName.WEBMAIL_UI,
       tokenExchangeDependsOn:   props.dependsOn,
       uiBundle:                 {
-        packageName: 'mailbox-webmail-ui',
+        packageName: 'mail-server-webmail-ui',
         objectPath:  'webmail-ui.zip',
       },
       uiConfig:         { jmapUrl: props.jmapUrl, userApiUrl: props.userApiUrl },

@@ -7,7 +7,7 @@ vars:
 
 tasks:
   publish:dev:
-    desc: Publish all CDK artifacts (mailbox-cdk-shared + mailbox + mailbox-cognito) to dev channel
+    desc: Publish all CDK artifacts (mail-server-cdk-shared + mailbox + mail-server-cognito) to dev channel
     cmds:
       - task -d packages/mail-server-cdk-shared publish:dev
       - task -d packages/mail-server publish:dev
@@ -26,10 +26,10 @@ tasks:
   resolve-artifacts:
     desc: Resolve component artifact versions from the S3 registry (pass --output after --)
     cmds:
-      - artifact-registry resolve-artifacts {{.REGISTRY_FLAGS}} --component mailbox-go:package:mailbox-go:regional --component mailbox-admin-ui:package:mailbox-admin-ui:regional --component mailbox-webmail-ui:package:mailbox-webmail-ui:regional {{.CLI_ARGS}}
+      - artifact-registry resolve-artifacts {{.REGISTRY_FLAGS}} --component mail-server-go:package:mail-server-go:regional --component mail-server-admin-ui:package:mail-server-admin-ui:regional --component mail-server-webmail-ui:package:mail-server-webmail-ui:regional {{.CLI_ARGS}}
 
   fetch-registry-record:
-    desc: Fetch the mailbox and mailbox-cognito registry records from S3
+    desc: Fetch the mailbox and mail-server-cognito registry records from S3
     cmds:
       - artifact-registry registry-record fetch {{.REGISTRY_FLAGS}} --output packages/mail-server/registry-record.json {{.CLI_ARGS}}
       - artifact-registry registry-record fetch {{.REGISTRY_FLAGS}} --output packages/mail-server-cognito/registry-record.json {{.CLI_ARGS}}

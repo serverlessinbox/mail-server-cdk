@@ -22,7 +22,7 @@ function newStack(): Stack {
 
 function newGoLambda(stack: Stack, overrides: Partial<GoLambdaProps> = {}): GoLambda {
   const artifactResolver = new PinnedArtifactResolver({
-    packages:         { 'mailbox-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
+    packages:         { 'mail-server-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
     location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
     deploymentRegion: stack.region,
   });
@@ -30,13 +30,13 @@ function newGoLambda(stack: Stack, overrides: Partial<GoLambdaProps> = {}): GoLa
 }
 
 describe('GoLambda', () => {
-  it('loads its code from the mailbox-go package and runs it as the custom-runtime bootstrap', () => {
+  it('loads its code from the mail-server-go package and runs it as the custom-runtime bootstrap', () => {
     const stack = newStack();
 
     newGoLambda(stack);
 
     Template.fromStack(stack).hasResourceProperties('AWS::Lambda::Function', {
-      Code:    { S3Key: Match.stringLikeRegexp('mailbox-go.*lambdas/authorizer\\.zip') },
+      Code:    { S3Key: Match.stringLikeRegexp('mail-server-go.*lambdas/authorizer\\.zip') },
       Runtime: 'provided.al2023',
       Handler: 'bootstrap',
     });

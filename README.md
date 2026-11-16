@@ -99,7 +99,7 @@ The app looks up your hosted zone, creates a `MailServerUserPool` in it and pass
 | Which Lambdas, tables, queues and state machines exist? | [`packages/mail-server/src/resources/`](packages/mail-server/src/resources/), one file per resource |
 | Where is a feature such as email, auth or the APIs assembled? | [`packages/mail-server/src/core/`](packages/mail-server/src/core/) |
 | How does the mailbox update itself? | [`packages/mail-server/src/platform/`](packages/mail-server/src/platform/) |
-| Where is the code that runs inside the TypeScript Lambdas? | `src/runtime/` of [`mailbox`](packages/mail-server/src/runtime/), `src/runtime/` of [`mailbox-cognito`](packages/mail-server-cognito/src/runtime/) |
+| Where is the code that runs inside the TypeScript Lambdas? | `src/runtime/` of [`mailbox`](packages/mail-server/src/runtime/), `src/runtime/` of [`mail-server-cognito`](packages/mail-server-cognito/src/runtime/) |
 | Where are the architecture and the contribution rules? | [`docs/architecture.md`](docs/architecture.md), [`CONTRIBUTING.md`](CONTRIBUTING.md) |
 | What changed between releases? | [`CHANGELOG.md`](CHANGELOG.md) |
 

@@ -27,8 +27,8 @@ describe('CognitoBootstrapUserLambda', () => {
     });
     const artifactResolver = new PinnedArtifactResolver({
       packages: {
-        'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-        'mailbox-cognito':    { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+        'mail-server-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+        'mail-server-cognito':    { version: '1.0.0', zone: ArtifactZone.REGIONAL },
       },
       location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
       deploymentRegion: stack.region,

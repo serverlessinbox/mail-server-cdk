@@ -26,7 +26,7 @@ import { certificate, dataTable, newApiStack }  from './apis-helpers';
 
 function buildWebSocketPush(stack: cdk.Stack, overrides: Partial<WebSocketPushProps> = {}): WebSocketPush {
   const packages: Record<string, ArtifactPin> = {
-    'mailbox-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+    'mail-server-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
   };
   const artifactResolver: IArtifactResolver = new PinnedArtifactResolver({
     packages,

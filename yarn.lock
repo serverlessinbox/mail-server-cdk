@@ -6840,9 +6840,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mailbox-cdk@workspace:.":
+"mail-server-cdk@workspace:.":
   version: 0.0.0-use.local
-  resolution: "mailbox-cdk@workspace:."
+  resolution: "mail-server-cdk@workspace:."
   dependencies:
     "@jwpkg/gitversion": "npm:^1.4.0-pack-order.3"
     "@serverlessinbox/artifact-registry": "npm:^0.3.6"

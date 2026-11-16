@@ -27,7 +27,7 @@ function newSection(stack: Stack): EmailSection {
 
   return new EmailSection(stack, 'email', {
     artifactResolver: new PinnedArtifactResolver({
-      packages:         { 'mailbox-go': { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL } },
+      packages:         { 'mail-server-go': { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL } },
       location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
       deploymentRegion: stack.region,
     }),

@@ -58,7 +58,7 @@ describe('HostedZoneLookup', () => {
       context: {
         'serverlessinbox:artifacts': {
           bucketBase: 'test-artifacts',
-          packages:   { 'mailbox-cdk-shared': { zone: 'regional', version: '1.0.0' } },
+          packages:   { 'mail-server-cdk-shared': { zone: 'regional', version: '1.0.0' } },
         },
       },
     });
@@ -67,7 +67,7 @@ describe('HostedZoneLookup', () => {
     new HostedZoneLookup(stack, 'hosted-zone-lookup', { hostedZoneId: 'Z123' });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Lambda::Function', {
-      Code: { S3Key: 'serverlessinbox/packages/mailbox-cdk-shared/releases/v1.0.0/lambdas/stack-helpers.zip' },
+      Code: { S3Key: 'serverlessinbox/packages/mail-server-cdk-shared/releases/v1.0.0/lambdas/stack-helpers.zip' },
     });
   });
 });

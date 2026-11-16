@@ -53,7 +53,7 @@ function isolatedCopy(): typeof import('../content-deployer') {
 
 function newArtifactResolver(stack: Stack): IArtifactResolver {
   const packages: Record<string, ArtifactPin> = {
-    'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+    'mail-server-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
   };
   return new PinnedArtifactResolver({
     packages,

@@ -36,8 +36,8 @@ function lambdaWithType(autoUpdateType: string, arn: string = LAMBDA_ARN): Resou
   return resource(arn, {
     [ServerlessInboxTagKeys.rootStack]:       'my-stack',
     [ServerlessInboxTagKeys.rootStackId]:     'guid-1',
-    [ServerlessInboxTagKeys.artifactPackage]: 'mailbox-go',
-    [ServerlessInboxTagKeys.artifactName]:    'mailbox-go',
+    [ServerlessInboxTagKeys.artifactPackage]: 'mail-server-go',
+    [ServerlessInboxTagKeys.artifactName]:    'mail-server-go',
     [ServerlessInboxTagKeys.artifactVersion]: '1.2.3',
     [ServerlessInboxTagKeys.autoUpdateType]:  autoUpdateType,
   });

@@ -47,9 +47,9 @@ describe('MailboxUi', () => {
       oauthClientName:  OAuthClientName.ADMIN_UI,
       artifactResolver: new PinnedArtifactResolver({
         packages: {
-          'mailbox-cdk':        { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-          'mailbox-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-          'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mail-server-cdk':        { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mail-server-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mail-server-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
         },
         location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
         deploymentRegion: stack.region,
@@ -231,20 +231,20 @@ describe('MailboxUi', () => {
     });
 
     it('with a bundle, deploys it under content/', () => {
-      new MailServerUi(stack, 'admin-ui', propsWith({ uiBundle: { packageName: 'mailbox-cdk', objectPath: 'ui/admin.zip' } }));
+      new MailServerUi(stack, 'admin-ui', propsWith({ uiBundle: { packageName: 'mail-server-cdk', objectPath: 'ui/admin.zip' } }));
 
       const template = Template.fromStack(stack);
       template.resourceCountIs('Custom::ContentDeployment', 1);
       template.hasResourceProperties('Custom::ContentDeployment', {
-        sources: [Match.objectLike({ kind: 'zip', sourceKey: Match.stringLikeRegexp('mailbox-cdk/.*ui/admin\\.zip$'), targetPrefix: 'content/' })],
+        sources: [Match.objectLike({ kind: 'zip', sourceKey: Match.stringLikeRegexp('mail-server-cdk/.*ui/admin\\.zip$'), targetPrefix: 'content/' })],
       });
     });
 
     it('with a bundle, tags the distribution with the bundle package, object and version', () => {
-      new MailServerUi(stack, 'admin-ui', propsWith({ uiBundle: { packageName: 'mailbox-cdk', objectPath: 'ui/admin.zip' } }));
+      new MailServerUi(stack, 'admin-ui', propsWith({ uiBundle: { packageName: 'mail-server-cdk', objectPath: 'ui/admin.zip' } }));
 
       distributionHasTag(ServerlessInboxTagKeys.autoUpdateType, 'ui');
-      distributionHasTag(ServerlessInboxTagKeys.artifactPackage, 'mailbox-cdk');
+      distributionHasTag(ServerlessInboxTagKeys.artifactPackage, 'mail-server-cdk');
       distributionHasTag(ServerlessInboxTagKeys.artifactName, 'ui/admin.zip');
       distributionHasTag(ServerlessInboxTagKeys.artifactVersion, '1.0.0');
     });

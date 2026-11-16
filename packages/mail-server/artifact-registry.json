@@ -5,13 +5,13 @@
     "regions": ["eu-west-1"]
   },
   "type": "package",
-  "name": "mailbox-cdk",
+  "name": "mail-server-cdk",
   "artifacts": [
     { "source": "dist/lambdas/resource-sweeper.zip", "objectName": "lambdas/resource-sweeper.zip" },
     { "source": "dist/lambdas/artifact-updater.zip", "objectName": "lambdas/artifact-updater.zip" },
     { "source": "dist/data-stack-template.json", "objectName": "data-stack-template.json" },
     { "source": "dist/lambdas/data-override-resolver.zip", "objectName": "lambdas/data-override-resolver.zip" },
-    { "source": "dist/lambdas/jmap-blob-download.zip", "objectName": "lambdas/jmap-blob-download.zip", "name": "mailbox-cdk-edge", "zone": "edge" },
-    { "source": "dist/edge-stack-template.json", "objectName": "edge-stack-template.json", "name": "mailbox-cdk-edge", "zone": "edge" }
+    { "source": "dist/lambdas/jmap-blob-download.zip", "objectName": "lambdas/jmap-blob-download.zip", "name": "mail-server-cdk-edge", "zone": "edge" },
+    { "source": "dist/edge-stack-template.json", "objectName": "edge-stack-template.json", "name": "mail-server-cdk-edge", "zone": "edge" }
   ]
 }

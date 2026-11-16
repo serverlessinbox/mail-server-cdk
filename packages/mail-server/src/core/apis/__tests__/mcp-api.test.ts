@@ -38,8 +38,8 @@ describe('McpApi', () => {
       scopeMap:         { 'mail.read': [Permission.MAIL_READ_ITEMS] },
       artifactResolver: new PinnedArtifactResolver({
         packages: {
-          'mailbox-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-          'mailbox-go':  { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mail-server-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mail-server-go':  { version: '1.0.0', zone: ArtifactZone.REGIONAL },
         },
         location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
         deploymentRegion: stack.region,

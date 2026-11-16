@@ -16,11 +16,11 @@ describe('ArtifactObject', () => {
     const { stack, artifactResolver } = newDeployerTestStack();
     const grantee                     = newWorkerStandIn(stack, 'grantee');
 
-    new ArtifactObject(artifactResolver, 'mailbox-cdk-shared', 'lambdas/function.zip').grantRead(grantee);
+    new ArtifactObject(artifactResolver, 'mail-server-cdk-shared', 'lambdas/function.zip').grantRead(grantee);
 
     const statements = statementsForAction(Template.fromStack(stack), 's3:GetObject');
     expect(statements).toHaveLength(1);
     expect(statements[0].Action).toEqual(['s3:GetObject', 's3:GetObjectVersion']);
-    expect(statements[0].Resource).toEqual(stack.resolve(artifactResolver.getArn('mailbox-cdk-shared', 'lambdas/function.zip')));
+    expect(statements[0].Resource).toEqual(stack.resolve(artifactResolver.getArn('mail-server-cdk-shared', 'lambdas/function.zip')));
   });
 });

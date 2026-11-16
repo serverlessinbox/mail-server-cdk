@@ -2,7 +2,7 @@
 
 Internal package; it is not published.
 
-The build tool for the `mailbox-cdk` packages. It bundles the TypeScript Lambda handlers that the CDK
+The build tool for the `mail-server-cdk` packages. It bundles the TypeScript Lambda handlers that the CDK
 constructs deploy as zip files, it bundles a jsii construct package into its `lib/` folder, and it checks
 that the declarations of a built package name only packages its consumers get installed. It runs as the
 `mail-server-bundler` command, which each package calls from its Taskfile or its package scripts.

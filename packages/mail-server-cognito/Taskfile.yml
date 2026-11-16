@@ -6,7 +6,7 @@ tasks:
   build:cognito-data-stack:
     desc: Synthesize CloudFormation template for cognito data stack
     cmds:
-      - yarn workspace mailbox-cdk build-stack cognito-data --out-dir {{.TASKFILE_DIR}}/dist
+      - yarn workspace mail-server-cdk build-stack cognito-data --out-dir {{.TASKFILE_DIR}}/dist
     generates:
       - dist/cognito-data-stack-template.json
 

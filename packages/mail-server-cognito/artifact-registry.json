@@ -5,7 +5,7 @@
     "regions": ["eu-west-1"]
   },
   "type": "package",
-  "name": "mailbox-cognito",
+  "name": "mail-server-cognito",
   "artifacts": [
     { "source": "dist/lambdas/cognito-idp-users-api.zip", "objectName": "lambdas/cognito-idp-users-api.zip" },
     { "source": "dist/lambdas/cognito-bootstrap-user.zip", "objectName": "lambdas/cognito-bootstrap-user.zip" },

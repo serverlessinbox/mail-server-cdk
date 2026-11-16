@@ -4,7 +4,7 @@ import type { ArtifactPin, ArtifactZone } from '@serverlessinbox/artifact-regist
 export type PinsByPackage = { [packageName: string]: ArtifactPin };
 
 /** The packages this repo releases itself, by the name each is pinned under in an `artifact-versions.json`. */
-export type BakedArtifactKey = 'mailbox-cdk' | 'mailbox-cdk-edge' | 'mailbox-cdk-shared' | 'mailbox-cognito';
+export type BakedArtifactKey = 'mail-server-cdk' | 'mail-server-cdk-edge' | 'mail-server-cdk-shared' | 'mail-server-cognito';
 
 /** A package this repo releases itself, with the package folder whose bumped manifest carries its version. */
 export type OwnArtifact = {

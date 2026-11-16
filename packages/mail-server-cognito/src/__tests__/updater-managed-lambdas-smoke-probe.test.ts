@@ -71,10 +71,10 @@ function synthesizeUserPool(): Template {
       'serverlessinbox:artifacts': {
         bucketBase: 'test-artifacts',
         packages:   {
-          'mailbox-cognito':    { zone: 'regional', version: '1.0.0' },
-          'mailbox-cdk':        { zone: 'regional', version: '1.0.0' },
-          'mailbox':            { zone: 'regional', version: '1.0.0' },
-          'mailbox-cdk-shared': { zone: 'regional', version: '1.0.0' },
+          'mail-server-cognito':    { zone: 'regional', version: '1.0.0' },
+          'mail-server-cdk':        { zone: 'regional', version: '1.0.0' },
+          'mailbox':                { zone: 'regional', version: '1.0.0' },
+          'mail-server-cdk-shared': { zone: 'regional', version: '1.0.0' },
         },
       },
       'serverlessinbox:artifact_versions': {},

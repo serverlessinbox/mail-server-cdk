@@ -15,7 +15,7 @@ export interface WrapperArrangement {
 
 /** The packages a wrapper test pins unless it passes its own. */
 const DEFAULT_PACKAGES: Record<string, ArtifactPin> = {
-  'mailbox-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+  'mail-server-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
 };
 
 const DEFAULT_BUCKET_BASE = 'test-artifacts';

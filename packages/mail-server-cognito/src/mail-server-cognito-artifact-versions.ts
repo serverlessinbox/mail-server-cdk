@@ -5,7 +5,7 @@ import * as path                         from 'node:path';
 /** `artifact-versions.json` sits at the package root, one directory above both `src/` and `lib/`. */
 const MAIL_SERVER_COGNITO_ARTIFACT_VERSIONS_PATH = path.join(__dirname, '..', 'artifact-versions.json');
 
-/** Loads the artifact versions committed with the `mailbox-cognito` package. */
+/** Loads the artifact versions committed with the `mail-server-cognito` package. */
 export function loadMailServerCognitoArtifactVersions(): EmbeddedArtifactVersions {
   return loadEmbeddedArtifactVersions(MAIL_SERVER_COGNITO_ARTIFACT_VERSIONS_PATH);
 }

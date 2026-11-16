@@ -124,7 +124,7 @@ describe('MailboxEdgeDeployer', () => {
   describe('custom resource', () => {
     it('deploys the edge stack template to us-east-1 with termination protection off', () => {
       const { stack, artifactResolver, template } = synthDeployer();
-      const templateUrl: unknown                  = stack.resolve(artifactResolver.getUrl('mailbox-cdk-edge', 'edge-stack-template.json'));
+      const templateUrl: unknown                  = stack.resolve(artifactResolver.getUrl('mail-server-cdk-edge', 'edge-stack-template.json'));
 
       template.hasResourceProperties(DEPLOYER_RESOURCE_TYPE, {
         stackName: EDGE_STACK_NAME,
@@ -179,7 +179,7 @@ describe('MailboxEdgeDeployer', () => {
 
     it('passes the JMAP blob download artifact, the tables, the log group and the tagging values as template parameters', () => {
       const { artifactResolver, template } = synthDeployer();
-      const jmapBlobDownload               = artifactResolver.resolve('mailbox-cdk-edge', 'lambdas/jmap-blob-download.zip');
+      const jmapBlobDownload               = artifactResolver.resolve('mail-server-cdk-edge', 'lambdas/jmap-blob-download.zip');
 
       template.hasResourceProperties(DEPLOYER_RESOURCE_TYPE, {
         parameters: Match.objectLike({
@@ -352,8 +352,8 @@ describe('MailboxEdgeDeployer', () => {
 
       const statements = statementsForAction(template, 's3:GetObject');
       expect(statements.map((statement) => statement.Resource)).toEqual([
-        stack.resolve(artifactResolver.getArn('mailbox-cdk-edge', 'edge-stack-template.json')),
-        stack.resolve(artifactResolver.getArn('mailbox-cdk-edge', 'lambdas/jmap-blob-download.zip')),
+        stack.resolve(artifactResolver.getArn('mail-server-cdk-edge', 'edge-stack-template.json')),
+        stack.resolve(artifactResolver.getArn('mail-server-cdk-edge', 'lambdas/jmap-blob-download.zip')),
       ]);
     });
 

@@ -17,8 +17,8 @@ export function newDeployerTestStack(): DeployerTestStack {
   });
   const artifactResolver = new PinnedArtifactResolver({
     packages: {
-      'mailbox-cognito':    { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
-      'mailbox-cdk-shared': { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
+      'mail-server-cognito':    { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
+      'mail-server-cdk-shared': { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
     },
     location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
     deploymentRegion: stack.region,

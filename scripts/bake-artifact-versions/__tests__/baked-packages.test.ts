@@ -11,10 +11,10 @@ import { BakedPackages }          from '../baked-packages';
  * otherwise only show up in a published package.
  */
 describe('BakedPackages.forRepository', () => {
-  const repoRoot        = path.join(__dirname, '..', '..', '..');
-  const mailboxPinsFile = path.join(repoRoot, 'unused-pins.json');
+  const repoRoot           = path.join(__dirname, '..', '..', '..');
+  const mailServerPinsFile = path.join(repoRoot, 'unused-pins.json');
 
-  it.each(BakedPackages.forRepository(repoRoot, mailboxPinsFile).map(bakedPackage => [path.basename(path.dirname(bakedPackage.outputFile)), bakedPackage] as const))(
+  it.each(BakedPackages.forRepository(repoRoot, mailServerPinsFile).map(bakedPackage => [path.basename(path.dirname(bakedPackage.outputFile)), bakedPackage] as const))(
     'bakes %s own packages as its committed placeholder lists them',
     (_name, bakedPackage) => {
       const placeholder = PinnedArtifactResolver.parsePins(readFileSync(bakedPackage.outputFile, 'utf8'), bakedPackage.outputFile);

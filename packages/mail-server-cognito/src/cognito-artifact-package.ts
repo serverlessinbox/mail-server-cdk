@@ -1,2 +1,2 @@
-/** Package name for mailbox-cognito artifacts. */
-export const COGNITO_ARTIFACT_PACKAGE = 'mailbox-cognito' as const;
+/** Package name for mail-server-cognito artifacts. */
+export const COGNITO_ARTIFACT_PACKAGE = 'mail-server-cognito' as const;

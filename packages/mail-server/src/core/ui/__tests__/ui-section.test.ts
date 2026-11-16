@@ -37,11 +37,11 @@ describe('UiSection', () => {
   function newResolver(): PinnedArtifactResolver {
     return new PinnedArtifactResolver({
       packages: {
-        'mailbox-cdk':        { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-        'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-        'mailbox-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-        'mailbox-admin-ui':   { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-        'mailbox-webmail-ui': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+        'mail-server-cdk':        { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+        'mail-server-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+        'mail-server-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+        'mail-server-admin-ui':   { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+        'mail-server-webmail-ui': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
       },
       location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
       deploymentRegion: stack.region,

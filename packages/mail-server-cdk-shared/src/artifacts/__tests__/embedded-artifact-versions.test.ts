@@ -15,8 +15,8 @@ describe('loadEmbeddedArtifactVersions', () => {
   it('loads the pins at the given path', () => {
     const filePath = path.join(workDir, 'valid-versions.json');
     const versions = {
-      'mailbox-go':       { version: '1.2.3', zone: 'regional' },
-      'mailbox-cdk-edge': { version: '1.2.3', zone: 'edge' },
+      'mail-server-go':       { version: '1.2.3', zone: 'regional' },
+      'mail-server-cdk-edge': { version: '1.2.3', zone: 'edge' },
     };
     writeFileSync(filePath, JSON.stringify(versions));
 
@@ -25,7 +25,7 @@ describe('loadEmbeddedArtifactVersions', () => {
 
   it('names the file when its content is not a valid set of pins', () => {
     const filePath = path.join(workDir, 'invalid-versions.json');
-    writeFileSync(filePath, JSON.stringify({ 'mailbox-go': { version: '1.2.3' } }));
+    writeFileSync(filePath, JSON.stringify({ 'mail-server-go': { version: '1.2.3' } }));
 
     expect(() => loadEmbeddedArtifactVersions(filePath)).toThrow(filePath);
   });

@@ -19,11 +19,11 @@ export function newDeployerTestStack(): DeployerTestStack {
   });
   const artifactResolver = new PinnedArtifactResolver({
     packages: {
-      mailbox:              { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
-      'mailbox-go':         { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
-      'mailbox-cdk':        { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
-      'mailbox-cdk-shared': { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
-      'mailbox-cdk-edge':   { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.EDGE },
+      mailbox:                  { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
+      'mail-server-go':         { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
+      'mail-server-cdk':        { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
+      'mail-server-cdk-shared': { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.REGIONAL },
+      'mail-server-cdk-edge':   { version: TEST_ARTIFACT_VERSION, zone: ArtifactZone.EDGE },
     },
     location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
     deploymentRegion: stack.region,

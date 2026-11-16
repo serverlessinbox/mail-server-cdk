@@ -22,13 +22,13 @@ function newStack(): Stack {
 
 function newTypeScriptLambda(stack: Stack, overrides: Partial<TypeScriptLambdaProps> = {}): TypeScriptLambda {
   const artifactResolver = new PinnedArtifactResolver({
-    packages:         { 'mailbox-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
+    packages:         { 'mail-server-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
     location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
     deploymentRegion: stack.region,
   });
   return new TypeScriptLambda(stack, 'lambda', {
     lambdaId:    'stack-deployer',
-    packageName: 'mailbox-cdk',
+    packageName: 'mail-server-cdk',
     pipeline:    'infra',
     artifactResolver,
     ...overrides,

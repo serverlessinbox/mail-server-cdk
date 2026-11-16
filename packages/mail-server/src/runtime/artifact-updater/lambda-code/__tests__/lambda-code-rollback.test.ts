@@ -33,7 +33,7 @@ describe('LambdaCodeRollback', () => {
   };
   const deployedLocation: ArtifactLocation = {
     bucket: ARTIFACT_BUCKET_US_EAST_1,
-    key:    'releases/v1.2.3/lambdas/mailbox-go.zip',
+    key:    'releases/v1.2.3/lambdas/mail-server-go.zip',
   };
 
   function newRollback(): LambdaCodeRollback {
@@ -60,7 +60,7 @@ describe('LambdaCodeRollback', () => {
     expect(updates[0].args[0].input).toEqual({
       FunctionName: target.arn,
       S3Bucket:     'mailbox-artifacts-us-east-1',
-      S3Key:        'releases/v1.2.3/lambdas/mailbox-go.zip',
+      S3Key:        'releases/v1.2.3/lambdas/mail-server-go.zip',
     });
     expect(lambdaMock.commandCalls(TagResourceCommand)).toHaveLength(0);
     expect(console.error).toHaveBeenCalledWith('smoke test did not pass, rolling back', {

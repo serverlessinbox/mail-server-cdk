@@ -1,7 +1,7 @@
 /**
  * DataOverrideResolverLambda tests. The Lambda must be able to describe the operator's override
  * table, which can be any table in the account, so DescribeTable is granted on every table; a missing
- * grant fails every override with AccessDenied. Its code comes from the `mailbox-cdk` package pin, so
+ * grant fails every override with AccessDenied. Its code comes from the `mail-server-cdk` package pin, so
  * a resolver without that pin must fail to synthesize rather than reference a missing artifact.
  */
 
@@ -16,7 +16,7 @@ import { arrangeWrapperStack }        from './lambda-wrapper-helpers';
 
 describe('DataOverrideResolverLambda', () => {
   it('grants dynamodb:DescribeTable, and no other action, on every DynamoDB table', () => {
-    const packages: Record<string, ArtifactPin> = { 'mailbox-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL } };
+    const packages: Record<string, ArtifactPin> = { 'mail-server-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL } };
     const { stack, artifactResolver }           = arrangeWrapperStack(packages);
     new DataOverrideResolverLambda(stack, 'resolver', { artifactResolver });
 
@@ -41,6 +41,6 @@ describe('DataOverrideResolverLambda', () => {
 
     expect(() => {
       new DataOverrideResolverLambda(stack, 'resolver', { artifactResolver });
-    }).toThrow("No resolved data for package 'mailbox-cdk'");
+    }).toThrow("No resolved data for package 'mail-server-cdk'");
   });
 });

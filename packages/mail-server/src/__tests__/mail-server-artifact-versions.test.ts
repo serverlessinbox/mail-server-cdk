@@ -27,8 +27,8 @@ describe('loadMailboxArtifactVersions', () => {
     const versions = loadMailServerArtifactVersions();
 
     expect(Object.keys(versions).sort()).toEqual([
-      'mailbox-admin-ui', 'mailbox-cdk', 'mailbox-cdk-edge', 'mailbox-cdk-shared', 'mailbox-go', 'mailbox-webmail-ui',
+      'mail-server-admin-ui', 'mail-server-cdk', 'mail-server-cdk-edge', 'mail-server-cdk-shared', 'mail-server-go', 'mail-server-webmail-ui',
     ]);
-    expect(versions['mailbox-cdk-edge'].zone).toBe('edge');
+    expect(versions['mail-server-cdk-edge'].zone).toBe('edge');
   });
 });

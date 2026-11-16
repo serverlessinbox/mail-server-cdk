@@ -18,7 +18,7 @@ export class GoLambda extends ArtifactLambda {
     super(scope, id, {
       memorySize: 640,
       ...props,
-      packageName: 'mailbox-go',
+      packageName: 'mail-server-go',
       runtime:     Runtime.PROVIDED_AL2023,
       handler:     'bootstrap',
     });

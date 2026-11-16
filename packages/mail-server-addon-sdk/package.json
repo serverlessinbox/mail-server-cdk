@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/serverlessinbox/mailbox-cdk",
+    "url": "https://github.com/serverlessinbox/mail-server-cdk",
     "directory": "packages/mail-server-addon-sdk"
   },
   "homepage": "https://docs.serverlessinbox.com",

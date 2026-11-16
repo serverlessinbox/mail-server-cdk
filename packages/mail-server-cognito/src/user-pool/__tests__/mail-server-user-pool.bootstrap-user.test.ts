@@ -29,10 +29,10 @@ function synthesizeBootstrapUser(passwordMinLength?: number): Record<string, t.I
       'serverlessinbox:artifacts': {
         bucketBase: 'test-artifacts',
         packages:   {
-          'mailbox-cognito':    { zone: 'regional', version: '0.0.1-test' },
-          'mailbox-cdk':        { zone: 'regional', version: '0.0.1-test' },
-          'mailbox':            { zone: 'regional', version: '0.0.1-test' },
-          'mailbox-cdk-shared': { zone: 'regional', version: '0.0.1-test' },
+          'mail-server-cognito':    { zone: 'regional', version: '0.0.1-test' },
+          'mail-server-cdk':        { zone: 'regional', version: '0.0.1-test' },
+          'mailbox':                { zone: 'regional', version: '0.0.1-test' },
+          'mail-server-cdk-shared': { zone: 'regional', version: '0.0.1-test' },
         },
       },
       'serverlessinbox:artifact_versions': {},

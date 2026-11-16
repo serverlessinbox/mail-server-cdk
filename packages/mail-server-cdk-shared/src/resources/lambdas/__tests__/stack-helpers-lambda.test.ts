@@ -18,7 +18,7 @@ describe('StackHelpersLambda', () => {
   new StackHelpersLambda(stack, 'handler', { artifactResolver: resolver });
   const template = Template.fromStack(stack);
 
-  it('loads its code from the stack-helpers bundle of mailbox-cdk-shared', () => {
+  it('loads its code from the stack-helpers bundle of mail-server-cdk-shared', () => {
     template.hasResourceProperties('AWS::Lambda::Function', {
       Code: { S3Key: Match.stringLikeRegexp('lambdas/stack-helpers\\.zip$') },
     });

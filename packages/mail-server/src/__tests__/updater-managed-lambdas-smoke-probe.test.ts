@@ -29,7 +29,7 @@ import { MailServer }                                                           
 
 import { createMockAuthProvider, TEST_ARTIFACT_CONTEXT }                        from './mail-server-helpers';
 
-const GO_PACKAGE = 'mailbox-go';
+const GO_PACKAGE = 'mail-server-go';
 
 /**
  * Synthesis and probing load and run every managed handler; measured at about 2 s for the whole suite alone

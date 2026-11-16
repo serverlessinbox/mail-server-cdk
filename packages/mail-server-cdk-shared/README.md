@@ -3,7 +3,7 @@
 This package holds the internal building blocks of `@serverlessinbox/mail-server` and
 `@serverlessinbox/mail-server-cognito`. It makes no compatibility promise.
 
-The building blocks that the `mailbox` and `mailbox-cognito` construct libraries share: artifact
+The building blocks that the `mailbox` and `mail-server-cognito` construct libraries share: artifact
 resolution, the Lambda wrappers that run published code, resource naming and tagging, the base table and
 queue constructs, the sub-stack deployer scaffolding, and the runtime kit that the TypeScript Lambdas are
 built on.

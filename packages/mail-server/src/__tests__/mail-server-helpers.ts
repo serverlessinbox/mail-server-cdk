@@ -6,12 +6,12 @@ import { Permission }         from '../core/auth/jmap-scopes';
 export const TEST_ARTIFACT_CONTEXT = {
   bucketBase: 'test-artifacts',
   packages:   {
-    'mailbox-go':         { zone: 'regional', version: '1.0.0' },
-    'mailbox-cdk':        { zone: 'regional', version: '1.0.0' },
-    'mailbox-cdk-shared': { zone: 'regional', version: '1.0.0' },
-    'mailbox-cdk-edge':   { zone: 'edge', version: '1.0.0' },
-    'mailbox-admin-ui':   { zone: 'regional', version: '1.0.0' },
-    'mailbox-webmail-ui': { zone: 'regional', version: '1.0.0' },
+    'mail-server-go':         { zone: 'regional', version: '1.0.0' },
+    'mail-server-cdk':        { zone: 'regional', version: '1.0.0' },
+    'mail-server-cdk-shared': { zone: 'regional', version: '1.0.0' },
+    'mail-server-cdk-edge':   { zone: 'edge', version: '1.0.0' },
+    'mail-server-admin-ui':   { zone: 'regional', version: '1.0.0' },
+    'mail-server-webmail-ui': { zone: 'regional', version: '1.0.0' },
   },
 };
 

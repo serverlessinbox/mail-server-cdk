@@ -130,7 +130,7 @@ describe('bundleJsiiPackage', () => {
     expect(build).not.toHaveBeenCalled();
   });
 
-  it('has the declarations plugin inline the declarations of mailbox-cdk-shared into the package', async () => {
+  it('has the declarations plugin inline the declarations of mail-server-cdk-shared into the package', async () => {
     await bundleJsiiPackage(packageFolder, []);
 
     expect(SharedDeclarationsInliner).toHaveBeenCalledWith(packageFolder, '@serverlessinbox/mail-server-cdk-shared');

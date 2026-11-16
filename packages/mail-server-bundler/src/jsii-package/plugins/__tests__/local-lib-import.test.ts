@@ -46,7 +46,7 @@ describe('localLibImportPlugin', () => {
     });
 
     it('bundles a relative import made by a sibling folder that shares the name prefix', async () => {
-      const siblingFolder = join(root, 'mailbox-cdk-shared');
+      const siblingFolder = join(root, 'mail-server-cdk-shared');
       await mkdir(siblingFolder, { recursive: true });
       await writeFile(join(siblingFolder, 'entry.js'), "import { h } from './helper.js';\nconsole.log(h);");
       await writeFile(join(siblingFolder, 'helper.js'), "module.exports = { h: 'SIBLING_HELPER_MARKER' };");

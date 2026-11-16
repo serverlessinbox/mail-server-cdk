@@ -60,7 +60,7 @@ describe('JmapBlobDownloadLambda', () => {
     template.hasResourceProperties('AWS::Lambda::Function', {
       Tags: Match.arrayWith([
         { Key: ServerlessInboxTagKeys.artifactName, Value: 'jmap-blob-download' },
-        { Key: ServerlessInboxTagKeys.artifactPackage, Value: 'mailbox-cdk-edge' },
+        { Key: ServerlessInboxTagKeys.artifactPackage, Value: 'mail-server-cdk-edge' },
         { Key: ServerlessInboxTagKeys.artifactVersion, Value: '1.2.3' },
         { Key: ServerlessInboxTagKeys.autoUpdateType, Value: 'edge' },
       ]),

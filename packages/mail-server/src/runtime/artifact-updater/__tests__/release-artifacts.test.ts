@@ -40,7 +40,7 @@ describe('ReleaseArtifacts', () => {
       expect(readReleasePointer).toHaveBeenCalledWith(
         registryS3,
         { bucketBase: 'mailbox-artifacts', project: 'serverlessinbox' },
-        'mailbox-go',
+        'mail-server-go',
         'latest',
         'eu-west-1',
         'v1',
@@ -90,7 +90,7 @@ describe('ReleaseArtifacts', () => {
 
       expect(location).toEqual({
         bucket: 'mailbox-artifacts-eu-west-1',
-        key:    'serverlessinbox/packages/mailbox-go/releases/v1.2.4/lambdas/mailbox-go.zip',
+        key:    'serverlessinbox/packages/mail-server-go/releases/v1.2.4/lambdas/mail-server-go.zip',
       });
     });
   });

@@ -57,9 +57,9 @@ describe('WebmailUi', () => {
       userApiUrl:       'https://api.example.com/user',
       artifactResolver: new PinnedArtifactResolver({
         packages: {
-          'mailbox-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-          'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
-          'mailbox-webmail-ui': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mail-server-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mail-server-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mail-server-webmail-ui': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
         },
         location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
         deploymentRegion: stack.region,
@@ -132,11 +132,11 @@ describe('WebmailUi', () => {
     expect(request.permissions).not.toContain(Permission.ADMIN);
   });
 
-  it('deploys the Webmail UI bundle published by the mailbox-webmail-ui artifact', () => {
+  it('deploys the Webmail UI bundle published by the mail-server-webmail-ui artifact', () => {
     createWebmailUi();
 
     Template.fromStack(stack).hasResourceProperties('Custom::ContentDeployment', {
-      sources: [Match.objectLike({ kind: 'zip', sourceKey: Match.stringLikeRegexp('mailbox-webmail-ui/.*webmail-ui\\.zip$'), targetPrefix: 'content/' })],
+      sources: [Match.objectLike({ kind: 'zip', sourceKey: Match.stringLikeRegexp('mail-server-webmail-ui/.*webmail-ui\\.zip$'), targetPrefix: 'content/' })],
     });
   });
 

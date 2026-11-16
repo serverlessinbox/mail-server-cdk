@@ -38,7 +38,7 @@ describe('MailboxDataOverrideResolver', () => {
     resolver = new DataOverrideResolver(stack, 'override-resolver', {
       tableArns:        INCOMING_ARNS,
       artifactResolver: new PinnedArtifactResolver({
-        packages:         { 'mailbox-cdk': { zone: ArtifactZone.REGIONAL, version: '1.0.0' } },
+        packages:         { 'mail-server-cdk': { zone: ArtifactZone.REGIONAL, version: '1.0.0' } },
         location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
         deploymentRegion: stack.region,
       }),

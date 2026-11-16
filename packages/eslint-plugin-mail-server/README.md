@@ -15,14 +15,14 @@ carries the shared lint configuration that the repository's `eslint.config.cjs` 
   tables, queues, buckets, topics, events, workflows and lambdas.
 - **Allow-lists.** A few files are permitted to hold IAM statements or `overrideLogicalId`. They are listed
   in the plugin, so a new exception is a reviewed change to this package.
-- **Source scope.** The source rules govern `src/` of `mailbox`, `mailbox-cdk-shared` and
-  `mailbox-cognito`. Code in the `runtime/` folder of those trees and in `__tests__/` folders is outside them.
+- **Source scope.** The source rules govern `src/` of `mailbox`, `mail-server-cdk-shared` and
+  `mail-server-cognito`. Code in the `runtime/` folder of those trees and in `__tests__/` folders is outside them.
 
 | Rule | Enforces |
 |---|---|
 | `mail-server/zone-imports` | The zone matrix between `core`, `platform`, `platform-list`, `resources` and `contracts` |
 | `mail-server/events-import` | Only `resources/lambdas` and `resources/events` import `resources/events`, and then with `import type` |
-| `mail-server/kit-isolation` | `mailbox-cdk-shared` never imports the `mailbox` package |
+| `mail-server/kit-isolation` | `mail-server-cdk-shared` never imports the `mailbox` package |
 | `mail-server/plan-labels` | No plan labels or change narration in comments |
 | `mail-server/align` | `=` and `:` are aligned in groups of consecutive lines, capped at column 80: an entry past the cap is a group of its own, and a lone entry gets one space before `=` or its value |
 | `mail-server/import-layout` | Imports fit a column-80 lane: a wide import is wrapped with its names packed, and `from` is aligned across each run of adjacent imports |

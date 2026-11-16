@@ -2,7 +2,7 @@ import { ArtifactZone, PinnedArtifactResolver } from '@serverlessinbox/artifact-
 import type { IArtifactResolver }               from '@serverlessinbox/artifact-registry-cdk';
 import { App, BootstraplessSynthesizer, Stack } from 'aws-cdk-lib';
 
-/** A stack and the artifact resolver pinning `mailbox-cdk-shared`, for building a shared deployer Lambda to read what it renders. */
+/** A stack and the artifact resolver pinning `mail-server-cdk-shared`, for building a shared deployer Lambda to read what it renders. */
 export interface ProbeStack {
   readonly stack:            Stack;
   readonly artifactResolver: IArtifactResolver;
@@ -15,7 +15,7 @@ export function newProbeStack(): ProbeStack {
     synthesizer: new BootstraplessSynthesizer(),
   });
   const artifactResolver = new PinnedArtifactResolver({
-    packages:         { 'mailbox-cdk-shared': { version: '0.0.1-test', zone: ArtifactZone.REGIONAL } },
+    packages:         { 'mail-server-cdk-shared': { version: '0.0.1-test', zone: ArtifactZone.REGIONAL } },
     location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
     deploymentRegion: stack.region,
   });

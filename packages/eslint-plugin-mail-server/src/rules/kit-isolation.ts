@@ -6,7 +6,7 @@ import { ZoneClassifier }                from '../zones/zone-classifier';
 
 import { createRule }                    from './create-rule';
 
-// The kit package (mailbox-cdk-shared) never imports the mailbox package, by name or by path.
+// The kit package (mail-server-cdk-shared) never imports the mailbox package, by name or by path.
 
 export const kitIsolation = createRule({
   name: 'kit-isolation',

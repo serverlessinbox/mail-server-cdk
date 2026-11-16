@@ -1,8 +1,8 @@
 {
-  "mailbox-go": { "version": "0.0.0", "zone": "regional" },
-  "mailbox-cdk": { "version": "0.0.0", "zone": "regional" },
-  "mailbox-cdk-shared": { "version": "0.0.0", "zone": "regional" },
-  "mailbox-cdk-edge": { "version": "0.0.0", "zone": "edge" },
-  "mailbox-admin-ui": { "version": "0.0.0", "zone": "regional" },
-  "mailbox-webmail-ui": { "version": "0.0.0", "zone": "regional" }
+  "mail-server-go": { "version": "0.0.0", "zone": "regional" },
+  "mail-server-cdk": { "version": "0.0.0", "zone": "regional" },
+  "mail-server-cdk-shared": { "version": "0.0.0", "zone": "regional" },
+  "mail-server-cdk-edge": { "version": "0.0.0", "zone": "edge" },
+  "mail-server-admin-ui": { "version": "0.0.0", "zone": "regional" },
+  "mail-server-webmail-ui": { "version": "0.0.0", "zone": "regional" }
 }

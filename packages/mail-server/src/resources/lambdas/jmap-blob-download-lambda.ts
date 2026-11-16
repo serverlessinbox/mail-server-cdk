@@ -42,7 +42,7 @@ export interface JmapBlobDownloadLambdaProps {
  */
 export class JmapBlobDownloadLambda extends lambda.Function {
   /** The artifact package that holds this function's code and the edge stack template. */
-  public static readonly ARTIFACT_PACKAGE = 'mailbox-cdk-edge';
+  public static readonly ARTIFACT_PACKAGE = 'mail-server-cdk-edge';
   /** The artifact name of this function inside {@link JmapBlobDownloadLambda.ARTIFACT_PACKAGE}. */
   public static readonly ARTIFACT_NAME = 'jmap-blob-download';
 

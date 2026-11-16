@@ -37,7 +37,7 @@ describe('CognitoIdpUsersApiLambda', () => {
       synthesizer: new BootstraplessSynthesizer(),
     });
     const artifactResolver = new PinnedArtifactResolver({
-      packages:         { 'mailbox-cognito': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
+      packages:         { 'mail-server-cognito': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
       location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
       deploymentRegion: stack.region,
     });

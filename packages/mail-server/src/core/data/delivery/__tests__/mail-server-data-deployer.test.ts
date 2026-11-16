@@ -54,8 +54,8 @@ function synthDeployer(
   }
   return {
     template:          Template.fromStack(stack),
-    templateUrl:       stack.resolve(artifactResolver.getUrl('mailbox-cdk', 'data-stack-template.json')),
-    templateObjectArn: stack.resolve(artifactResolver.getArn('mailbox-cdk', 'data-stack-template.json')),
+    templateUrl:       stack.resolve(artifactResolver.getUrl('mail-server-cdk', 'data-stack-template.json')),
+    templateObjectArn: stack.resolve(artifactResolver.getArn('mail-server-cdk', 'data-stack-template.json')),
   };
 }
 

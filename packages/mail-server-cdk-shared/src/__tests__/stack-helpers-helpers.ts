@@ -10,7 +10,7 @@ export interface StackWithResolver {
 
 /**
  * A bootstrapless stack with an explicit environment, and an artifact resolver that pins
- * `mailbox-cdk-shared`, the package the stack-helpers Lambda is loaded from.
+ * `mail-server-cdk-shared`, the package the stack-helpers Lambda is loaded from.
  */
 export function createStackWithResolver(): StackWithResolver {
   const stack = new cdk.Stack(new cdk.App(), 'TestStack', {
@@ -18,7 +18,7 @@ export function createStackWithResolver(): StackWithResolver {
     synthesizer: new BootstraplessSynthesizer(),
   });
   const resolver = new PinnedArtifactResolver({
-    packages:         { 'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
+    packages:         { 'mail-server-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
     location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
     deploymentRegion: stack.region,
   });

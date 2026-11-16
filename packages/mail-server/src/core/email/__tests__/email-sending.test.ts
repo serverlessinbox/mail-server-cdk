@@ -29,7 +29,7 @@ const AWS_MANAGED: QueueEncryptionChoice = { kind: 'aws-managed' };
 
 function createProps(stack: cdk.Stack, queueEncryption: QueueEncryptionChoice): EmailSendingProps {
   const artifactResolver: IArtifactResolver = new PinnedArtifactResolver({
-    packages:         { 'mailbox-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
+    packages:         { 'mail-server-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
     location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
     deploymentRegion: stack.region,
   });

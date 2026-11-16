@@ -34,7 +34,7 @@ describe('SesRules', () => {
       blobStoreBucket:  blobStore,
       queueEncryption:  { kind: 'aws-managed' },
       artifactResolver: new PinnedArtifactResolver({
-        packages:         { 'mailbox-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
+        packages:         { 'mail-server-go': { version: '1.0.0', zone: ArtifactZone.REGIONAL } },
         location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
         deploymentRegion: stack.region,
       }),

@@ -9,7 +9,7 @@ import { BakeArtifactVersionsCommand }                                          
 
 /**
  * Pins what the command owns: which root it bakes under (`--root`, else the current directory),
- * that it hands `--mailbox-pins` to the mailbox package, and that it reports every file it wrote.
+ * that it hands `--mail-server-pins` to the mailbox package, and that it reports every file it wrote.
  * The content of each baked file belongs to the baker and `BakedPackages`.
  */
 describe('BakeArtifactVersionsCommand', () => {
@@ -32,7 +32,7 @@ describe('BakeArtifactVersionsCommand', () => {
 
   function writePins(folder: string): string {
     const pinsFile = path.join(folder, 'pins.json');
-    writeFileSync(pinsFile, JSON.stringify({ 'mailbox-go': { version: '7.8.9', zone: 'regional' } }));
+    writeFileSync(pinsFile, JSON.stringify({ 'mail-server-go': { version: '7.8.9', zone: 'regional' } }));
     return pinsFile;
   }
 
@@ -56,25 +56,25 @@ describe('BakeArtifactVersionsCommand', () => {
   });
 
   describe('execute', () => {
-    it('bakes both packages under --root, hands --mailbox-pins to the mailbox package and reports each file', async () => {
+    it('bakes both packages under --root, hands --mail-server-pins to the mailbox package and reports each file', async () => {
       const root         = repositoryRoot();
       const unrelatedCwd = newFolder('bake-artifact-versions-cwd-');
       const mailboxFile  = path.join(root, 'packages', 'mail-server', 'artifact-versions.json');
       const cognitoFile  = path.join(root, 'packages', 'mail-server-cognito', 'artifact-versions.json');
       jest.spyOn(process, 'cwd').mockReturnValue(unrelatedCwd);
 
-      const run = await runCommand('--mailbox-pins', writePins(root), '--root', root);
+      const run = await runCommand('--mail-server-pins', writePins(root), '--root', root);
 
       expect(run).toEqual({ exitCode: 0, stdout: `Written: ${mailboxFile}\nWritten: ${cognitoFile}\n` });
-      expect(readFileSync(mailboxFile, 'utf8')).toContain('"mailbox-go"');
-      expect(readFileSync(cognitoFile, 'utf8')).not.toContain('"mailbox-go"');
+      expect(readFileSync(mailboxFile, 'utf8')).toContain('"mail-server-go"');
+      expect(readFileSync(cognitoFile, 'utf8')).not.toContain('"mail-server-go"');
     });
 
     it('bakes the packages under the current directory when --root is not given', async () => {
       const root = repositoryRoot();
       jest.spyOn(process, 'cwd').mockReturnValue(root);
 
-      const run = await runCommand('--mailbox-pins', writePins(root));
+      const run = await runCommand('--mail-server-pins', writePins(root));
 
       expect(run.exitCode).toBe(0);
       expect(existsSync(path.join(root, 'packages', 'mail-server', 'artifact-versions.json'))).toBe(true);

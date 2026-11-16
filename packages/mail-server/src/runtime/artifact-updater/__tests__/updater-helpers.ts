@@ -47,7 +47,7 @@ export interface TargetValues {
   readonly bucketName?:      string;
 }
 
-export const LAMBDA_ARN                = 'arn:aws:lambda:us-east-1:123456789012:function:mailbox-go';
+export const LAMBDA_ARN                = 'arn:aws:lambda:us-east-1:123456789012:function:mail-server-go';
 export const DISTRIBUTION_ARN          = 'arn:aws:cloudfront::123456789012:distribution/ABCD1234';
 export const EU_WEST_1                 = toRegion('eu-west-1');
 export const US_WEST_2                 = toRegion('us-west-2');
@@ -129,8 +129,8 @@ export function fakeUpdaterClients(deploymentRegion: Region = EDGE_REGION): Upda
 export function lambdaTarget(values: TargetValues = {}): LambdaTarget {
   return {
     arn:             toLambdaFunctionArn(values.arn ?? LAMBDA_ARN),
-    packageName:     toArtifactPackageName(values.packageName ?? 'mailbox-go'),
-    artifactName:    toArtifactName(values.artifactName ?? 'mailbox-go'),
+    packageName:     toArtifactPackageName(values.packageName ?? 'mail-server-go'),
+    artifactName:    toArtifactName(values.artifactName ?? 'mail-server-go'),
     deployedVersion: toArtifactVersion(values.deployedVersion ?? '1.2.3'),
   };
 }

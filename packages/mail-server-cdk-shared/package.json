@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/serverlessinbox/mailbox-cdk",
+    "url": "https://github.com/serverlessinbox/mail-server-cdk",
     "directory": "packages/mail-server-cdk-shared"
   },
   "main": "src/index.ts",

@@ -69,7 +69,7 @@ unreachable for them.
 3. If only `platform/` uses the wrapper, add its name to `platformOnlyLambdaNames` in
    `packages/eslint-plugin-mail-server/src/zones/mail-server-zones.ts`.
 4. Register the code in the artifact registry:
-   - A Go Lambda is resolved from `lambdas/<lambdaId>.zip` of the `mailbox-go` artifact package,
+   - A Go Lambda is resolved from `lambdas/<lambdaId>.zip` of the `mail-server-go` artifact package,
      which is published outside this repository.
    - A TypeScript Lambda has its code in `packages/mail-server/src/runtime/<name>/` with an `index.ts`
      entry. Add a `bundle:<name>` task to `packages/mail-server/Taskfile.yml`, call it from the `bundle`

@@ -6,28 +6,28 @@ import type { BakedPackage } from './baked-package';
 /** The publishable packages of this repo, each with the `artifact-versions.json` it ships and the packages it pins. */
 export class BakedPackages {
   /**
-   * The files to bake for the repository at `root`. `mailbox-cdk` and `mailbox-cdk-edge` are both
+   * The files to bake for the repository at `root`. `mail-server-cdk` and `mail-server-cdk-edge` are both
    * published from the `mail-server` package folder, so they take its version.
    */
-  public static forRepository(root: string, mailboxPinsFile: string): BakedPackage[] {
-    const mailboxDirectory = path.join(root, 'packages', 'mail-server');
-    const cognitoDirectory = path.join(root, 'packages', 'mail-server-cognito');
-    const sharedDirectory  = path.join(root, 'packages', 'mail-server-cdk-shared');
+  public static forRepository(root: string, mailServerPinsFile: string): BakedPackage[] {
+    const mailServerDirectory = path.join(root, 'packages', 'mail-server');
+    const cognitoDirectory    = path.join(root, 'packages', 'mail-server-cognito');
+    const sharedDirectory     = path.join(root, 'packages', 'mail-server-cdk-shared');
     return [
       {
-        outputFile:       path.join(mailboxDirectory, 'artifact-versions.json'),
-        externalPinsFile: mailboxPinsFile,
+        outputFile:       path.join(mailServerDirectory, 'artifact-versions.json'),
+        externalPinsFile: mailServerPinsFile,
         ownArtifacts:     [
-          { key: 'mailbox-cdk', zone: ArtifactZone.REGIONAL, manifestDirectory: mailboxDirectory },
-          { key: 'mailbox-cdk-edge', zone: ArtifactZone.EDGE, manifestDirectory: mailboxDirectory },
-          { key: 'mailbox-cdk-shared', zone: ArtifactZone.REGIONAL, manifestDirectory: sharedDirectory },
+          { key: 'mail-server-cdk', zone: ArtifactZone.REGIONAL, manifestDirectory: mailServerDirectory },
+          { key: 'mail-server-cdk-edge', zone: ArtifactZone.EDGE, manifestDirectory: mailServerDirectory },
+          { key: 'mail-server-cdk-shared', zone: ArtifactZone.REGIONAL, manifestDirectory: sharedDirectory },
         ],
       },
       {
         outputFile:   path.join(cognitoDirectory, 'artifact-versions.json'),
         ownArtifacts: [
-          { key: 'mailbox-cognito', zone: ArtifactZone.REGIONAL, manifestDirectory: cognitoDirectory },
-          { key: 'mailbox-cdk-shared', zone: ArtifactZone.REGIONAL, manifestDirectory: sharedDirectory },
+          { key: 'mail-server-cognito', zone: ArtifactZone.REGIONAL, manifestDirectory: cognitoDirectory },
+          { key: 'mail-server-cdk-shared', zone: ArtifactZone.REGIONAL, manifestDirectory: sharedDirectory },
         ],
       },
     ];

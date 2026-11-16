@@ -65,10 +65,10 @@ function setUpArtifactContext(app: App): void {
   app.node.setContext('serverlessinbox:artifacts', {
     bucketBase: 'test-artifacts',
     packages:   {
-      'mailbox-cognito':    { zone: 'regional', version: '0.0.1-test' },
-      'mailbox-cdk':        { zone: 'regional', version: '0.0.1-test' },
-      'mailbox':            { zone: 'regional', version: '0.0.1-test' },
-      'mailbox-cdk-shared': { zone: 'regional', version: '0.0.1-test' },
+      'mail-server-cognito':    { zone: 'regional', version: '0.0.1-test' },
+      'mail-server-cdk':        { zone: 'regional', version: '0.0.1-test' },
+      'mailbox':                { zone: 'regional', version: '0.0.1-test' },
+      'mail-server-cdk-shared': { zone: 'regional', version: '0.0.1-test' },
     },
   });
   app.node.setContext('serverlessinbox:artifact_versions', {});

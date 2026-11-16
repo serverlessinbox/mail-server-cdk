@@ -36,10 +36,10 @@ export function newTestStack(id: string, environment: TestEnvironment = DEFAULT_
 export function newArtifactResolver(stack: Stack, version = '1.0.0'): IArtifactResolver {
   return new PinnedArtifactResolver({
     packages: {
-      'mailbox-go':         { version, zone: ArtifactZone.REGIONAL },
-      'mailbox-cdk':        { version, zone: ArtifactZone.REGIONAL },
-      'mailbox-cdk-shared': { version, zone: ArtifactZone.REGIONAL },
-      'mailbox-cdk-edge':   { version, zone: ArtifactZone.EDGE },
+      'mail-server-go':         { version, zone: ArtifactZone.REGIONAL },
+      'mail-server-cdk':        { version, zone: ArtifactZone.REGIONAL },
+      'mail-server-cdk-shared': { version, zone: ArtifactZone.REGIONAL },
+      'mail-server-cdk-edge':   { version, zone: ArtifactZone.EDGE },
     },
     location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
     deploymentRegion: stack.region,

@@ -17,7 +17,7 @@ export abstract class BaselineCommand extends Command {
   });
 
   baselineRoot = Option.String('--baseline-root', {
-    description: 'Folder that holds the label folders. Defaults to .template-baseline in the mailbox-cdk root; given once.',
+    description: 'Folder that holds the label folders. Defaults to .template-baseline in the mail-server-cdk root; given once.',
   });
 
   protected createStore(): BaselineStore {

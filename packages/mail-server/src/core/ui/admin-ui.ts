@@ -85,7 +85,7 @@ export class AdminUi extends MailServerUi {
       authPolicyName:           AuthPolicyName.ADMIN_API,
       oauthClientName:          OAuthClientName.ADMIN_UI,
       uiBundle:                 {
-        packageName: 'mailbox-admin-ui',
+        packageName: 'mail-server-admin-ui',
         objectPath:  'admin-ui.zip',
       },
       uiConfig:         adminUiConfig,

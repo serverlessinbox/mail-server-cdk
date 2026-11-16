@@ -24,7 +24,7 @@ import { arrangeWrapperStack, onlyLambdaOf, processEnvironmentOf } from './lambd
 
 const STATE_MACHINE_ARN                             = 'arn:aws:states:us-west-2:123456789012:stateMachine:sweeper';
 const STARTER_PACKAGES: Record<string, ArtifactPin> = {
-  'mailbox-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+  'mail-server-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
 };
 
 describe('ResourceSweeperStarterLambda', () => {

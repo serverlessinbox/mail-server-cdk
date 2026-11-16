@@ -2,7 +2,7 @@
 
 /**
  * Pins how the helpers read the Lambdas the artifact updater manages from a synthesized template and decide
- * whether a handler answers the smoke-test probe. Both the mailbox suite and the mailbox-cognito suite rely on
+ * whether a handler answers the smoke-test probe. Both the mailbox suite and the mail-server-cognito suite rely on
  * them: a helper that reported a handler as answering when it does not would hide a Lambda the updater rolls
  * back on every cycle.
  */

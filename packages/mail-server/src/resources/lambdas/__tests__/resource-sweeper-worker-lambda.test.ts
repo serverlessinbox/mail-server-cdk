@@ -18,7 +18,7 @@ import { ResourceSweeperWorkerLambda }      from '../resource-sweeper-worker-lam
 
 import { arrangeWrapperStack }              from './lambda-wrapper-helpers';
 
-const WORKER_PACKAGES: Record<string, ArtifactPin> = { 'mailbox-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL } };
+const WORKER_PACKAGES: Record<string, ArtifactPin> = { 'mail-server-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL } };
 
 const isFunctionProperties = t.isPartial({
   Handler:    t.isString(),

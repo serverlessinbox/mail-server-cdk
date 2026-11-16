@@ -35,13 +35,13 @@ describe('LambdaFunctionCode', () => {
 
       await functionCode.update(lambda, functionArn, {
         bucket: ARTIFACT_BUCKET_US_EAST_1,
-        key:    'releases/v1.2.4/lambdas/mailbox-go.zip',
+        key:    'releases/v1.2.4/lambdas/mail-server-go.zip',
       });
 
       expect(lambdaMock.commandCalls(UpdateFunctionCodeCommand)[0].args[0].input).toEqual({
         FunctionName: functionArn,
         S3Bucket:     'mailbox-artifacts-us-east-1',
-        S3Key:        'releases/v1.2.4/lambdas/mailbox-go.zip',
+        S3Key:        'releases/v1.2.4/lambdas/mail-server-go.zip',
       });
     });
   });

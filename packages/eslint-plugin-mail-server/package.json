@@ -2,7 +2,7 @@
   "name": "@serverlessinbox/eslint-plugin-mail-server",
   "version": "0.0.0",
   "private": true,
-  "description": "Dev-only ESLint plugin enforcing mailbox-cdk conventions",
+  "description": "Dev-only ESLint plugin enforcing mail-server-cdk conventions",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {

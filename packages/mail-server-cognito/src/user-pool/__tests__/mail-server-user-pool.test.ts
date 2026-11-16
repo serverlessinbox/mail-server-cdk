@@ -50,7 +50,7 @@ function pinnedResolver(stack: Stack, packageNames: string[]): PinnedArtifactRes
 function createUserPool(overrides: Partial<MailServerUserPoolProps> = {}, stack: Stack = newStack()): { pool: MailServerUserPool; stack: Stack } {
   const pool = new MailServerUserPool(stack, 'user-pool', {
     domain:           { kind: 'cognito', cognitoDomainPrefix: 'test-prefix' },
-    artifactResolver: pinnedResolver(stack, ['mailbox-cognito', 'mailbox-cdk-shared']),
+    artifactResolver: pinnedResolver(stack, ['mail-server-cognito', 'mail-server-cdk-shared']),
     ...overrides,
   });
   return { pool, stack };
@@ -77,8 +77,8 @@ describe('MailboxUserPool without an injected artifactResolver', () => {
     app.node.setContext('serverlessinbox:artifacts', {
       bucketBase: 'test-artifacts',
       packages:   {
-        'mailbox-cognito':    { zone: 'regional', version: PINNED_VERSION },
-        'mailbox-cdk-shared': { zone: 'regional', version: PINNED_VERSION },
+        'mail-server-cognito':    { zone: 'regional', version: PINNED_VERSION },
+        'mail-server-cdk-shared': { zone: 'regional', version: PINNED_VERSION },
       },
     });
     app.node.setContext('serverlessinbox:artifact_versions', {});
@@ -91,11 +91,11 @@ describe('MailboxUserPool without an injected artifactResolver', () => {
     return Template.fromStack(stack);
   }
 
-  it('synthesizes the stack deployer Lambdas from the mailbox-cdk-shared package', () => {
+  it('synthesizes the stack deployer Lambdas from the mail-server-cdk-shared package', () => {
     const template = synthesizeWithPinnedContext();
 
     template.hasResourceProperties('AWS::Lambda::Function', {
-      Code: { S3Key: Match.stringLikeRegexp('mailbox-cdk-shared/.*/lambdas/stack-deployer\\.zip') },
+      Code: { S3Key: Match.stringLikeRegexp('mail-server-cdk-shared/.*/lambdas/stack-deployer\\.zip') },
     });
   });
 });
@@ -114,7 +114,7 @@ describe('MailboxUserPool domain', () => {
     const zone  = route53.HostedZone.fromHostedZoneAttributes(stack, 'zone', { hostedZoneId: 'Z1234567890ABC', zoneName: 'mail.example.com' });
     new MailServerUserPool(stack, 'user-pool', {
       domain:           { kind: 'cognito-auto', hostedZone: zone },
-      artifactResolver: pinnedResolver(stack, ['mailbox-cognito', 'mailbox-cdk-shared']),
+      artifactResolver: pinnedResolver(stack, ['mail-server-cognito', 'mail-server-cdk-shared']),
     });
 
     const template  = Template.fromStack(stack);
@@ -195,7 +195,7 @@ describe('MailboxUserPool addons', () => {
     const { pool, stack } = createUserPool({ authorization: { adminGroups: ['ops'], userGroups: ['staff'] } });
 
     const [addon] = pool.createAdminApiAddons(stack, {
-      artifactResolver: pinnedResolver(stack, ['mailbox-cognito']),
+      artifactResolver: pinnedResolver(stack, ['mail-server-cognito']),
       auditEventsQueue,
       configTable:   table,
       auditLogTable: table,
@@ -214,7 +214,7 @@ describe('MailboxUserPool addons', () => {
     const { pool } = createUserPool({ allowNativeSignIn: false, extensions: [extension(stack, 'ProviderA')], authorization: { adminGroups: ['ops'], userGroups: ['staff'] } }, stack);
 
     const addons = pool.createAdminApiAddons(stack, {
-      artifactResolver: pinnedResolver(stack, ['mailbox-cognito']),
+      artifactResolver: pinnedResolver(stack, ['mail-server-cognito']),
       auditEventsQueue,
       configTable:   table,
       auditLogTable: table,
@@ -334,7 +334,7 @@ describe('MailboxUserPool sign-in sync', () => {
     }, stack);
 
     const addons = pool.createAdminApiAddons(stack, {
-      artifactResolver: pinnedResolver(stack, ['mailbox-cognito']),
+      artifactResolver: pinnedResolver(stack, ['mail-server-cognito']),
       auditEventsQueue,
       configTable:   table,
       auditLogTable: table,

@@ -40,7 +40,7 @@ const ROOT_STACK_ID                                 = 'guid-1';
 const PROJECT                                       = 'acme-project';
 const OWNED_BY_RESOURCE                             = ownedByRootStack('ResourceTag', ROOT_STACK, ROOT_STACK_ID);
 const ARTIFACT_VERSION_ONLY                         = { 'ForAllValues:StringEquals': { 'aws:TagKeys': [ServerlessInboxTagKeys.artifactVersion] } };
-const UPDATER_PACKAGES: Record<string, ArtifactPin> = { 'mailbox-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL } };
+const UPDATER_PACKAGES: Record<string, ArtifactPin> = { 'mail-server-cdk': { version: '1.0.0', zone: ArtifactZone.REGIONAL } };
 
 /** An account-scoped ARN as the template renders it: partition and account are references, never literals. */
 function accountArn(service: string, suffix: string): unknown {
