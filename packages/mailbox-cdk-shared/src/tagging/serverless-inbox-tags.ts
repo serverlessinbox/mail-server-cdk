@@ -1,4 +1,4 @@
-import { Aws, Tags }                        from 'aws-cdk-lib';
+import { Aws, Stack, Tags, Token }          from 'aws-cdk-lib';
 import type { IConstruct }                  from 'constructs';
 
 import { resolveDeployerType }              from '../context/deployer-type';
@@ -103,20 +103,36 @@ export function applyServerlessInboxBaseTagsWithDeployerType(
 ): void {
   const product = (options.product ?? 'mailbox').trim() || 'mailbox';
 
-  Tags.of(scope).add(ServerlessInboxTagKeys.product, product);
   // Correlation scheme: root-stack is the shared main stack name; stack is this stack's own name.
-  Tags.of(scope).add(ServerlessInboxTagKeys.rootStack, options.rootStack);
-  Tags.of(scope).add(ServerlessInboxTagKeys.rootStackId, rootStackId);
-  Tags.of(scope).add(ServerlessInboxTagKeys.stack, Aws.STACK_NAME);
-
-  Tags.of(scope).add(ServerlessInboxTagKeys.deployerType, deployerType);
+  const tags: Array<readonly [string, string]> = [
+    [ServerlessInboxTagKeys.product, product],
+    [ServerlessInboxTagKeys.rootStack, options.rootStack],
+    [ServerlessInboxTagKeys.rootStackId, rootStackId],
+    [ServerlessInboxTagKeys.stack, Aws.STACK_NAME],
+    [ServerlessInboxTagKeys.deployerType, deployerType],
+  ];
 
   const extra = options.extraTags ?? {};
   for (const [key, value] of Object.entries(extra)) {
     if (value === undefined || value === null) {continue;}
     const tagValue = String(value).trim();
     if (!tagValue) {continue;}
-    Tags.of(scope).add(key, tagValue);
+    tags.push([key, tagValue]);
+  }
+
+  // A token-valued tag (root-stack, root-stack-id or stack whose value is a token, and any extra tag given a
+  // token) is kept off the stack's own tag list, because CloudFormation rejects an unresolved stack tag. It still
+  // lands on every resource. A tag whose token is Aws.STACK_NAME also gets the stack's literal name on the stack.
+  // Literal values stay on the stack as before.
+  for (const [key, value] of tags) {
+    if (!Token.isUnresolved(value)) {
+      Tags.of(scope).add(key, value);
+    } else {
+      Tags.of(scope).add(key, value, { excludeResourceTypes: ['aws:cdk:stack'] });
+      if (value === Aws.STACK_NAME && Stack.isStack(scope)) {
+        Tags.of(scope).add(key, scope.stackName, { includeResourceTypes: ['aws:cdk:stack'] });
+      }
+    }
   }
 }
 

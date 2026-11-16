@@ -48,6 +48,29 @@ describe('applyServerlessInboxBaseTags', () => {
 
     expect(tagValue(tagsOfResourceIn(stack), 'serverless-inbox:root-stack-id')).toEqual(STACK_GUID);
   });
+
+  it('keeps literal tags and the stack name on the stack, and token values only on its resources', () => {
+    const app   = new App();
+    const stack = new Stack(app, 'Root');
+    applyServerlessInboxBaseTags(stack, { product: 'p', rootStack: Aws.STACK_NAME });
+
+    const tags = tagsOfResourceIn(stack);
+    expect(tagValue(tags, 'serverless-inbox:product')).toBe('p');
+    expect(tagValue(tags, 'serverless-inbox:root-stack')).toEqual({ Ref: 'AWS::StackName' });
+    expect(tagValue(tags, 'serverless-inbox:root-stack-id')).toEqual(STACK_GUID);
+    expect(tagValue(tags, 'serverless-inbox:stack')).toEqual({ Ref: 'AWS::StackName' });
+    expect(tagValue(tags, 'serverless-inbox:deployer_type')).toBe('cdk');
+
+    const stackTags = app.synth().getStackByName(stack.stackName).tags;
+    expect(stackTags).toMatchObject({
+      'serverless-inbox:product':    'p',
+      'serverless-inbox:stack':      'Root',
+      'serverless-inbox:root-stack': 'Root',
+    });
+    expect(stackTags).toHaveProperty('serverless-inbox:deployer_type');
+    expect(stackTags).not.toHaveProperty('serverless-inbox:root-stack-id');
+    expect(Object.values(stackTags).filter((value) => value.includes('${Token'))).toEqual([]);
+  });
 });
 
 describe('applyServerlessInboxBaseTagsWithDeployerType', () => {
