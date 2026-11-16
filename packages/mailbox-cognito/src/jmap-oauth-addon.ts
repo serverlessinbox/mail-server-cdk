@@ -1,7 +1,7 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
 import { StaticContentDeployer, StaticContentSource, PublicStaticAssetsBucket,
-  GateOnConditionAspect }                                                       from '@serverlessinbox/mailbox-cdk-shared';
-import type { IPublicStaticAssetsBucket }                                       from '@serverlessinbox/mailbox-cdk-shared';
+  GateOnConditionAspect }                                                       from '@serverlessinbox/mail-server-cdk-shared';
+import type { IPublicStaticAssetsBucket }                                       from '@serverlessinbox/mail-server-cdk-shared';
 import { IJmapApiAddon, IIdentityProvisioner }                                  from '@serverlessinbox/mailbox';
 import { HttpUrlIntegration, HttpLambdaIntegration }                            from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 import { HttpApi, HttpMethod, HttpRoute, HttpStage, CfnStage }                  from 'aws-cdk-lib/aws-apigatewayv2';

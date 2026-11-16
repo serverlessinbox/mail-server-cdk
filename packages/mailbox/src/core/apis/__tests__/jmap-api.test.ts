@@ -11,7 +11,7 @@
  */
 
 import { ArtifactZone, PinnedArtifactResolver }          from '@serverlessinbox/artifact-registry-cdk';
-import { VENDOR_ACCOUNT_ID }                             from '@serverlessinbox/mailbox-cdk-shared';
+import { VENDOR_ACCOUNT_ID }                             from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                               from 'aws-cdk-lib/assertions';
 import { HttpApi }                                       from 'aws-cdk-lib/aws-apigatewayv2';
 import { AttributeType, Table }                          from 'aws-cdk-lib/aws-dynamodb';

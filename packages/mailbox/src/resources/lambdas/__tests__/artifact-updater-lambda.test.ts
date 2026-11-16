@@ -12,10 +12,10 @@
 
 import type { ArtifactPin }                                            from '@serverlessinbox/artifact-registry-cdk';
 import { ArtifactZone }                                                from '@serverlessinbox/artifact-registry-cdk';
-import { getAttLogicalId, statementsForRole }                          from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import type { PolicyStatementJson }                                    from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { env }                                                         from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
-import { ServerlessInboxTagKeys }                                      from '@serverlessinbox/mailbox-cdk-shared';
+import { getAttLogicalId, statementsForRole }                          from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import type { PolicyStatementJson }                                    from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { env }                                                         from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
+import { ServerlessInboxTagKeys }                                      from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                                                    from 'aws-cdk-lib/assertions';
 import { CfnCondition, Duration, Fn }                                  from 'aws-cdk-lib';
 import * as t                                                          from 'typanion';

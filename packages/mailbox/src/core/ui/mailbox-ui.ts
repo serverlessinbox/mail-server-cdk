@@ -1,12 +1,12 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
-import type { Pipeline }                                                        from '@serverlessinbox/mailbox-cdk-shared';
+import type { Pipeline }                                                        from '@serverlessinbox/mail-server-cdk-shared';
 import {
   BucketAutoEmpty,
   StaticContentDeployer,
   StaticContentSource,
   slugifyLabel,
   ServerlessInboxTagKeys,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared';
 import * as acm                                                                 from 'aws-cdk-lib/aws-certificatemanager';
 import { HttpOrigin }                                                           from 'aws-cdk-lib/aws-cloudfront-origins';
 import {

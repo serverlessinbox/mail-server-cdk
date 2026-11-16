@@ -1,6 +1,6 @@
 import type { IArtifactResolver }           from '@serverlessinbox/artifact-registry-cdk';
-import type { QueueEncryptionChoice }       from '@serverlessinbox/mailbox-cdk-shared';
-import { applyServerlessInboxComponentTag } from '@serverlessinbox/mailbox-cdk-shared';
+import type { QueueEncryptionChoice }       from '@serverlessinbox/mail-server-cdk-shared';
+import { applyServerlessInboxComponentTag } from '@serverlessinbox/mail-server-cdk-shared';
 import { Construct }                        from 'constructs';
 
 import type { IDataBlobStore }              from '../../resources/buckets/data-blob-store';

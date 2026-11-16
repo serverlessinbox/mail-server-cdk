@@ -1,4 +1,4 @@
-import { ComponentDescription }                                    from '@serverlessinbox/mailbox-cdk-shared';
+import { ComponentDescription }                                    from '@serverlessinbox/mail-server-cdk-shared';
 import * as route53                                                from 'aws-cdk-lib/aws-route53';
 import * as cdk                                                    from 'aws-cdk-lib';
 import { Construct }                                               from 'constructs';

@@ -18,7 +18,7 @@ import {
   managedLambdasOf,
   probeManagedLambda,
   type ManagedLambda,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                                                             from 'aws-cdk-lib/assertions';
 import * as cdk                                                                 from 'aws-cdk-lib';
 import { App, BootstraplessSynthesizer }                                        from 'aws-cdk-lib';
@@ -40,7 +40,7 @@ const SUITE_TIMEOUT_MILLIS = 30_000;
 /** The source folders that hold the TypeScript handlers of the Lambdas of this repository, by bundle entry. */
 const TS_LAMBDA_ROOTS = [
   path.join(__dirname, '..', 'runtime'),
-  path.join(__dirname, '..', '..', '..', 'mailbox-cdk-shared', 'src', 'runtime'),
+  path.join(__dirname, '..', '..', '..', 'mail-server-cdk-shared', 'src', 'runtime'),
   path.join(__dirname, '..', '..', '..', 'mailbox-cognito', 'src', 'runtime'),
 ];
 

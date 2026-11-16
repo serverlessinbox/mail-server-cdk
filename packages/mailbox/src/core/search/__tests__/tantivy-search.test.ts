@@ -3,7 +3,7 @@
  * the construct adds: the index bucket and tables it hands the indexer, the dead-letter queue it wires
  * as the schedule's failure target, and the encryption it passes through to that queue.
  */
-import type { QueueEncryptionChoice } from '@serverlessinbox/mailbox-cdk-shared';
+import type { QueueEncryptionChoice } from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }            from 'aws-cdk-lib/assertions';
 import { AttributeType, Table }       from 'aws-cdk-lib/aws-dynamodb';
 import { Bucket }                     from 'aws-cdk-lib/aws-s3';

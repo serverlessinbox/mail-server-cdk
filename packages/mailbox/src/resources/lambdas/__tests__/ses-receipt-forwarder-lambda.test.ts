@@ -7,7 +7,7 @@
  * email-processor queue: it must never receive from it, since consuming is the processor's job.
  */
 
-import { actionsOf }                         from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { actionsOf }                         from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                          from 'aws-cdk-lib/assertions';
 
 import { EmailProcessingQueue }              from '../../queues/email-processing-queue';

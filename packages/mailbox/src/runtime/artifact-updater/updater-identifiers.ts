@@ -1,4 +1,4 @@
-import { parseArn, type Branded } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { parseArn, type Branded } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 /** The ARN of a Lambda function the updater manages. */
 export type LambdaFunctionArn = Branded<'LambdaFunctionArn'>;

@@ -1,4 +1,4 @@
-import type { Branded } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import type { Branded } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 /**
  * The audience of a token; empty when the token names none. A string of its own kind so that it cannot be

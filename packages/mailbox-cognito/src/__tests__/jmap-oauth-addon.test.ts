@@ -17,8 +17,8 @@
  * depends on every route it has settings for, and the settings the stage already carries are kept.
  */
 
-import { renderLiteralText }                  from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { MailboxArtifactResolverFactory }     from '@serverlessinbox/mailbox-cdk-shared';
+import { renderLiteralText }                  from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { MailboxArtifactResolverFactory }     from '@serverlessinbox/mail-server-cdk-shared';
 import { Template, Match }                    from 'aws-cdk-lib/assertions';
 import { CfnStage, HttpApi }                  from 'aws-cdk-lib/aws-apigatewayv2';
 import { UserPool }                           from 'aws-cdk-lib/aws-cognito';

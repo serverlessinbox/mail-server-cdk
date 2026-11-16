@@ -1,4 +1,4 @@
-import { isAccountId, isTenantId, type TenantId }                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { isAccountId, isTenantId, type TenantId }                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import * as t                                                                   from 'typanion';
 
 import { isClientId, type ClientId, type GroupName, type UserSubject,

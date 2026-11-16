@@ -9,8 +9,8 @@
 
 import type * as LambdaSdk                                                      from '@aws-sdk/client-lambda';
 import type * as TaggingSdk                                                     from '@aws-sdk/client-resource-groups-tagging-api';
-import type * as LambdaRuntime                                                  from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
-import { captureCfnResponse }                                                   from '@serverlessinbox/mailbox-cdk-shared/runtime-test-support';
+import type * as LambdaRuntime                                                  from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
+import { captureCfnResponse }                                                   from '@serverlessinbox/mail-server-cdk-shared/runtime-test-support';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 import type { AwsClientStub }                                                   from 'aws-sdk-client-mock';
 
@@ -76,7 +76,7 @@ describe('artifact-updater handler', () => {
     const taggingSdk = require('@aws-sdk/client-resource-groups-tagging-api') as typeof TaggingSdk;
     const lambdaSdk  = require('@aws-sdk/client-lambda') as typeof LambdaSdk;
     // The handler's `instanceof ExpectedFailure` sees the class of its own module registry, so the test takes it from the same one.
-    const lambdaRuntime = require('@serverlessinbox/mailbox-cdk-shared/lambda-runtime') as typeof LambdaRuntime;
+    const lambdaRuntime = require('@serverlessinbox/mail-server-cdk-shared/lambda-runtime') as typeof LambdaRuntime;
     const fakes: Fakes  = {
       tagging: mockClient(taggingSdk.ResourceGroupsTaggingAPIClient),
       lambda:  mockClient(lambdaSdk.LambdaClient),

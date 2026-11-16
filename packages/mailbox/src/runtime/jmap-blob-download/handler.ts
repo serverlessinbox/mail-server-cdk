@@ -1,5 +1,5 @@
 import { DynamoDBClient }                               from '@aws-sdk/client-dynamodb';
-import { ExpectedFailure, LoggerBuffer, withSmokeTest } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { ExpectedFailure, LoggerBuffer, withSmokeTest } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { BlobDownloadAuthorizer }                       from './blob-download-authorizer';
 import { readOriginRequest }                            from './cloudfront/cloudfront-event';

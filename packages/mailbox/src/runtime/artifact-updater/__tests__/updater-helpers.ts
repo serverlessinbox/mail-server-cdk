@@ -4,7 +4,7 @@ import { CloudFrontClient }                                                     
 import { LambdaClient, type InvokeCommandOutput }                               from '@aws-sdk/client-lambda';
 import { ResourceGroupsTaggingAPIClient }                                       from '@aws-sdk/client-resource-groups-tagging-api';
 import { S3Client }                                                             from '@aws-sdk/client-s3';
-import { LoggerBuffer, toRegion, type Region }                                  from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer, toRegion, type Region }                                  from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import type { APIGatewayProxyEventV2, CloudFormationCustomResourceEvent,
   Context }                                                                     from 'aws-lambda';
 

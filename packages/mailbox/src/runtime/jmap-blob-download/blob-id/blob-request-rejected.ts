@@ -1,4 +1,4 @@
-import { ExpectedFailure } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { ExpectedFailure } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 /**
  * A request the authorizer answers with an error status instead of forwarding it: a denial, a malformed

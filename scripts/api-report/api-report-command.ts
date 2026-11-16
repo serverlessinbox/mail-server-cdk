@@ -3,7 +3,7 @@ import * as path               from 'node:path';
 
 import { DeclarationReporter } from './declaration-reporter';
 
-const DEFAULT_PACKAGE_SEGMENTS = ['..', '..', 'packages', 'mailbox-addon-sdk'];
+const DEFAULT_PACKAGE_SEGMENTS = ['..', '..', 'packages', 'mail-server-addon-sdk'];
 const REPORT_FILE_NAME         = 'api-report.d.txt';
 
 /**
@@ -12,7 +12,7 @@ const REPORT_FILE_NAME         = 'api-report.d.txt';
  */
 export abstract class ApiReportCommand extends Command {
   packageDir = Option.String('--package', {
-    description: 'Folder of the package to report on. Defaults to packages/mailbox-addon-sdk; given once.',
+    description: 'Folder of the package to report on. Defaults to packages/mail-server-addon-sdk; given once.',
   });
 
   protected get packagePath(): string {

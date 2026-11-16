@@ -14,7 +14,7 @@ import {
   NotAuthorizedException,
   UsernameExistsException,
 }                                                                               from '@aws-sdk/client-cognito-identity-provider';
-import { LoggerBuffer }                                                         from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer }                                                         from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 
 import { toGroupName, toUserPoolId, toUsername }                                from '../../shared/cognito-identifiers';

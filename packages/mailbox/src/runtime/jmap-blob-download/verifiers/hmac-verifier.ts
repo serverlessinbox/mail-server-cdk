@@ -1,5 +1,5 @@
 import { DynamoDBClient, GetItemCommand }                    from '@aws-sdk/client-dynamodb';
-import { toAccountId, toIssuer, toTenantId, type TableName } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { toAccountId, toIssuer, toTenantId, type TableName } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import * as crypto                                           from 'crypto';
 
 import { toAudience }                                        from '../auth-identifiers';

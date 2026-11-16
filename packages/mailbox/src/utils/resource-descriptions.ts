@@ -1,4 +1,4 @@
-import { ComponentDescription, ServerlessInboxTagKeys } from '@serverlessinbox/mailbox-cdk-shared';
+import { ComponentDescription, ServerlessInboxTagKeys } from '@serverlessinbox/mail-server-cdk-shared';
 import * as apigatewayv2                                from 'aws-cdk-lib/aws-apigatewayv2';
 import * as cloudfront                                  from 'aws-cdk-lib/aws-cloudfront';
 import * as events                                      from 'aws-cdk-lib/aws-events';

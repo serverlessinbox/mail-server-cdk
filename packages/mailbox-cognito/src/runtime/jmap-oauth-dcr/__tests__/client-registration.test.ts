@@ -13,7 +13,7 @@ import {
   DeleteUserPoolClientCommand,
 }                                                                               from '@aws-sdk/client-cognito-identity-provider';
 import { InvokeCommand, LambdaClient }                                          from '@aws-sdk/client-lambda';
-import { LoggerBuffer, toFunctionName }                                         from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer, toFunctionName }                                         from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 
 import { toUserPoolId }                                                         from '../../shared/cognito-identifiers';

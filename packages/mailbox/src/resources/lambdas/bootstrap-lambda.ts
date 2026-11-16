@@ -1,7 +1,7 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
 import { GoLambda, ServerlessInboxTagKeys, StackIdentity,
-  rootStackRequestTagConditions }                                               from '@serverlessinbox/mailbox-cdk-shared';
-import type { RootStack, VendorLink }                                           from '@serverlessinbox/mailbox-cdk-shared';
+  rootStackRequestTagConditions }                                               from '@serverlessinbox/mail-server-cdk-shared';
+import type { RootStack, VendorLink }                                           from '@serverlessinbox/mail-server-cdk-shared';
 import { PolicyStatement }                                                      from 'aws-cdk-lib/aws-iam';
 import type { IReceiptRuleSet }                                                 from 'aws-cdk-lib/aws-ses';
 import { Aws, Duration }                                                        from 'aws-cdk-lib';

@@ -1,5 +1,5 @@
 import type { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import type { Region }         from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import type { Region }         from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { HmacVerifier }        from './hmac-verifier';
 import { JwtVerifier }         from './jwt-verifier';

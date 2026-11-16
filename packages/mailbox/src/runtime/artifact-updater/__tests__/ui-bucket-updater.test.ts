@@ -14,8 +14,8 @@ import {
   LoggerBuffer,
   ServerlessInboxTagKeys,
   type Region,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
-import type * as LambdaRuntime                                                  from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
+import type * as LambdaRuntime                                                  from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 
 import { ReleaseArtifacts }                                                     from '../release-artifacts';
@@ -28,8 +28,8 @@ jest.mock('@serverlessinbox/artifact-registry', () =>
   (jest.requireActual('./updater-helpers') as typeof import('./updater-helpers')).artifactRegistryModuleMock(),
 );
 
-jest.mock('@serverlessinbox/mailbox-cdk-shared/lambda-runtime', () => ({
-  ...jest.requireActual<typeof LambdaRuntime>('@serverlessinbox/mailbox-cdk-shared/lambda-runtime'),
+jest.mock('@serverlessinbox/mail-server-cdk-shared/lambda-runtime', () => ({
+  ...jest.requireActual<typeof LambdaRuntime>('@serverlessinbox/mail-server-cdk-shared/lambda-runtime'),
   deployZipToPrefix:    jest.fn(),
   invalidateCloudFront: jest.fn(),
 }));
@@ -48,7 +48,7 @@ interface UpdaterFixture {
 
 const { readReleasePointer }                      = registryMocks();
 const { deployZipToPrefix, invalidateCloudFront } = jest.requireMock(
-  '@serverlessinbox/mailbox-cdk-shared/lambda-runtime',
+  '@serverlessinbox/mail-server-cdk-shared/lambda-runtime',
 ) as ContentOperationMocks;
 
 describe('UiBucketUpdater', () => {

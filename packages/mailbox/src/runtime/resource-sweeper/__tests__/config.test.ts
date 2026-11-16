@@ -5,7 +5,7 @@
  * build clients that fail on their first call instead of failing at the configuration.
  */
 
-import { env, toRegion }           from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { env, toRegion }           from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { loadStarter, loadWorker } from '../config';
 

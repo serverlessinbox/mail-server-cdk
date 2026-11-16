@@ -6,7 +6,7 @@
  */
 import { ArtifactZone, PinnedArtifactResolver } from '@serverlessinbox/artifact-registry-cdk';
 import type { IArtifactResolver }               from '@serverlessinbox/artifact-registry-cdk';
-import type { QueueEncryptionChoice }           from '@serverlessinbox/mailbox-cdk-shared';
+import type { QueueEncryptionChoice }           from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                      from 'aws-cdk-lib/assertions';
 import { Table, AttributeType }                 from 'aws-cdk-lib/aws-dynamodb';
 import { Bucket }                               from 'aws-cdk-lib/aws-s3';

@@ -6,7 +6,7 @@
  * tenant's cap before it failed, so each missing variable must be reported at load.
  */
 
-import { env }  from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { env }  from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { load } from '../config';
 

@@ -30,7 +30,7 @@ import {
   DeleteIdpUserResponseSchema,
 } from './idp_users_pb';
 
-import type { HandlerContext } from '@serverlessinbox/mailbox-addon-sdk';
+import type { HandlerContext } from '@serverlessinbox/mail-server-addon-sdk';
 
 export interface IdpUsersServiceHandlers {
   listIdpUsers(ctx: HandlerContext, req: ListIdpUsersRequest): Promise<ListIdpUsersResponse>;

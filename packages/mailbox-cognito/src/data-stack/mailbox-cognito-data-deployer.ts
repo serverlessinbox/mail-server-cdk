@@ -1,7 +1,7 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
 import { ArtifactObject, DeployedStack, DeployerInfra,
-  serverlessInboxSubStackTags }                                                 from '@serverlessinbox/mailbox-cdk-shared';
-import type { RootStack, ServerlessInboxDeployerType }                          from '@serverlessinbox/mailbox-cdk-shared';
+  serverlessInboxSubStackTags }                                                 from '@serverlessinbox/mail-server-cdk-shared';
+import type { RootStack, ServerlessInboxDeployerType }                          from '@serverlessinbox/mail-server-cdk-shared';
 import { Aws, Stack }                                                           from 'aws-cdk-lib';
 import { Construct }                                                            from 'constructs';
 

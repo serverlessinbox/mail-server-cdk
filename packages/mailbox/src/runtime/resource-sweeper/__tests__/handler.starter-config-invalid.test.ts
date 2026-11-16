@@ -14,7 +14,7 @@ delete process.env['MAILBOX_SWEEPER_STATE_MACHINE_ARN'];
 
 import { ACMClient, DeleteCertificateCommand }                               from '@aws-sdk/client-acm';
 import { SFNClient }                                                         from '@aws-sdk/client-sfn';
-import { captureCfnResponse }                                                from '@serverlessinbox/mailbox-cdk-shared/runtime-test-support';
+import { captureCfnResponse }                                                from '@serverlessinbox/mail-server-cdk-shared/runtime-test-support';
 import { mockClient }                                                        from 'aws-sdk-client-mock';
 
 import { starterHandler, workerHandler }                                     from '../handler';

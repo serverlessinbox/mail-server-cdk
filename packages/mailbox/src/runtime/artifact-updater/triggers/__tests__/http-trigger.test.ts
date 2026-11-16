@@ -7,7 +7,7 @@
  */
 
 import { InvokeCommand, LambdaClient }    from '@aws-sdk/client-lambda';
-import { LoggerBuffer }                   from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer }                   from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                     from 'aws-sdk-client-mock';
 
 import { BAD_CONFIG_ERROR, httpApiEvent } from '../../__tests__/updater-helpers';

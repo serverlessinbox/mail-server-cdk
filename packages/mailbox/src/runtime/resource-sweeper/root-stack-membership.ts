@@ -1,4 +1,4 @@
-import { ServerlessInboxTagKeys, type LoggerBuffer } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { ServerlessInboxTagKeys, type LoggerBuffer } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { WorkerRootStack }                      from './removal';
 

@@ -7,7 +7,7 @@
  * delete resources no stack claimed.
  */
 
-import { LoggerBuffer }        from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer }        from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { RootStackMembership } from '../root-stack-membership';
 

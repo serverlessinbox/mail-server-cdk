@@ -6,7 +6,7 @@
  * are pinned by those aspects; here only the values the stack passes to them are.
  */
 
-import { DEVELOPMENT_CONTEXT_KEY }                     from '@serverlessinbox/mailbox-cdk-shared';
+import { DEVELOPMENT_CONTEXT_KEY }                     from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                             from 'aws-cdk-lib/assertions';
 import { App, BootstraplessSynthesizer, CfnParameter } from 'aws-cdk-lib';
 

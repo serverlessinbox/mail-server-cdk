@@ -1,5 +1,5 @@
 import type { IArtifactResolver }                           from '@serverlessinbox/artifact-registry-cdk';
-import { ComponentDescription, type QueueEncryptionChoice } from '@serverlessinbox/mailbox-cdk-shared';
+import { ComponentDescription, type QueueEncryptionChoice } from '@serverlessinbox/mail-server-cdk-shared';
 import { Construct }                                        from 'constructs';
 
 import type { IStateChangeFanout, IStateChangeSource }      from '../../contracts/state-change-fanout';

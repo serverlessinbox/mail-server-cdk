@@ -10,7 +10,7 @@
  * test file.
  */
 
-import { DEVELOPMENT_CONTEXT_KEY }              from '@serverlessinbox/mailbox-cdk-shared';
+import { DEVELOPMENT_CONTEXT_KEY }              from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                      from 'aws-cdk-lib/assertions';
 import { Key }                                  from 'aws-cdk-lib/aws-kms';
 import { App, BootstraplessSynthesizer, Stack } from 'aws-cdk-lib';

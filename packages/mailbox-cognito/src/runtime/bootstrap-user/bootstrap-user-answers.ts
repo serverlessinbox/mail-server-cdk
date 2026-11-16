@@ -1,4 +1,4 @@
-import type { CustomResourceAnswer, PhysicalResourceId } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import type { CustomResourceAnswer, PhysicalResourceId } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 /** Marker returned in Data.temporaryPassword when password was set at install time and is not recoverable. */
 export const PASSWORD_SET_AT_INSTALL_TIME = '(password set at install time)';

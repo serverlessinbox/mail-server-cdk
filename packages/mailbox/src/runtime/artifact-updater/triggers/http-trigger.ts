@@ -1,5 +1,5 @@
 import { InvokeCommand, type LambdaClient }          from '@aws-sdk/client-lambda';
-import { CaughtError, type LoggerBuffer }            from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { CaughtError, type LoggerBuffer }            from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { hasHttpRequestLine, type HttpTriggerEvent } from '../updater-event';
 

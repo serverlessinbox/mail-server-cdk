@@ -7,7 +7,7 @@
  */
 
 import { DynamoDBClient }                                                       from '@aws-sdk/client-dynamodb';
-import { LoggerBuffer }                                                         from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer }                                                         from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { handler }                                                              from '../handler';
 import { RegionBoundVerifiers }                                                 from '../verifiers/region-bound-verifiers';

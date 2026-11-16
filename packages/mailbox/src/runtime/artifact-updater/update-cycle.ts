@@ -1,6 +1,6 @@
 import type { ResourceTagMapping, Tag }                                         from '@aws-sdk/client-resource-groups-tagging-api';
 import { CaughtError, parseArn, runConcurrently, ServerlessInboxTagKeys,
-  type LoggerBuffer }                                                           from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+  type LoggerBuffer }                                                           from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import * as t                                                                   from 'typanion';
 
 import type { LambdaTarget, UiTarget }                                          from './artifact-target';

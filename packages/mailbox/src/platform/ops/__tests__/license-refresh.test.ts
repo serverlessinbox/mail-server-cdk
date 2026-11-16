@@ -7,7 +7,7 @@
  * owns it; if either rule is missing or points at another stack, licenses silently go stale.
  */
 
-import { VENDOR_ACCOUNT_ID }                               from '@serverlessinbox/mailbox-cdk-shared';
+import { VENDOR_ACCOUNT_ID }                               from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                                        from 'aws-cdk-lib/assertions';
 import type { Stack }                                      from 'aws-cdk-lib';
 

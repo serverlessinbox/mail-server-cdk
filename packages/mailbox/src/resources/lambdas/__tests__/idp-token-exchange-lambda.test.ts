@@ -10,7 +10,7 @@
  */
 
 import type { IArtifactResolver }            from '@serverlessinbox/artifact-registry-cdk';
-import { actionsOf }                         from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { actionsOf }                         from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Match, Template }                   from 'aws-cdk-lib/assertions';
 import { Table, AttributeType }              from 'aws-cdk-lib/aws-dynamodb';
 import { CfnResource }                       from 'aws-cdk-lib';

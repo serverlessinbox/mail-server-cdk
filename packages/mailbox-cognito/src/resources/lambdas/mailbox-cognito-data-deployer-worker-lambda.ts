@@ -3,8 +3,8 @@ import {
   DeployerWorkerLambda,
   rootStackRequestTagConditions,
   rootStackResourceTagConditions,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared';
-import type { IArtifactObject, IDeployedStack, RootStack }                      from '@serverlessinbox/mailbox-cdk-shared';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared';
+import type { IArtifactObject, IDeployedStack, RootStack }                      from '@serverlessinbox/mail-server-cdk-shared';
 import { Effect, PolicyStatement }                                              from 'aws-cdk-lib/aws-iam';
 import type { PolicyStatementProps }                                            from 'aws-cdk-lib/aws-iam';
 import { Construct }                                                            from 'constructs';

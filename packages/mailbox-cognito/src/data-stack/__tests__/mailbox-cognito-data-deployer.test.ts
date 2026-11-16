@@ -8,8 +8,8 @@
  */
 
 import type { IArtifactResolver }                from '@serverlessinbox/artifact-registry-cdk';
-import { renderWithTokens, statementsForAction } from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import type { RootStack }                        from '@serverlessinbox/mailbox-cdk-shared';
+import { renderWithTokens, statementsForAction } from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import type { RootStack }                        from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                       from 'aws-cdk-lib/assertions';
 import { Stack }                                 from 'aws-cdk-lib';
 

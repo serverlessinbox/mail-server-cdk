@@ -1,5 +1,5 @@
 import type { IArtifactResolver }   from '@serverlessinbox/artifact-registry-cdk';
-import { TypeScriptLambda }         from '@serverlessinbox/mailbox-cdk-shared';
+import { TypeScriptLambda }         from '@serverlessinbox/mail-server-cdk-shared';
 import * as iam                     from 'aws-cdk-lib/aws-iam';
 import { Duration }                 from 'aws-cdk-lib';
 import { Construct }                from 'constructs';

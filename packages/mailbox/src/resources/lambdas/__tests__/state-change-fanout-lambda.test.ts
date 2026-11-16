@@ -7,8 +7,8 @@
  * The third suite renders the invoke grant the fan-out hands to its callers, on the caller's role.
  */
 
-import { actionsOf }                                                            from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import type { PolicyStatementJson }                                             from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { actionsOf }                                                            from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import type { PolicyStatementJson }                                             from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Capture, Match, Template }                                             from 'aws-cdk-lib/assertions';
 import { AttributeType, Table }                                                 from 'aws-cdk-lib/aws-dynamodb';
 import * as iam                                                                 from 'aws-cdk-lib/aws-iam';

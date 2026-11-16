@@ -3,7 +3,7 @@ import { CloudFrontClient }                                                     
 import { LambdaClient }                                                         from '@aws-sdk/client-lambda';
 import { ResourceGroupsTaggingAPIClient }                                       from '@aws-sdk/client-resource-groups-tagging-api';
 import { S3Client }                                                             from '@aws-sdk/client-s3';
-import { env, LoggerBuffer, ParentStackStatus, type Region }                    from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { env, LoggerBuffer, ParentStackStatus, type Region }                    from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import type { CloudFormationCustomResourceEvent, Context }                      from 'aws-lambda';
 import { setTimeout as sleep }                                                  from 'node:timers/promises';
 

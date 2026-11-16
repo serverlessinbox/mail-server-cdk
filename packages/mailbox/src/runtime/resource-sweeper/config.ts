@@ -1,4 +1,4 @@
-import { env, loadBaseConfig, toRegion, type BaseConfig, type Region } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { env, loadBaseConfig, toRegion, type BaseConfig, type Region } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 /** Config of the worker Lambda, read from its own environment: the shared base and the region its clients call. */
 export interface WorkerConfig extends BaseConfig {

@@ -2,8 +2,8 @@ import {
   applyServerlessInboxBaseTagsWithDeployerType,
   applyServerlessInboxComponentTag,
   isDevelopmentMode,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared';
-import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mailbox-cdk-shared';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared';
+import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mail-server-cdk-shared';
 import { MailboxResourceDescriptions }                                          from '@serverlessinbox/mailbox';
 import * as cognito                                                             from 'aws-cdk-lib/aws-cognito';
 import * as cdk                                                                 from 'aws-cdk-lib';

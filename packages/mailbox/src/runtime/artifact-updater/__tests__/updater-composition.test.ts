@@ -10,7 +10,7 @@
  */
 
 import { InvokeCommand }                                                        from '@aws-sdk/client-lambda';
-import { ParentStackStatus }                                                    from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { ParentStackStatus }                                                    from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 
 import { CfnTrigger }                                                           from '../triggers/cfn-trigger';

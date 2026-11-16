@@ -8,7 +8,7 @@
  * artifact resolver when that resolver has a principal to grant.
  */
 import { ArtifactZone, PinnedArtifactResolver }                   from '@serverlessinbox/artifact-registry-cdk';
-import { ServerlessInboxTagKeys }                                 from '@serverlessinbox/mailbox-cdk-shared';
+import { ServerlessInboxTagKeys }                                 from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                                        from 'aws-cdk-lib/assertions';
 import * as acm                                                   from 'aws-cdk-lib/aws-certificatemanager';
 import { Table, AttributeType }                                   from 'aws-cdk-lib/aws-dynamodb';

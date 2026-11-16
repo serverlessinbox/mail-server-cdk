@@ -6,8 +6,8 @@
  * account, let a tier role be assumed without a case, or let a Lambda tag keys outside the tier tags.
  */
 
-import { renderLiteralText }                from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { PositionHash }                     from '@serverlessinbox/mailbox-cdk-shared';
+import { renderLiteralText }                from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { PositionHash }                     from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                         from 'aws-cdk-lib/assertions';
 import * as iam                             from 'aws-cdk-lib/aws-iam';
 import type { Stack }                       from 'aws-cdk-lib';

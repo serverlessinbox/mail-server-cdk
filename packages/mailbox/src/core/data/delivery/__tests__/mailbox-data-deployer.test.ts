@@ -10,7 +10,7 @@
  * wrong output grants the mailbox access to the wrong resource.
  */
 
-import { renderWithTokens, resourcesOf, statementsForAction } from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { renderWithTokens, resourcesOf, statementsForAction } from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Match, Template }                                    from 'aws-cdk-lib/assertions';
 import * as iam                                               from 'aws-cdk-lib/aws-iam';
 

@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                                       from '@serverlessinbox/artifact-registry-cdk';
-import type { QueueEncryptionChoice, VendorLink }                       from '@serverlessinbox/mailbox-cdk-shared';
-import { ServerlessInboxResourceGroup, setStackNameBase, StackHelpers } from '@serverlessinbox/mailbox-cdk-shared';
+import type { QueueEncryptionChoice, VendorLink }                       from '@serverlessinbox/mail-server-cdk-shared';
+import { ServerlessInboxResourceGroup, setStackNameBase, StackHelpers } from '@serverlessinbox/mail-server-cdk-shared';
 import * as cdk                                                         from 'aws-cdk-lib';
 import { Construct }                                                    from 'constructs';
 

@@ -1,7 +1,7 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
-import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mailbox-cdk-shared';
+import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mail-server-cdk-shared';
 import { ComponentDescription, PipelineLogGroup,
-  applyServerlessInboxComponentTag }                                            from '@serverlessinbox/mailbox-cdk-shared';
+  applyServerlessInboxComponentTag }                                            from '@serverlessinbox/mail-server-cdk-shared';
 import * as acm                                                                 from 'aws-cdk-lib/aws-certificatemanager';
 import type * as route53                                                        from 'aws-cdk-lib/aws-route53';
 import type { IBucket }                                                         from 'aws-cdk-lib/aws-s3';

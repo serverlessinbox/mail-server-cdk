@@ -5,7 +5,7 @@ import {
   ExpectedFailure,
   LoggerBuffer,
   readCustomResourceRequest,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { wrapHandler }                                                          from 'aws-custom-resources';
 import type { CloudFormationCustomResourceEvent }                               from 'aws-lambda';
 

@@ -1,6 +1,6 @@
 import { CloudFormationClient }                                        from '@aws-sdk/client-cloudformation';
 import { SFNClient }                                                   from '@aws-sdk/client-sfn';
-import { FailedRequestAnswerer, ParentStackStatus, type LoggerBuffer } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { FailedRequestAnswerer, ParentStackStatus, type LoggerBuffer } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { StarterConfig }                                          from './config';
 import { SweepStarter }                                                from './sweep-starter';

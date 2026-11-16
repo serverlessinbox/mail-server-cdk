@@ -8,7 +8,7 @@
  */
 
 import { InvokeCommand, LambdaClient }                        from '@aws-sdk/client-lambda';
-import { toFunctionName, toTenantId }                         from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { toFunctionName, toTenantId }                         from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                         from 'aws-sdk-client-mock';
 
 import { toClientId, toGroupName, toUserSubject, toUsername } from '../cognito-identifiers';

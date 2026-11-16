@@ -8,8 +8,8 @@
  */
 
 import { renderWithTokens, sharedWorkerServiceName, statementsForAction,
-  tagKeysOf }                                                                   from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import type { IArtifactObject, IDeployedStack }                                 from '@serverlessinbox/mailbox-cdk-shared';
+  tagKeysOf }                                                                   from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import type { IArtifactObject, IDeployedStack }                                 from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                                                             from 'aws-cdk-lib/assertions';
 import { Role }                                                                 from 'aws-cdk-lib/aws-iam';
 

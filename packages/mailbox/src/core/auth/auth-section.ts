@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                                      from '@serverlessinbox/artifact-registry-cdk';
-import { applyServerlessInboxComponentTag }                            from '@serverlessinbox/mailbox-cdk-shared';
-import type { VendorLink }                                             from '@serverlessinbox/mailbox-cdk-shared';
+import { applyServerlessInboxComponentTag }                            from '@serverlessinbox/mail-server-cdk-shared';
+import type { VendorLink }                                             from '@serverlessinbox/mail-server-cdk-shared';
 import type { IReceiptRuleSet }                                        from 'aws-cdk-lib/aws-ses';
 import { Construct, DependencyGroup }                                  from 'constructs';
 import type { IDependable }                                            from 'constructs';

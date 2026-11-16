@@ -8,8 +8,8 @@
  * grant renders is pinned by the resource that owns it.
  */
 
-import { actionsOf, resourcesOf, statementsForAction }                          from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { VENDOR_ACCOUNT_ID }                                                    from '@serverlessinbox/mailbox-cdk-shared';
+import { actionsOf, resourcesOf, statementsForAction }                          from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { VENDOR_ACCOUNT_ID }                                                    from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                                                             from 'aws-cdk-lib/assertions';
 import { Table }                                                                from 'aws-cdk-lib/aws-dynamodb';
 

@@ -7,7 +7,7 @@
 
 import { ArtifactZone }               from '@serverlessinbox/artifact-registry-cdk';
 import type { ArtifactPin }           from '@serverlessinbox/artifact-registry-cdk';
-import { allPolicyStatements }        from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { allPolicyStatements }        from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                   from 'aws-cdk-lib/assertions';
 
 import { DataOverrideResolverLambda } from '../data-override-resolver-lambda';

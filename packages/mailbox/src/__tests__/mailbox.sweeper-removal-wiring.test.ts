@@ -9,7 +9,7 @@
  * the wiring that ships, not just that the pieces individually compile.
  */
 
-import { renderLiteralText }                                    from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { renderLiteralText }                                    from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                                             from 'aws-cdk-lib/assertions';
 import { App, BootstraplessSynthesizer, Stack }                 from 'aws-cdk-lib';
 import * as t                                                   from 'typanion';

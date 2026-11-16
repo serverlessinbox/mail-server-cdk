@@ -5,7 +5,7 @@
  * resources).
  */
 import { ArtifactZone, PinnedArtifactResolver }        from '@serverlessinbox/artifact-registry-cdk';
-import { ServerlessInboxTagKeys, StackHelpers }        from '@serverlessinbox/mailbox-cdk-shared';
+import { ServerlessInboxTagKeys, StackHelpers }        from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                                    from 'aws-cdk-lib/assertions';
 import { CfnResource, TagManager }                     from 'aws-cdk-lib';
 import type { Stack }                                  from 'aws-cdk-lib';

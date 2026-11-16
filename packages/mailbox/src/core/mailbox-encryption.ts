@@ -1,4 +1,4 @@
-import type { QueueEncryptionChoice }      from '@serverlessinbox/mailbox-cdk-shared';
+import type { QueueEncryptionChoice }      from '@serverlessinbox/mail-server-cdk-shared';
 import { TableEncryption }                 from 'aws-cdk-lib/aws-dynamodb';
 
 import type { BlobStoreEncryptionProps }   from '../resources/buckets/blob-store';

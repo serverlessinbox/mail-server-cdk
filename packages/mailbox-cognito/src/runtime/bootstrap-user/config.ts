@@ -1,4 +1,4 @@
-import { loadBaseConfig, type BaseConfig, type env } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { loadBaseConfig, type BaseConfig, type env } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 /** The environment of the bootstrap user Lambda: the base configuration every Lambda reads, and nothing more. */
 export type Config = BaseConfig;

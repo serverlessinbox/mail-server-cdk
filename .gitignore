@@ -16,7 +16,7 @@ release
 .task/
 gitversion.out
 tsconfig.tsbuildinfo
-packages/mailbox-cdk-shared/tsconfig.build.tsbuildinfo
+packages/mail-server-cdk-shared/tsconfig.build.tsbuildinfo
 
 # Build outputs and local dev files
 .jsii
@@ -26,8 +26,8 @@ build.log
 # LICENSE copied into each published package by its prepack (root LICENSE is the source)
 /packages/mailbox/LICENSE
 /packages/mailbox-cognito/LICENSE
-/packages/mailbox-cdk-shared/LICENSE
-/packages/mailbox-addon-sdk/LICENSE
+/packages/mail-server-cdk-shared/LICENSE
+/packages/mail-server-addon-sdk/LICENSE
 
 # Synthesized templates captured by `yarn template-baseline capture`
 .template-baseline/

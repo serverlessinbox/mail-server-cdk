@@ -3,7 +3,7 @@
  * tests pin what the construct adds: the two queues it creates, the audit log table it hands the
  * writer, and the encryption it passes through to the queues.
  */
-import type { QueueEncryptionChoice } from '@serverlessinbox/mailbox-cdk-shared';
+import type { QueueEncryptionChoice } from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                   from 'aws-cdk-lib/assertions';
 import { AttributeType, Table }       from 'aws-cdk-lib/aws-dynamodb';
 

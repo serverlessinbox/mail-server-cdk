@@ -1,5 +1,5 @@
 import type { IArtifactResolver }    from '@serverlessinbox/artifact-registry-cdk';
-import { TypeScriptLambda }          from '@serverlessinbox/mailbox-cdk-shared';
+import { TypeScriptLambda }          from '@serverlessinbox/mail-server-cdk-shared';
 import type { IIdentityProvisioner } from '@serverlessinbox/mailbox';
 import type { IUserPool }            from 'aws-cdk-lib/aws-cognito';
 import { Duration }                  from 'aws-cdk-lib';

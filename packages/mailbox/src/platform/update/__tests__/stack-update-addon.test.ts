@@ -6,7 +6,7 @@
  * the region it was synthesized in.
  */
 
-import { getAttLogicalId }                                         from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { getAttLogicalId }                                         from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Match, Template }                                         from 'aws-cdk-lib/assertions';
 import * as dynamodb                                               from 'aws-cdk-lib/aws-dynamodb';
 import type { Stack }                                              from 'aws-cdk-lib';

@@ -1,4 +1,4 @@
-import { CaughtError, type LoggerBuffer } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { CaughtError, type LoggerBuffer } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { TargetResult }              from './removal';
 import type { TargetResults }             from './target-results';

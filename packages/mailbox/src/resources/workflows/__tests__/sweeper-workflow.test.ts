@@ -9,7 +9,7 @@
  * The state machine is retained, or the sweep could not finish once the stack is deleted.
  */
 
-import { renderLiteralText, statementsForAction }         from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { renderLiteralText, statementsForAction }         from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                                       from 'aws-cdk-lib/assertions';
 import * as iam                                           from 'aws-cdk-lib/aws-iam';
 import * as lambda                                        from 'aws-cdk-lib/aws-lambda';

@@ -2,7 +2,7 @@ import { ACMClient }                   from '@aws-sdk/client-acm';
 import { EventBridgeClient }           from '@aws-sdk/client-eventbridge';
 import { IAMClient }                   from '@aws-sdk/client-iam';
 import { LambdaClient }                from '@aws-sdk/client-lambda';
-import { toRegion, type LoggerBuffer } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { toRegion, type LoggerBuffer } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { WorkerConfig }           from './config';
 import { RootStackMembership }         from './root-stack-membership';

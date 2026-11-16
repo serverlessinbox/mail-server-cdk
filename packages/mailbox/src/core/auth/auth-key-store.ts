@@ -1,5 +1,5 @@
 import type { IArtifactResolver }                from '@serverlessinbox/artifact-registry-cdk';
-import { ComponentDescription }                  from '@serverlessinbox/mailbox-cdk-shared';
+import { ComponentDescription }                  from '@serverlessinbox/mail-server-cdk-shared';
 import { Construct }                             from 'constructs';
 
 import { AuthKeyStoreUpdaterLambda }             from '../../resources/lambdas/auth-key-store-updater-lambda';

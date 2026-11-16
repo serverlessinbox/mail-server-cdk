@@ -7,8 +7,8 @@
  * code mid-run.
  */
 
-import { getAttLogicalId, statementsForRole } from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { ServerlessInboxTagKeys }             from '@serverlessinbox/mailbox-cdk-shared';
+import { getAttLogicalId, statementsForRole } from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { ServerlessInboxTagKeys }             from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                    from 'aws-cdk-lib/assertions';
 import { PolicyStatement }                    from 'aws-cdk-lib/aws-iam';
 import type { IGrantable }                    from 'aws-cdk-lib/aws-iam';

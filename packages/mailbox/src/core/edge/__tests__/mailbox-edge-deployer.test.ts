@@ -8,7 +8,7 @@
  */
 
 import type { IArtifactResolver }                     from '@serverlessinbox/artifact-registry-cdk';
-import { renderWithTokens, statementsForAction }      from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { renderWithTokens, statementsForAction }      from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Match, Template }                            from 'aws-cdk-lib/assertions';
 import { Table }                                      from 'aws-cdk-lib/aws-dynamodb';
 import * as route53                                   from 'aws-cdk-lib/aws-route53';

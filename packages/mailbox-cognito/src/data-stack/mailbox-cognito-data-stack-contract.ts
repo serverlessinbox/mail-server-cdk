@@ -1,4 +1,4 @@
-import type { ServerlessInboxDeployerType } from '@serverlessinbox/mailbox-cdk-shared';
+import type { ServerlessInboxDeployerType } from '@serverlessinbox/mail-server-cdk-shared';
 
 import { MfaMode }                          from '../user-pool/mfa-mode';
 

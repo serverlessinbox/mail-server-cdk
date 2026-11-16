@@ -1,5 +1,5 @@
 import type { IArtifactResolver }         from '@serverlessinbox/artifact-registry-cdk';
-import { MailboxArtifactResolverFactory } from '@serverlessinbox/mailbox-cdk-shared';
+import { MailboxArtifactResolverFactory } from '@serverlessinbox/mail-server-cdk-shared';
 import type { Construct }                 from 'constructs';
 
 import { loadMailboxArtifactVersions }    from './mailbox-artifact-versions';

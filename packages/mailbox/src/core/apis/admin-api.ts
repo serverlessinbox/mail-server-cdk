@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                      from '@serverlessinbox/artifact-registry-cdk';
-import { ComponentDescription }                        from '@serverlessinbox/mailbox-cdk-shared';
-import type { VendorLink }                             from '@serverlessinbox/mailbox-cdk-shared';
+import { ComponentDescription }                        from '@serverlessinbox/mail-server-cdk-shared';
+import type { VendorLink }                             from '@serverlessinbox/mail-server-cdk-shared';
 import { HttpLambdaAuthorizer }                        from 'aws-cdk-lib/aws-apigatewayv2-authorizers';
 import { HttpMethod }                                  from 'aws-cdk-lib/aws-apigatewayv2';
 import { Duration }                                    from 'aws-cdk-lib';

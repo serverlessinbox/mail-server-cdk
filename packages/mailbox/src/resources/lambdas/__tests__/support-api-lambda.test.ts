@@ -7,7 +7,7 @@
  * runtime, where nothing in the template reports it.
  */
 
-import { actionsOf }                         from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { actionsOf }                         from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                          from 'aws-cdk-lib/assertions';
 import { Table, AttributeType }              from 'aws-cdk-lib/aws-dynamodb';
 import type { Stack }                        from 'aws-cdk-lib';

@@ -1,8 +1,8 @@
 import { ArtifactZone, PinnedArtifactResolver } from '@serverlessinbox/artifact-registry-cdk';
 import type { ArtifactPin, IArtifactResolver }  from '@serverlessinbox/artifact-registry-cdk';
-import type { PolicyStatementJson }             from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { statementsForRole }                    from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { ServerlessInboxTagKeys }               from '@serverlessinbox/mailbox-cdk-shared';
+import type { PolicyStatementJson }             from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { statementsForRole }                    from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { ServerlessInboxTagKeys }               from '@serverlessinbox/mail-server-cdk-shared';
 import type { Template }                        from 'aws-cdk-lib/assertions';
 import { App, BootstraplessSynthesizer, Stack } from 'aws-cdk-lib';
 

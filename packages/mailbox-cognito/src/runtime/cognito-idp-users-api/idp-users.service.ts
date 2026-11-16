@@ -11,9 +11,9 @@ import {
   type CognitoIdentityProviderClient,
 }                                                                               from '@aws-sdk/client-cognito-identity-provider';
 import { create }                                                               from '@bufbuild/protobuf';
-import type { AuditEntry, HandlerContext }                                      from '@serverlessinbox/mailbox-addon-sdk';
-import { ConflictError, InvalidInputError, NotFoundError }                      from '@serverlessinbox/mailbox-addon-sdk';
-import { CaughtError, toTenantId, type LoggerBuffer, type TenantId }            from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import type { AuditEntry, HandlerContext }                                      from '@serverlessinbox/mail-server-addon-sdk';
+import { ConflictError, InvalidInputError, NotFoundError }                      from '@serverlessinbox/mail-server-addon-sdk';
+import { CaughtError, toTenantId, type LoggerBuffer, type TenantId }            from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { toGroupName, toUserSubject, toUsername, type GroupName,
   type UserPoolId, type UserSubject, type Username }                            from '../shared/cognito-identifiers';

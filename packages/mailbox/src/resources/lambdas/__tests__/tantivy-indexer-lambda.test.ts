@@ -7,7 +7,7 @@
  * changelog tables without writing them, and reads and writes only the search index in the bucket.
  */
 
-import { actionsOf }                         from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { actionsOf }                         from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                          from 'aws-cdk-lib/assertions';
 import { AttributeType, Table }              from 'aws-cdk-lib/aws-dynamodb';
 import { Bucket }                            from 'aws-cdk-lib/aws-s3';

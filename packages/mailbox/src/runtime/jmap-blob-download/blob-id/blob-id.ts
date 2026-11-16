@@ -1,4 +1,4 @@
-import type { Branded } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import type { Branded } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 /**
  * A blob id as it arrives in the download query: the decoded id in unpadded base64url. A string of its own

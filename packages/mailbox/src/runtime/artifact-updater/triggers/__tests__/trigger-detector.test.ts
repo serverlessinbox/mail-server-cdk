@@ -7,7 +7,7 @@
  * so what the detector returns is exactly what it asked the builder for.
  */
 
-import { LoggerBuffer, ParentStackStatus }                                      from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer, ParentStackStatus }                                      from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import {
   badConfigCycle,

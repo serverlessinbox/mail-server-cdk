@@ -1,5 +1,5 @@
-require('@serverlessinbox/eslint-plugin-mailbox/register');
-const mailbox = require('@serverlessinbox/eslint-plugin-mailbox');
+require('@serverlessinbox/eslint-plugin-mail-server/register');
+const mailbox = require('@serverlessinbox/eslint-plugin-mail-server');
 
 module.exports = [
   {

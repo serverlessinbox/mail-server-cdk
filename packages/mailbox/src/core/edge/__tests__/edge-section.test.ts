@@ -6,7 +6,7 @@
  * resource's logical ID, so a rename replaces deployed resources), and the two children it adds on
  * request because their inputs exist only after the UIs and the APIs.
  */
-import { ServerlessInboxTagKeys }                            from '@serverlessinbox/mailbox-cdk-shared';
+import { ServerlessInboxTagKeys }                            from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                                   from 'aws-cdk-lib/assertions';
 import * as acm                                              from 'aws-cdk-lib/aws-certificatemanager';
 import { Table }                                             from 'aws-cdk-lib/aws-dynamodb';

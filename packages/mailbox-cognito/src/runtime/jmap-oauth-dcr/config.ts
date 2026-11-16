@@ -4,7 +4,7 @@ import {
   toFunctionName,
   type BaseConfig,
   type FunctionName,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { toUserPoolId, type UserPoolId }                                        from '../shared/cognito-identifiers';
 

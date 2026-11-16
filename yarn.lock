@@ -1976,9 +1976,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@serverlessinbox/eslint-plugin-mailbox@workspace:*, @serverlessinbox/eslint-plugin-mailbox@workspace:packages/eslint-plugin-mailbox":
+"@serverlessinbox/eslint-plugin-mail-server@workspace:*, @serverlessinbox/eslint-plugin-mail-server@workspace:packages/eslint-plugin-mail-server":
   version: 0.0.0-use.local
-  resolution: "@serverlessinbox/eslint-plugin-mailbox@workspace:packages/eslint-plugin-mailbox"
+  resolution: "@serverlessinbox/eslint-plugin-mail-server@workspace:packages/eslint-plugin-mail-server"
   dependencies:
     "@types/jest": "npm:^29.0.0"
     "@types/node": "npm:^24.10.1"
@@ -1994,9 +1994,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serverlessinbox/mailbox-addon-sdk@workspace:*, @serverlessinbox/mailbox-addon-sdk@workspace:packages/mailbox-addon-sdk":
+"@serverlessinbox/mail-server-addon-sdk@workspace:*, @serverlessinbox/mail-server-addon-sdk@workspace:packages/mail-server-addon-sdk":
   version: 0.0.0-use.local
-  resolution: "@serverlessinbox/mailbox-addon-sdk@workspace:packages/mailbox-addon-sdk"
+  resolution: "@serverlessinbox/mail-server-addon-sdk@workspace:packages/mail-server-addon-sdk"
   dependencies:
     "@aws-sdk/client-sqs": "npm:^3.1132.0"
     "@bufbuild/protobuf": "npm:^2.2.3"
@@ -2012,9 +2012,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serverlessinbox/mailbox-bundler@workspace:*, @serverlessinbox/mailbox-bundler@workspace:packages/mailbox-bundler":
+"@serverlessinbox/mail-server-bundler@workspace:*, @serverlessinbox/mail-server-bundler@workspace:packages/mail-server-bundler":
   version: 0.0.0-use.local
-  resolution: "@serverlessinbox/mailbox-bundler@workspace:packages/mailbox-bundler"
+  resolution: "@serverlessinbox/mail-server-bundler@workspace:packages/mail-server-bundler"
   dependencies:
     "@types/jest": "npm:^29.0.0"
     "@types/node": "npm:^24.10.1"
@@ -2030,13 +2030,13 @@ __metadata:
   peerDependencies:
     esbuild: ^0.27.1
   bin:
-    mailbox-bundler: ./bin/index-typescript.js
+    mail-server-bundler: ./bin/index-typescript.js
   languageName: unknown
   linkType: soft
 
-"@serverlessinbox/mailbox-cdk-shared@workspace:*, @serverlessinbox/mailbox-cdk-shared@workspace:packages/mailbox-cdk-shared":
+"@serverlessinbox/mail-server-cdk-shared@workspace:*, @serverlessinbox/mail-server-cdk-shared@workspace:packages/mail-server-cdk-shared":
   version: 0.0.0-use.local
-  resolution: "@serverlessinbox/mailbox-cdk-shared@workspace:packages/mailbox-cdk-shared"
+  resolution: "@serverlessinbox/mail-server-cdk-shared@workspace:packages/mail-server-cdk-shared"
   dependencies:
     "@aws-sdk/client-cloudformation": "npm:^3.1132.0"
     "@aws-sdk/client-cloudfront": "npm:^3.1132.0"
@@ -2045,7 +2045,7 @@ __metadata:
     "@aws-sdk/client-sfn": "npm:^3.1132.0"
     "@serverlessinbox/artifact-registry": "npm:^0.3.6"
     "@serverlessinbox/artifact-registry-cdk": "npm:^0.3.0"
-    "@serverlessinbox/mailbox-bundler": "workspace:*"
+    "@serverlessinbox/mail-server-bundler": "workspace:*"
     "@types/jest": "npm:^29.0.0"
     "@types/mime-types": "npm:^2.1.4"
     "@types/node": "npm:^24.10.1"
@@ -2075,10 +2075,10 @@ __metadata:
     "@bufbuild/protobuf": "npm:^2.2.3"
     "@serverlessinbox/artifact-registry": "npm:^0.3.6"
     "@serverlessinbox/artifact-registry-cdk": "npm:^0.3.0"
+    "@serverlessinbox/mail-server-addon-sdk": "workspace:*"
+    "@serverlessinbox/mail-server-bundler": "workspace:*"
+    "@serverlessinbox/mail-server-cdk-shared": "workspace:*"
     "@serverlessinbox/mailbox": "workspace:*"
-    "@serverlessinbox/mailbox-addon-sdk": "workspace:*"
-    "@serverlessinbox/mailbox-bundler": "workspace:*"
-    "@serverlessinbox/mailbox-cdk-shared": "workspace:*"
     "@types/aws-lambda": "npm:^8.10.159"
     "@types/jest": "npm:^29.0.0"
     "@types/node": "npm:^24.10.1"
@@ -2119,8 +2119,8 @@ __metadata:
     "@aws-sdk/client-sfn": "npm:^3.1132.0"
     "@serverlessinbox/artifact-registry": "npm:^0.3.6"
     "@serverlessinbox/artifact-registry-cdk": "npm:^0.3.0"
-    "@serverlessinbox/mailbox-bundler": "workspace:*"
-    "@serverlessinbox/mailbox-cdk-shared": "workspace:*"
+    "@serverlessinbox/mail-server-bundler": "workspace:*"
+    "@serverlessinbox/mail-server-cdk-shared": "workspace:*"
     "@types/aws-lambda": "npm:^8.10.159"
     "@types/jest": "npm:^29.0.0"
     "@types/mime-types": "npm:^2.1.4"
@@ -6848,7 +6848,7 @@ __metadata:
     "@serverlessinbox/artifact-registry": "npm:^0.3.6"
     "@serverlessinbox/artifact-registry-cdk": "npm:^0.3.0"
     "@serverlessinbox/artifact-registry-gitversion": "npm:^0.3.4"
-    "@serverlessinbox/eslint-plugin-mailbox": "workspace:*"
+    "@serverlessinbox/eslint-plugin-mail-server": "workspace:*"
     "@types/jest": "npm:^29.0.0"
     "@types/node": "npm:^24.10.1"
     aws-cdk-lib: "npm:^2.261.0"

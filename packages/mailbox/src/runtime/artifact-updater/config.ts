@@ -1,4 +1,4 @@
-import { env, loadBaseConfig, toRegion, type BaseConfig, type Region } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { env, loadBaseConfig, toRegion, type BaseConfig, type Region } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 const GRANULARITIES = ['major', 'minor'] as const;
 

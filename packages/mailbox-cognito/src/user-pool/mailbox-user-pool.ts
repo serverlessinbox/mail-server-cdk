@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
 import { MailboxArtifactResolverFactory, resolveDeployerType, slugifyLabel,
-  StackHelpers, StackIdentity }                                                 from '@serverlessinbox/mailbox-cdk-shared';
+  StackHelpers, StackIdentity }                                                 from '@serverlessinbox/mail-server-cdk-shared';
 import {
   AuthClientConfig,
   AuthPolicyConfig,

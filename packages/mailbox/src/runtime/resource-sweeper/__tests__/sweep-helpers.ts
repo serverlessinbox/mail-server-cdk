@@ -8,7 +8,7 @@ import { DeleteCertificateCommand, DescribeCertificateCommand,
 import type { ACMClient }                                                       from '@aws-sdk/client-acm';
 import { CloudFormationClient }                                                 from '@aws-sdk/client-cloudformation';
 import { SFNClient }                                                            from '@aws-sdk/client-sfn';
-import { LoggerBuffer, ParentStackStatus, toRegion }                            from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer, ParentStackStatus, toRegion }                            from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import type { CloudFormationCustomResourceEvent, Context }                      from 'aws-lambda';
 import type { AwsClientStub }                                                   from 'aws-sdk-client-mock';
 

@@ -1,4 +1,4 @@
-import { StackIdentity, rootStackResourceTagConditions }              from '@serverlessinbox/mailbox-cdk-shared';
+import { StackIdentity, rootStackResourceTagConditions }              from '@serverlessinbox/mail-server-cdk-shared';
 import * as acm                                                       from 'aws-cdk-lib/aws-certificatemanager';
 import * as iam                                                       from 'aws-cdk-lib/aws-iam';
 import { IFunction }                                                  from 'aws-cdk-lib/aws-lambda';

@@ -1,5 +1,5 @@
 import { IAMClient }                                                 from '@aws-sdk/client-iam';
-import type { LoggerBuffer }                                         from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import type { LoggerBuffer }                                         from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { SweeperRoleRemovalInput, TargetResult, TargetSweeper } from '../removal';
 import { RootStackMembership }                                       from '../root-stack-membership';

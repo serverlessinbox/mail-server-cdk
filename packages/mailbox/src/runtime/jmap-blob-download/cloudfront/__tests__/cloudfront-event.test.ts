@@ -4,7 +4,7 @@
  * other shape is refused as an expected failure instead of failing on a missing field.
  */
 
-import { ExpectedFailure }                     from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { ExpectedFailure }                     from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { cloudFrontEventOf }                   from '../../__tests__/jmap-blob-download-helpers';
 import { firstHeaderValue, readOriginRequest } from '../cloudfront-event';

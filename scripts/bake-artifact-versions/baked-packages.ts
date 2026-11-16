@@ -12,7 +12,7 @@ export class BakedPackages {
   public static forRepository(root: string, mailboxPinsFile: string): BakedPackage[] {
     const mailboxDirectory = path.join(root, 'packages', 'mailbox');
     const cognitoDirectory = path.join(root, 'packages', 'mailbox-cognito');
-    const sharedDirectory  = path.join(root, 'packages', 'mailbox-cdk-shared');
+    const sharedDirectory  = path.join(root, 'packages', 'mail-server-cdk-shared');
     return [
       {
         outputFile:       path.join(mailboxDirectory, 'artifact-versions.json'),

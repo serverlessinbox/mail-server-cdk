@@ -1,4 +1,4 @@
-import { toRegion, toTableName, type Region, type TableName }                   from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { toRegion, toTableName, type Region, type TableName }                   from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import * as t                                                                   from 'typanion';
 
 import { firstHeaderValue, type CloudFrontRequest }                             from './cloudfront/cloudfront-event';

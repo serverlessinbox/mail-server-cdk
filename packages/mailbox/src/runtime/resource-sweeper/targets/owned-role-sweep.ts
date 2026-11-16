@@ -1,6 +1,6 @@
 import { DeleteRoleCommand, DeleteRolePolicyCommand, IAMClient,
   ListRoleTagsCommand }                                                         from '@aws-sdk/client-iam';
-import { CaughtError, parseArn, type LoggerBuffer }                             from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { CaughtError, parseArn, type LoggerBuffer }                             from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { OwnershipCheckedDelete }                                               from '../ownership-checked-delete';
 import type { TargetResult, WorkerRootStack }                                   from '../removal';

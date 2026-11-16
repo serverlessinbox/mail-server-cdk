@@ -1,4 +1,4 @@
-import { PositionHash, StackIdentity }   from '@serverlessinbox/mailbox-cdk-shared';
+import { PositionHash, StackIdentity }   from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }               from 'aws-cdk-lib/assertions';
 import * as iam                          from 'aws-cdk-lib/aws-iam';
 import * as cdk                          from 'aws-cdk-lib';

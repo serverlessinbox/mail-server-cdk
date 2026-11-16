@@ -6,7 +6,7 @@ import {
   type BaseConfig,
   type FunctionName,
   type QueueUrl,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import * as t                                                                   from 'typanion';
 
 import { isGroupName, toUserPoolId, type GroupName, type UserPoolId }           from '../shared/cognito-identifiers';

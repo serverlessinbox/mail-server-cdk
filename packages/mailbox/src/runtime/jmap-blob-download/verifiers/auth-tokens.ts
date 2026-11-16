@@ -1,4 +1,4 @@
-import type { AccountId, Issuer, TenantId } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import type { AccountId, Issuer, TenantId } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { Audience }                    from '../auth-identifiers';
 

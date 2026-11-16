@@ -8,7 +8,7 @@
  * for SendRawEmail. The statement each requested grant renders is pinned by the resource that owns it.
  */
 
-import { statementsForAction }                                              from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { statementsForAction }                                              from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                                                         from 'aws-cdk-lib/assertions';
 
 import type { IStateChangeFanout }                                          from '../../../contracts/state-change-fanout';

@@ -9,8 +9,8 @@
  * the template creates and never by tag (a tag condition denies S3 object writes).
  */
 
-import { actionsOf, statementsForRole }                  from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import type { PolicyStatementJson }                      from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { actionsOf, statementsForRole }                  from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import type { PolicyStatementJson }                      from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                                      from 'aws-cdk-lib/assertions';
 import * as cdk                                          from 'aws-cdk-lib';
 import { App, BootstraplessSynthesizer }                 from 'aws-cdk-lib';

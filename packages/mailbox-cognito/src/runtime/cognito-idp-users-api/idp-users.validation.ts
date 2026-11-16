@@ -1,4 +1,4 @@
-import { InvalidInputError }                                                    from '@serverlessinbox/mailbox-addon-sdk';
+import { InvalidInputError }                                                    from '@serverlessinbox/mail-server-addon-sdk';
 
 import type { CreateIdpUserRequest, ListIdpUsersRequest,
   SetIdpUserPasswordRequest }                                                   from './generated/idp_users_pb';

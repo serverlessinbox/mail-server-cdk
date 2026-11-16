@@ -1,4 +1,4 @@
-import { StackNamedTable }               from '@serverlessinbox/mailbox-cdk-shared';
+import { StackNamedTable }               from '@serverlessinbox/mail-server-cdk-shared';
 import { AttributeType, ProjectionType } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct }                     from 'constructs';
 

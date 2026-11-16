@@ -18,7 +18,7 @@ tasks:
       - >-
         task -d {{.TASKFILE_DIR}}/../../remote-git/mailbox-idl/admin-api generate:ts
         OUTPUT_DIR={{.TASKFILE_DIR}}/src/runtime/cognito-idp-users-api/generated
-        HANDLER_CONTEXT_MODULE=@serverlessinbox/mailbox-addon-sdk
+        HANDLER_CONTEXT_MODULE=@serverlessinbox/mail-server-addon-sdk
         PROTO_PATH=proto/idp_users.proto
 
   verify:proto:idp-users:

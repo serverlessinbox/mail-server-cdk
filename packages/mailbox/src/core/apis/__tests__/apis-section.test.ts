@@ -9,7 +9,7 @@
  * selves.
  */
 import { ArtifactZone, PinnedArtifactResolver }                       from '@serverlessinbox/artifact-registry-cdk';
-import { ServerlessInboxTagKeys, VENDOR_ACCOUNT_ID }                  from '@serverlessinbox/mailbox-cdk-shared';
+import { ServerlessInboxTagKeys, VENDOR_ACCOUNT_ID }                  from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                                            from 'aws-cdk-lib/assertions';
 import * as acm                                                       from 'aws-cdk-lib/aws-certificatemanager';
 import { Table, AttributeType, TableEncryption }                      from 'aws-cdk-lib/aws-dynamodb';

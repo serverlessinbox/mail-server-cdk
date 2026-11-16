@@ -1,7 +1,7 @@
 import type { IArtifactResolver, ResolvedArtifact }                             from '@serverlessinbox/artifact-registry-cdk';
-import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mailbox-cdk-shared';
+import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mail-server-cdk-shared';
 import { ArtifactObject, ComponentDescription, DeployedStack, DeployerInfra,
-  PositionHash, StackIdentity, serverlessInboxSubStackTags }                    from '@serverlessinbox/mailbox-cdk-shared';
+  PositionHash, StackIdentity, serverlessInboxSubStackTags }                    from '@serverlessinbox/mail-server-cdk-shared';
 import * as acm                                                                 from 'aws-cdk-lib/aws-certificatemanager';
 import * as iam                                                                 from 'aws-cdk-lib/aws-iam';
 import * as lambda                                                              from 'aws-cdk-lib/aws-lambda';

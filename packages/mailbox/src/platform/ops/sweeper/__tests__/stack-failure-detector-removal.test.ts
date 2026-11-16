@@ -7,7 +7,7 @@
  * the detector time to report a failed stack before the sweeper tears it down.
  */
 
-import { StackIdentity }                                                        from '@serverlessinbox/mailbox-cdk-shared';
+import { StackIdentity }                                                        from '@serverlessinbox/mail-server-cdk-shared';
 import { Duration }                                                             from 'aws-cdk-lib';
 
 import { stateBodyOf }                                                          from '../../../../__tests__/state-machine-helpers';

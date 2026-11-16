@@ -1,4 +1,4 @@
-import { BaseQueue, type QueueEncryptionChoice }         from '@serverlessinbox/mailbox-cdk-shared';
+import { BaseQueue, type QueueEncryptionChoice }         from '@serverlessinbox/mail-server-cdk-shared';
 import { IGrantable, PolicyStatement, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { IKey }                                          from 'aws-cdk-lib/aws-kms';
 import { SqsSubscription }                               from 'aws-cdk-lib/aws-sns-subscriptions';

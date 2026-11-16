@@ -7,7 +7,7 @@
  * `AuthKeyStoreTable.grantReadHmac`; here only the hand-off of the role to those grants is asserted.
  */
 
-import { statementsForAction }     from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { statementsForAction }     from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Match, Template }         from 'aws-cdk-lib/assertions';
 import { Table }                   from 'aws-cdk-lib/aws-dynamodb';
 import { Stack }                   from 'aws-cdk-lib';

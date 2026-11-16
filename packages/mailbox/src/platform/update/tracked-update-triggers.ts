@@ -1,4 +1,4 @@
-import { GateOnConditionAspect }    from '@serverlessinbox/mailbox-cdk-shared';
+import { GateOnConditionAspect }    from '@serverlessinbox/mail-server-cdk-shared';
 import * as lambda                  from 'aws-cdk-lib/aws-lambda';
 import * as cdk                     from 'aws-cdk-lib';
 import { Construct, IConstruct }    from 'constructs';

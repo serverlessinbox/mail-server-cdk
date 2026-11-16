@@ -4,8 +4,8 @@ import {
   ServerlessInboxTagKeys,
   rootStackRequestTagConditions,
   rootStackResourceTagConditions,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared';
-import type { IArtifactObject, IDeployedStack, RootStack }                      from '@serverlessinbox/mailbox-cdk-shared';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared';
+import type { IArtifactObject, IDeployedStack, RootStack }                      from '@serverlessinbox/mail-server-cdk-shared';
 import { PolicyStatement }                                                      from 'aws-cdk-lib/aws-iam';
 import type { IRole }                                                           from 'aws-cdk-lib/aws-iam';
 import { ArnFormat, Aws, Stack }                                                from 'aws-cdk-lib';

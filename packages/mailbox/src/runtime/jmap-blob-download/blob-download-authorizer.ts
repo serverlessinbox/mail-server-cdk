@@ -1,5 +1,5 @@
 import { CaughtError, toAccountId, type AccountId, type LoggerBuffer,
-  type Region, type TableName, type TenantId }                                  from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+  type Region, type TableName, type TenantId }                                  from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { PAT_SESSION_IDENTITY }                                                 from './auth-identifiers';
 import { decodeBlobId, isSafeBlobPath, parseBlobId }                            from './blob-id/blob-id-format';

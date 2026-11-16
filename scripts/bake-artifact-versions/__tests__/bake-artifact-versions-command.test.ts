@@ -23,7 +23,7 @@ describe('BakeArtifactVersionsCommand', () => {
 
   function repositoryRoot(): string {
     const root = newFolder('bake-artifact-versions-command-');
-    for (const name of ['mailbox', 'mailbox-cognito', 'mailbox-cdk-shared']) {
+    for (const name of ['mailbox', 'mailbox-cognito', 'mail-server-cdk-shared']) {
       mkdirSync(path.join(root, 'packages', name), { recursive: true });
       writeFileSync(path.join(root, 'packages', name, 'package.json'), JSON.stringify({ name, version: '4.5.6' }));
     }

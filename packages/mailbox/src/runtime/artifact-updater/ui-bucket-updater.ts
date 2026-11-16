@@ -7,7 +7,7 @@ import {
   parseArn,
   ServerlessInboxTagKeys,
   type LoggerBuffer,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { UiTarget }                                                        from './artifact-target';
 import type { ReleaseArtifacts, StaleTarget }                                   from './release-artifacts';

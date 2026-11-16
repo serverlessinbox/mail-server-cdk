@@ -1,4 +1,4 @@
-import { ExpectedFailure }          from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { ExpectedFailure }          from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import type { Context }             from 'aws-lambda';
 
 import type { HttpTriggerResponse } from './triggers/http-trigger';

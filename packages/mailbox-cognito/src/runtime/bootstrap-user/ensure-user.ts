@@ -3,7 +3,7 @@ import {
   AdminCreateUserCommand,
   type CognitoIdentityProviderClient,
 }                                                                               from '@aws-sdk/client-cognito-identity-provider';
-import { CaughtError, type LoggerBuffer }                                       from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { CaughtError, type LoggerBuffer }                                       from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { GroupName, UserPoolId, Username }                                 from '../shared/cognito-identifiers';
 

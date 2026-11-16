@@ -5,8 +5,8 @@ import {
   applyServerlessInboxBaseTags,
   resolveDeployerType,
   resolveVendorAccountIds,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared';
-import type { ServerlessInboxDeployerType, VendorLink }                         from '@serverlessinbox/mailbox-cdk-shared';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared';
+import type { ServerlessInboxDeployerType, VendorLink }                         from '@serverlessinbox/mail-server-cdk-shared';
 import { Aws }                                                                  from 'aws-cdk-lib';
 import type { Construct }                                                       from 'constructs';
 

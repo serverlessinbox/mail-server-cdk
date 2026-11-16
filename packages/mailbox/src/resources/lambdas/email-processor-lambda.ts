@@ -1,5 +1,5 @@
 import type { IArtifactResolver }                      from '@serverlessinbox/artifact-registry-cdk';
-import { ComponentDescription, GoLambda }              from '@serverlessinbox/mailbox-cdk-shared';
+import { ComponentDescription, GoLambda }              from '@serverlessinbox/mail-server-cdk-shared';
 import { Duration }                                    from 'aws-cdk-lib';
 import { Construct }                                   from 'constructs';
 

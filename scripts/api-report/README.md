@@ -14,7 +14,7 @@ yarn api-report diff    [--package <folder>]
 
 | Option | Meaning |
 |---|---|
-| `--package` | Folder of the package to report on. Defaults to `packages/mailbox-addon-sdk`. Given once. |
+| `--package` | Folder of the package to report on. Defaults to `packages/mail-server-addon-sdk`. Given once. |
 
 ## Examples
 

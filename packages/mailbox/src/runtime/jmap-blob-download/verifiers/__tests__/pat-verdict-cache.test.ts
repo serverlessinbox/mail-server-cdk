@@ -5,7 +5,7 @@
  * denials; a map that was not bounded would let attacker-chosen hashes grow the container without limit.
  */
 
-import { toTenantId }      from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { toTenantId }      from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { PatVerdict } from '../auth-tokens';
 import { PatVerdictCache } from '../pat-verdict-cache';

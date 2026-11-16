@@ -1,5 +1,5 @@
 import type { IArtifactResolver, RegistryLocation, ResolvedArtifact }        from '@serverlessinbox/artifact-registry-cdk';
-import { ServerlessInboxTagKeys, StackIdentity }                             from '@serverlessinbox/mailbox-cdk-shared';
+import { ServerlessInboxTagKeys, StackIdentity }                             from '@serverlessinbox/mail-server-cdk-shared';
 import * as iam                                                              from 'aws-cdk-lib/aws-iam';
 import * as lambda                                                           from 'aws-cdk-lib/aws-lambda';
 import { Aws, Duration, Fn, Tags }                                           from 'aws-cdk-lib';

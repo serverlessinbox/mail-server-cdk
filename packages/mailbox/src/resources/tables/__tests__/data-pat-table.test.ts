@@ -13,7 +13,7 @@ import {
   resourcesOf,
   statementsForRole,
   type PolicyStatementJson,
-}                                        from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+}                                        from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                      from 'aws-cdk-lib/assertions';
 import { Table }                         from 'aws-cdk-lib/aws-dynamodb';
 import * as iam                          from 'aws-cdk-lib/aws-iam';

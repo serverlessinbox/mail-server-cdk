@@ -1,5 +1,5 @@
-import { PositionHash, rootStackResourceTagConditions, StackIdentity }          from '@serverlessinbox/mailbox-cdk-shared';
-import type { RootStack }                                                       from '@serverlessinbox/mailbox-cdk-shared';
+import { PositionHash, rootStackResourceTagConditions, StackIdentity }          from '@serverlessinbox/mail-server-cdk-shared';
+import type { RootStack }                                                       from '@serverlessinbox/mail-server-cdk-shared';
 import * as iam                                                                 from 'aws-cdk-lib/aws-iam';
 import { Fn, Aws, Stack, Duration }                                             from 'aws-cdk-lib';
 import { Construct }                                                            from 'constructs';

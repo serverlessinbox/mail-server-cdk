@@ -10,7 +10,7 @@ import {
   ParentStackStatus,
   readCustomResourceRequest,
   withSmokeTest,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { wrapHandler }                                                          from 'aws-custom-resources';
 
 import { BootstrapUserAnswers }                                                 from './bootstrap-user-answers';

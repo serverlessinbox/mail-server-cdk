@@ -1,7 +1,7 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
 import { TypeScriptLambda, ServerlessInboxTagKeys,
-  rootStackResourceTagConditions, GateOnConditionAspect }                       from '@serverlessinbox/mailbox-cdk-shared';
-import type { RootStack }                                                       from '@serverlessinbox/mailbox-cdk-shared';
+  rootStackResourceTagConditions, GateOnConditionAspect }                       from '@serverlessinbox/mail-server-cdk-shared';
+import type { RootStack }                                                       from '@serverlessinbox/mail-server-cdk-shared';
 import { PolicyStatement }                                                      from 'aws-cdk-lib/aws-iam';
 import { Aspects, Aws, Duration }                                               from 'aws-cdk-lib';
 import type { CfnCondition }                                                    from 'aws-cdk-lib';

@@ -19,8 +19,8 @@
  * `DefaultPolicy` cannot be removed that way, so the role could never be deleted.
  */
 
-import { actionsOf, resourcesOf, statementsOfNamedPolicy } from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { PositionHash }                                    from '@serverlessinbox/mailbox-cdk-shared';
+import { actionsOf, resourcesOf, statementsOfNamedPolicy } from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { PositionHash }                                    from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                                        from 'aws-cdk-lib/assertions';
 import { Construct }                                       from 'constructs';
 

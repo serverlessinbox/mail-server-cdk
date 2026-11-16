@@ -4,8 +4,8 @@ import {
   resourcesOf,
   statementsForRole,
   type PolicyStatementJson,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { PositionHash, StackIdentity }                                          from '@serverlessinbox/mailbox-cdk-shared';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { PositionHash, StackIdentity }                                          from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                                                      from 'aws-cdk-lib/assertions';
 import * as iam                                                                 from 'aws-cdk-lib/aws-iam';
 import * as kms                                                                 from 'aws-cdk-lib/aws-kms';

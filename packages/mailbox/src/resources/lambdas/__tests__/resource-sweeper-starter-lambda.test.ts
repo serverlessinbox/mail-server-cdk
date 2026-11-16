@@ -13,8 +13,8 @@
 
 import { ArtifactZone }                                            from '@serverlessinbox/artifact-registry-cdk';
 import type { ArtifactPin }                                        from '@serverlessinbox/artifact-registry-cdk';
-import { actionsOf, allPolicyStatements }                          from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { env }                                                     from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { actionsOf, allPolicyStatements }                          from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { env }                                                     from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { Template }                                                from 'aws-cdk-lib/assertions';
 
 import { loadStarter }                                             from '../../../runtime/resource-sweeper/config';

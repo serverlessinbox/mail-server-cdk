@@ -11,7 +11,7 @@
 process.env['SERVICE_NAME'] = 'data-override-resolver';
 process.env['LOG_LEVEL']    = 'verbose';
 
-import { captureCfnResponse }                      from '@serverlessinbox/mailbox-cdk-shared/runtime-test-support';
+import { captureCfnResponse }                      from '@serverlessinbox/mail-server-cdk-shared/runtime-test-support';
 
 import { handler }                                 from '../handler';
 import { TableOverrideResolver }                   from '../table-override-resolver';

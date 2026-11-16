@@ -14,7 +14,7 @@ import { CognitoIdentityProviderClient, CreateUserPoolClientCommand } from '@aws
 import type * as CognitoSdk                                           from '@aws-sdk/client-cognito-identity-provider';
 import { InvokeCommand, LambdaClient }                                from '@aws-sdk/client-lambda';
 import type * as LambdaSdk                                            from '@aws-sdk/client-lambda';
-import type { LoggerBuffer }                                          from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import type { LoggerBuffer }                                          from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                 from 'aws-sdk-client-mock';
 
 import type * as HandlerModule                                        from '../handler';

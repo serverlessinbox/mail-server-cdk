@@ -6,7 +6,7 @@ import {
 }                                                                               from '@aws-sdk/client-eventbridge';
 import { IAMClient }                                                            from '@aws-sdk/client-iam';
 import { LambdaClient, GetFunctionCommand, DeleteFunctionCommand }              from '@aws-sdk/client-lambda';
-import { parseArn, type LoggerBuffer }                                          from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { parseArn, type LoggerBuffer }                                          from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { OwnershipCheckedDelete }                                               from '../ownership-checked-delete';
 import type { StackFailureDetectorRemovalInput, TargetResult, TargetSweeper,

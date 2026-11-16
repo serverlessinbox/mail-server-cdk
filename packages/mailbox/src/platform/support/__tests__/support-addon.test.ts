@@ -7,8 +7,8 @@
  * the feature leak into a deployment that disabled it, or trust the wrong AWS account.
  */
 
-import { actionsOf, statementsForRole } from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { VENDOR_ACCOUNT_ID }            from '@serverlessinbox/mailbox-cdk-shared';
+import { actionsOf, statementsForRole } from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { VENDOR_ACCOUNT_ID }            from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }              from 'aws-cdk-lib/assertions';
 import * as cdk                         from 'aws-cdk-lib';
 

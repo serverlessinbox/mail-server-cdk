@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
-import { applyServerlessInboxComponentTag }                                     from '@serverlessinbox/mailbox-cdk-shared';
-import type { VendorLink }                                                      from '@serverlessinbox/mailbox-cdk-shared';
+import { applyServerlessInboxComponentTag }                                     from '@serverlessinbox/mail-server-cdk-shared';
+import type { VendorLink }                                                      from '@serverlessinbox/mail-server-cdk-shared';
 import type * as acm                                                            from 'aws-cdk-lib/aws-certificatemanager';
 import { Construct }                                                            from 'constructs';
 

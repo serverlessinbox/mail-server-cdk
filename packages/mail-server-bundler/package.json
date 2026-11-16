@@ -1,0 +1,30 @@
+{
+  "name": "@serverlessinbox/mail-server-bundler",
+  "version": "0.0.0",
+  "description": "Internal esbuild bundler for jsii CDK construct packages",
+  "license": "Apache-2.0",
+  "private": true,
+  "bin": "./bin/index-typescript.js",
+  "scripts": {
+    "test": "tsc -p tsconfig.test.json && jest"
+  },
+  "preferUnplugged": true,
+  "dependencies": {
+    "clipanion": "^4.0.0-rc.2",
+    "fflate": "^0.8.3",
+    "glob": "^10.3.10",
+    "typanion": "^3.14.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.0",
+    "@types/node": "^24.10.1",
+    "esbuild": "^0.27.1",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "esbuild": "^0.27.1"
+  }
+}

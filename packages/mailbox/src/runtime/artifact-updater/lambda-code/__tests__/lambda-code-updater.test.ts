@@ -15,7 +15,7 @@ import {
   TagResourceCommand,
   UpdateFunctionCodeCommand,
 }                                                                               from '@aws-sdk/client-lambda';
-import { LoggerBuffer, ServerlessInboxTagKeys }                                 from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer, ServerlessInboxTagKeys }                                 from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 
 import {

@@ -9,8 +9,8 @@
  * partition of the stack.
  */
 
-import { actionsOf, renderLiteralText, resourcesOf, statementsOfNamedPolicy } from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { PositionHash }                                                       from '@serverlessinbox/mailbox-cdk-shared';
+import { actionsOf, renderLiteralText, resourcesOf, statementsOfNamedPolicy } from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { PositionHash }                                                       from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                                                           from 'aws-cdk-lib/assertions';
 import { Construct }                                                          from 'constructs';
 import * as t                                                                 from 'typanion';

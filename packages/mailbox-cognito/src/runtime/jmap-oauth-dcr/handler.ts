@@ -1,6 +1,6 @@
 import { CognitoIdentityProviderClient }    from '@aws-sdk/client-cognito-identity-provider';
 import { LambdaClient }                     from '@aws-sdk/client-lambda';
-import { env, LoggerBuffer, withSmokeTest } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { env, LoggerBuffer, withSmokeTest } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import type { APIGatewayProxyEventV2 }      from 'aws-lambda';
 
 import { IdentityProvisionerClient }        from '../shared/identity-provisioner-client';

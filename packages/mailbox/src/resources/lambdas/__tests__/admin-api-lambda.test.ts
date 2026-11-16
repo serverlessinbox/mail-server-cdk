@@ -13,7 +13,7 @@
  * rename in the wrapper must fail here.
  */
 
-import { ServerlessInboxTagKeys, StackIdentity, VENDOR_ACCOUNT_ID } from '@serverlessinbox/mailbox-cdk-shared';
+import { ServerlessInboxTagKeys, StackIdentity, VENDOR_ACCOUNT_ID } from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                                          from 'aws-cdk-lib/assertions';
 import { Table, AttributeType, TableEncryption }                    from 'aws-cdk-lib/aws-dynamodb';
 import { Function as LambdaFunction }                               from 'aws-cdk-lib/aws-lambda';

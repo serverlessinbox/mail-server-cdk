@@ -1,4 +1,4 @@
-import { BaseQueue, type QueueEncryptionChoice } from '@serverlessinbox/mailbox-cdk-shared';
+import { BaseQueue, type QueueEncryptionChoice } from '@serverlessinbox/mail-server-cdk-shared';
 import { Duration }                              from 'aws-cdk-lib';
 import { Construct }                             from 'constructs';
 

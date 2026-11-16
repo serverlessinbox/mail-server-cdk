@@ -9,7 +9,7 @@
  * function that is never updated, never replaced, or never created.
  */
 
-import { ServerlessInboxTagKeys }        from '@serverlessinbox/mailbox-cdk-shared';
+import { ServerlessInboxTagKeys }        from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }               from 'aws-cdk-lib/assertions';
 import * as iam                          from 'aws-cdk-lib/aws-iam';
 import * as logs                         from 'aws-cdk-lib/aws-logs';

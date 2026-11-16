@@ -1,4 +1,4 @@
-import { isBrandedString, type Branded } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { isBrandedString, type Branded } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 /**
  * The identifiers of the people and OAuth registrations that the identity provisioner contract and the audit

@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
 import { ComponentDescription, MailboxArtifactResolverFactory, StackHelpers,
-  applyServerlessInboxComponentTag }                                            from '@serverlessinbox/mailbox-cdk-shared';
+  applyServerlessInboxComponentTag }                                            from '@serverlessinbox/mail-server-cdk-shared';
 import * as route53                                                             from 'aws-cdk-lib/aws-route53';
 import { Construct }                                                            from 'constructs';
 

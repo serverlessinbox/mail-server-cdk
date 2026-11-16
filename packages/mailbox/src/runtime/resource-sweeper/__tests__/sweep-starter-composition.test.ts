@@ -7,7 +7,7 @@
 
 import { CloudFormationClient, DescribeStacksCommand }             from '@aws-sdk/client-cloudformation';
 import { SFNClient, ListExecutionsCommand, StartExecutionCommand } from '@aws-sdk/client-sfn';
-import { LoggerBuffer, toRegion }                                  from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer, toRegion }                                  from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                              from 'aws-sdk-client-mock';
 
 import { SweepStarterComposition }                                 from '../sweep-starter-composition';

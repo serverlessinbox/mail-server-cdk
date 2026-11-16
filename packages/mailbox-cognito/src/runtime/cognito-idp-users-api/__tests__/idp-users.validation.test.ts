@@ -7,7 +7,7 @@
  */
 
 import { create }                                                               from '@bufbuild/protobuf';
-import { InvalidInputError }                                                    from '@serverlessinbox/mailbox-addon-sdk';
+import { InvalidInputError }                                                    from '@serverlessinbox/mail-server-addon-sdk';
 
 import {
   CreateIdpUserRequestSchema,

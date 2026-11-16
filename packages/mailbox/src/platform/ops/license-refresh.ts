@@ -1,5 +1,5 @@
 import type { IArtifactResolver }             from '@serverlessinbox/artifact-registry-cdk';
-import { ComponentDescription, StackHelpers } from '@serverlessinbox/mailbox-cdk-shared';
+import { ComponentDescription, StackHelpers } from '@serverlessinbox/mail-server-cdk-shared';
 import { Construct }                          from 'constructs';
 
 import { LicenseRefresherLambda }             from '../../resources/lambdas/license-refresher-lambda';

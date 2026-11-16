@@ -10,8 +10,8 @@
  */
 
 import type { IArtifactResolver }                                    from '@serverlessinbox/artifact-registry-cdk';
-import { statementsForAction }                                       from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { VENDOR_ACCOUNT_ID, ServerlessInboxTagKeys, StackIdentity }  from '@serverlessinbox/mailbox-cdk-shared';
+import { statementsForAction }                                       from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { VENDOR_ACCOUNT_ID, ServerlessInboxTagKeys, StackIdentity }  from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                                           from 'aws-cdk-lib/assertions';
 import { ReceiptRuleSet }                                            from 'aws-cdk-lib/aws-ses';
 import * as cdk                                                      from 'aws-cdk-lib';

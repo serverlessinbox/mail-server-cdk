@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
 import { ComponentDescription, PublicStaticAssetsBucket, StaticContentDeployer,
-  StaticContentSource }                                                         from '@serverlessinbox/mailbox-cdk-shared';
+  StaticContentSource }                                                         from '@serverlessinbox/mail-server-cdk-shared';
 import { HttpLambdaAuthorizer }                                                 from 'aws-cdk-lib/aws-apigatewayv2-authorizers';
 import { HttpLambdaIntegration, HttpUrlIntegration }                            from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 import {

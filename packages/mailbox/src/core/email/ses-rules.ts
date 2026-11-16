@@ -1,5 +1,5 @@
 import type { IArtifactResolver }                                   from '@serverlessinbox/artifact-registry-cdk';
-import { ComponentDescription, type QueueEncryptionChoice }         from '@serverlessinbox/mailbox-cdk-shared';
+import { ComponentDescription, type QueueEncryptionChoice }         from '@serverlessinbox/mail-server-cdk-shared';
 import { IBucket }                                                  from 'aws-cdk-lib/aws-s3';
 import { Lambda, LambdaInvocationType, S3 }                         from 'aws-cdk-lib/aws-ses-actions';
 import { IReceiptRuleSet, ReceiptRule, ReceiptRuleSet, TlsPolicy }  from 'aws-cdk-lib/aws-ses';

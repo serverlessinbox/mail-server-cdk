@@ -10,7 +10,7 @@ import { ACMClient, ListTagsForCertificateCommand }      from '@aws-sdk/client-a
 import { EventBridgeClient, ListTagsForResourceCommand } from '@aws-sdk/client-eventbridge';
 import { IAMClient, ListRoleTagsCommand }                from '@aws-sdk/client-iam';
 import { LambdaClient, GetFunctionCommand }              from '@aws-sdk/client-lambda';
-import { LoggerBuffer, toRegion }                        from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer, toRegion }                        from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                    from 'aws-sdk-client-mock';
 
 import { SweepWorkerComposition }                        from '../sweep-worker-composition';

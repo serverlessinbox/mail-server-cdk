@@ -1,5 +1,5 @@
 import { DynamoDBClient, GetItemCommand }                                       from '@aws-sdk/client-dynamodb';
-import { toIssuer, type Issuer, type TableName }                                from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { toIssuer, type Issuer, type TableName }                                from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { createLocalJWKSet, decodeJwt, decodeProtectedHeader, errors,
   jwtVerify, type JWTPayload }                                                  from 'jose';
 import * as t                                                                   from 'typanion';

@@ -7,8 +7,8 @@
  * fails the data stack deployment.
  */
 
-import { resourcesOf, sharedWorkerServiceName, statementsForAction } from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import type { IArtifactObject, IDeployedStack }                      from '@serverlessinbox/mailbox-cdk-shared';
+import { resourcesOf, sharedWorkerServiceName, statementsForAction } from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import type { IArtifactObject, IDeployedStack }                      from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                                                  from 'aws-cdk-lib/assertions';
 
 import { newDeployerTestStack }                                      from '../../../__tests__/deployer-test-helpers';

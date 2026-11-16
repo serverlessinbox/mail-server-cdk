@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
-import { ComponentDescription }                                                 from '@serverlessinbox/mailbox-cdk-shared';
-import type { VendorLink }                                                      from '@serverlessinbox/mailbox-cdk-shared';
+import { ComponentDescription }                                                 from '@serverlessinbox/mail-server-cdk-shared';
+import type { VendorLink }                                                      from '@serverlessinbox/mail-server-cdk-shared';
 import type { IFunction }                                                       from 'aws-cdk-lib/aws-lambda';
 import { IReceiptRuleSet }                                                      from 'aws-cdk-lib/aws-ses';
 import { CustomResource, Duration }                                             from 'aws-cdk-lib';

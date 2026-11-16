@@ -1,4 +1,4 @@
-import { StackNamedBucket }                                   from '@serverlessinbox/mailbox-cdk-shared';
+import { StackNamedBucket }                                   from '@serverlessinbox/mail-server-cdk-shared';
 import { Effect, PolicyStatement, ServicePrincipal }          from 'aws-cdk-lib/aws-iam';
 import type * as kms                                          from 'aws-cdk-lib/aws-kms';
 import { BlockPublicAccess, BucketEncryption, LifecycleRule } from 'aws-cdk-lib/aws-s3';

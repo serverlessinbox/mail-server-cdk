@@ -4,7 +4,7 @@ import {
   DeleteCertificateCommand,
   ListTagsForCertificateCommand,
 }                                                                               from '@aws-sdk/client-acm';
-import type { LoggerBuffer }                                                    from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import type { LoggerBuffer }                                                    from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { OwnershipCheckedDelete }                                               from '../ownership-checked-delete';
 import type { CertRemovalInput, TargetResult, TargetSweeper }                   from '../removal';

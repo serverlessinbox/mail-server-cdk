@@ -7,7 +7,7 @@ import {
   type LoggerBuffer,
   type ParsedArn,
   type TableName,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { ResourceProperties, TableRole }                                   from './resource-properties-contract';
 import { isResourceProperties }                                                 from './resource-properties';

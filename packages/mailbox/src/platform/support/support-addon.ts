@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                 from '@serverlessinbox/artifact-registry-cdk';
-import { GateOnConditionAspect }                  from '@serverlessinbox/mailbox-cdk-shared';
-import { resolveVendorAccountIds }                from '@serverlessinbox/mailbox-cdk-shared';
+import { GateOnConditionAspect }                  from '@serverlessinbox/mail-server-cdk-shared';
+import { resolveVendorAccountIds }                from '@serverlessinbox/mail-server-cdk-shared';
 import { HttpMethod }                             from 'aws-cdk-lib/aws-apigatewayv2';
 import * as cdk                                   from 'aws-cdk-lib';
 import { Fn }                                     from 'aws-cdk-lib';

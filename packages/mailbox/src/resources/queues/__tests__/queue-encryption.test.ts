@@ -5,7 +5,7 @@
  * leaves a queue silently less encrypted than the operator chose, or a topic unable to deliver to its queue.
  */
 
-import type { QueueEncryptionChoice }    from '@serverlessinbox/mailbox-cdk-shared';
+import type { QueueEncryptionChoice }    from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }               from 'aws-cdk-lib/assertions';
 import * as kms                          from 'aws-cdk-lib/aws-kms';
 import { Topic }                         from 'aws-cdk-lib/aws-sns';

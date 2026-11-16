@@ -1,4 +1,4 @@
-import { toAccountId, toIssuer, toRegion, toTableName, toTenantId }             from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { toAccountId, toIssuer, toRegion, toTableName, toTenantId }             from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import * as crypto                                                              from 'crypto';
 
 import { toAudience }                                                           from '../auth-identifiers';

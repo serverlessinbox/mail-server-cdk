@@ -6,7 +6,7 @@
  */
 
 import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
-import { toTableName, toTenantId }        from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { toTableName, toTenantId }        from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                     from 'aws-sdk-client-mock';
 
 import { PatVerifier }                    from '../pat-verifier';

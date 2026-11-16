@@ -1,7 +1,7 @@
 import { SFNClient, StartExecutionCommand, ListExecutionsCommand,
   StopExecutionCommand }                                                        from '@aws-sdk/client-sfn';
 import { CaughtError, emitManualFinalize, toStackId, type LoggerBuffer,
-  type ParentStackStatus }                                                      from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+  type ParentStackStatus }                                                      from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import type { CloudFormationCustomResourceEvent }                               from 'aws-lambda';
 
 import type { StarterConfig }                                                   from './config';

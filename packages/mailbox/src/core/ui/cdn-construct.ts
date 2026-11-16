@@ -1,7 +1,7 @@
 import {
   ComponentDescription,
   ServerlessInboxTagKeys,
-}                                         from '@serverlessinbox/mailbox-cdk-shared';
+}                                         from '@serverlessinbox/mail-server-cdk-shared';
 import * as acm                           from 'aws-cdk-lib/aws-certificatemanager';
 import * as origins                       from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as cloudfront                    from 'aws-cdk-lib/aws-cloudfront';

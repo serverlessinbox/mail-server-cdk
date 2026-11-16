@@ -3,8 +3,8 @@ import {
   applyServerlessInboxBaseTagsWithDeployerType,
   applyServerlessInboxComponentTag,
   applyServerlessInboxEdgeTags,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared';
-import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mailbox-cdk-shared';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared';
+import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mail-server-cdk-shared';
 import * as cdk                                                                 from 'aws-cdk-lib';
 import { Construct }                                                            from 'constructs';
 

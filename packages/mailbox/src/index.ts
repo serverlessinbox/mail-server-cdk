@@ -68,11 +68,11 @@ export {
   ServerlessInboxTagKeys,
   applyServerlessInboxBaseTags,
   applyServerlessInboxComponentTag,
-} from '@serverlessinbox/mailbox-cdk-shared';
+} from '@serverlessinbox/mail-server-cdk-shared';
 export type {
   ServerlessInboxComponent,
   ApplyServerlessInboxTagsOptions,
-} from '@serverlessinbox/mailbox-cdk-shared';
+} from '@serverlessinbox/mail-server-cdk-shared';
 
 // Utils — resource-descriptions Aspect (Name tags + native descriptions for sub-stacks)
 export { MailboxResourceDescriptions } from './utils/resource-descriptions';

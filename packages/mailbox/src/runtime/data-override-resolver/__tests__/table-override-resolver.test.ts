@@ -7,7 +7,7 @@
  */
 
 import { DynamoDBClient, DescribeTableCommand, ResourceNotFoundException } from '@aws-sdk/client-dynamodb';
-import { ExpectedFailure, LoggerBuffer }                                   from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { ExpectedFailure, LoggerBuffer }                                   from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                      from 'aws-sdk-client-mock';
 
 import { TableOverrideResolver }                                           from '../table-override-resolver';

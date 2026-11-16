@@ -4,7 +4,7 @@
  * outcome is the status Step Functions branches on. The sweepers are fakes.
  */
 
-import { InvalidOwnInput, LoggerBuffer }                                        from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { InvalidOwnInput, LoggerBuffer }                                        from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { CertRemovalInput, EdgeFunctionRemovalInput,
   StackFailureDetectorRemovalInput, StackFailureDetectorRemovalTarget,

@@ -4,7 +4,7 @@
  * logical ID of every search resource, so a rename replaces deployed resources).
  */
 import { ArtifactZone, PinnedArtifactResolver }        from '@serverlessinbox/artifact-registry-cdk';
-import { ServerlessInboxTagKeys }                      from '@serverlessinbox/mailbox-cdk-shared';
+import { ServerlessInboxTagKeys }                      from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                                    from 'aws-cdk-lib/assertions';
 import { Table, AttributeType }                        from 'aws-cdk-lib/aws-dynamodb';
 import { Bucket }                                      from 'aws-cdk-lib/aws-s3';

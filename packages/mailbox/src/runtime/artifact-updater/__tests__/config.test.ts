@@ -6,7 +6,7 @@
  * variables are pinned in the suite of the shared base configuration.
  */
 
-import { env }              from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { env }              from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { load }             from '../config';
 

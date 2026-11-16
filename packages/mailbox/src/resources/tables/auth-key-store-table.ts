@@ -1,4 +1,4 @@
-import { StackNamedTable }                             from '@serverlessinbox/mailbox-cdk-shared';
+import { StackNamedTable }                             from '@serverlessinbox/mail-server-cdk-shared';
 import { AttributeType, BillingMode, TableEncryption } from 'aws-cdk-lib/aws-dynamodb';
 import { Grant, IGrantable }                           from 'aws-cdk-lib/aws-iam';
 import type * as kms                                   from 'aws-cdk-lib/aws-kms';

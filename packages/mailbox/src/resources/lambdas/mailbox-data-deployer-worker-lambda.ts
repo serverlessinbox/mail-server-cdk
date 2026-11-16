@@ -1,6 +1,6 @@
 import type { IArtifactResolver }               from '@serverlessinbox/artifact-registry-cdk';
-import { DeployerWorkerLambda }                 from '@serverlessinbox/mailbox-cdk-shared';
-import type { IArtifactObject, IDeployedStack } from '@serverlessinbox/mailbox-cdk-shared';
+import { DeployerWorkerLambda }                 from '@serverlessinbox/mail-server-cdk-shared';
+import type { IArtifactObject, IDeployedStack } from '@serverlessinbox/mail-server-cdk-shared';
 import { Effect, PolicyStatement }              from 'aws-cdk-lib/aws-iam';
 import { Aws, IResolvable }                     from 'aws-cdk-lib';
 import { Construct }                            from 'constructs';

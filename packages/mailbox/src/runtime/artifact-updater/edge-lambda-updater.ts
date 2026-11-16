@@ -10,7 +10,7 @@ import {
   CaughtError,
   parseArn,
   type LoggerBuffer,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { LambdaTarget }                                                    from './artifact-target';
 import type { FunctionSmokeTester, SmokeTestVerdict }                           from './lambda-code/function-smoke-tester';

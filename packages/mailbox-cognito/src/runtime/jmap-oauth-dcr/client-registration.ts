@@ -1,4 +1,4 @@
-import { CaughtError, type LoggerBuffer, type TenantId }                  from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { CaughtError, type LoggerBuffer, type TenantId }                  from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import type { APIGatewayProxyEventV2, APIGatewayProxyStructuredResultV2 } from 'aws-lambda';
 
 import { OfferedScopes }                                                  from '../../user-pool/offered-scopes';

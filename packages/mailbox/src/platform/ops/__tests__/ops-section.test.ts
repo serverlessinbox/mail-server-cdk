@@ -6,8 +6,8 @@
  * fixed ids (their paths are part of every resource's logical ID, so a rename replaces deployed
  * resources), including the removal that exists only when a regional certificate was created.
  */
-import { renderWithTokens }                                from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { ServerlessInboxTagKeys, VENDOR_ACCOUNT_ID }       from '@serverlessinbox/mailbox-cdk-shared';
+import { renderWithTokens }                                from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { ServerlessInboxTagKeys, VENDOR_ACCOUNT_ID }       from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                                 from 'aws-cdk-lib/assertions';
 import * as acm                                            from 'aws-cdk-lib/aws-certificatemanager';
 import { CfnParameter, CfnResource, TagManager }           from 'aws-cdk-lib';

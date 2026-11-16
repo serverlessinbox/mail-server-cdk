@@ -1,7 +1,7 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
-import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mailbox-cdk-shared';
+import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mail-server-cdk-shared';
 import { ArtifactObject, ComponentDescription, DeployedStack, DeployerInfra,
-  StackIdentity, serverlessInboxSubStackTags }                                  from '@serverlessinbox/mailbox-cdk-shared';
+  StackIdentity, serverlessInboxSubStackTags }                                  from '@serverlessinbox/mail-server-cdk-shared';
 import { IBucket }                                                              from 'aws-cdk-lib/aws-s3';
 import { Aws, Stack }                                                           from 'aws-cdk-lib';
 import { Construct }                                                            from 'constructs';

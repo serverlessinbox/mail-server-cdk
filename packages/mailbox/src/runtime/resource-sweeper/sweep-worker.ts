@@ -1,4 +1,4 @@
-import { InvalidOwnInput, type LoggerBuffer }                                   from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { InvalidOwnInput, type LoggerBuffer }                                   from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import {
   isWorkerInput,

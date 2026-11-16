@@ -1,4 +1,4 @@
-import { StackNamedBucket }  from '@serverlessinbox/mailbox-cdk-shared';
+import { StackNamedBucket }  from '@serverlessinbox/mail-server-cdk-shared';
 import { S3BucketOrigin }    from 'aws-cdk-lib/aws-cloudfront-origins';
 import {
   IOrigin,

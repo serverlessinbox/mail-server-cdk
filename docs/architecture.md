@@ -84,7 +84,7 @@ are the only place that declare CloudFormation parameters and outputs.
 ## Zones
 
 `packages/mailbox/src` is split into zones, and the `zone-imports` lint rule enforces the matrix in
-`packages/eslint-plugin-mailbox/src/zones/mailbox-zones.ts`.
+`packages/eslint-plugin-mail-server/src/zones/mailbox-zones.ts`.
 
 - **`core`** is the mail server. It never imports `platform`.
 - **`platform`** (`ops`, `support`, `update`) is everything around the mail server. It never imports

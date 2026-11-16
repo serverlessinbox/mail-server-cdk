@@ -8,7 +8,7 @@
  */
 
 import { ArtifactZone, PinnedArtifactResolver }        from '@serverlessinbox/artifact-registry-cdk';
-import { actionsOf, resourcesOf, statementsForAction } from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+import { actionsOf, resourcesOf, statementsForAction } from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                                    from 'aws-cdk-lib/assertions';
 import { UserPool }                                    from 'aws-cdk-lib/aws-cognito';
 import { App, BootstraplessSynthesizer, Stack }        from 'aws-cdk-lib';

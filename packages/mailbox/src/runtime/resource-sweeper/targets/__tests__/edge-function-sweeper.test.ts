@@ -7,7 +7,7 @@
  */
 
 import { LambdaClient, GetFunctionCommand, DeleteFunctionCommand } from '@aws-sdk/client-lambda';
-import { LoggerBuffer }                                            from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer }                                            from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                              from 'aws-sdk-client-mock';
 
 import type { EdgeFunctionRemovalInput }                           from '../../removal';

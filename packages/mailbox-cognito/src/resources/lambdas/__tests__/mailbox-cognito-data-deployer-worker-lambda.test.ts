@@ -8,9 +8,9 @@
  */
 
 import { actionsOf, allPolicyStatements, sharedSubStackTagKeys,
-  sharedWorkerServiceName, statementsForAction, tagKeysOf }                     from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import type { PolicyStatementJson }                                             from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import type { IArtifactObject, IDeployedStack }                                 from '@serverlessinbox/mailbox-cdk-shared';
+  sharedWorkerServiceName, statementsForAction, tagKeysOf }                     from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import type { PolicyStatementJson }                                             from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import type { IArtifactObject, IDeployedStack }                                 from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                                                             from 'aws-cdk-lib/assertions';
 
 import { newDeployerTestStack }                                                 from '../../../data-stack/__tests__/cognito-deployer-helpers';

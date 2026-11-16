@@ -6,7 +6,7 @@
 
 import { DeleteRoleCommand, DeleteRolePolicyCommand, IAMClient,
   ListRoleTagsCommand }                                                         from '@aws-sdk/client-iam';
-import { LoggerBuffer }                                                         from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer }                                                         from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 
 import type { TargetResult }                                                    from '../../removal';

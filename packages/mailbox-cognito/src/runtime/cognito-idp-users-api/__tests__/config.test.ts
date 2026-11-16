@@ -7,7 +7,7 @@
  * group list accepted with a non-string in it would hand the provisioning a name it cannot compare.
  */
 
-import { env }  from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { env }  from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { load } from '../config';
 

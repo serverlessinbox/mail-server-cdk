@@ -13,8 +13,8 @@ import {
   getAttLogicalId,
   resourcesOf,
   statementsForAction,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import type { PolicyStatementJson }                                             from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import type { PolicyStatementJson }                                             from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { Template }                                                             from 'aws-cdk-lib/assertions';
 import { CfnParameter }                                                         from 'aws-cdk-lib';
 import type { Stack }                                                           from 'aws-cdk-lib';

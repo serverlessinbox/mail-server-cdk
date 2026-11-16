@@ -14,8 +14,8 @@ import {
   CognitoIdentityProviderClient,
   NotAuthorizedException,
 }                                                                               from '@aws-sdk/client-cognito-identity-provider';
-import { ParentStackStatus, type LoggerBuffer }                                 from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
-import { captureCfnResponse }                                                   from '@serverlessinbox/mailbox-cdk-shared/runtime-test-support';
+import { ParentStackStatus, type LoggerBuffer }                                 from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
+import { captureCfnResponse }                                                   from '@serverlessinbox/mail-server-cdk-shared/runtime-test-support';
 import type { CloudFormationCustomResourceEvent, Context }                      from 'aws-lambda';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 import * as t                                                                   from 'typanion';
@@ -136,8 +136,8 @@ function loadHandlerWhoseRequestHandlerRejectsOnPurpose(): HandlerOf {
   let loaded: HandlerOf | undefined;
   jest.isolateModules(() => {
     jest.doMock('../bootstrap-user-request-handler', () => {
-      const { ExpectedFailure } = jest.requireActual<typeof import('@serverlessinbox/mailbox-cdk-shared/lambda-runtime')>(
-        '@serverlessinbox/mailbox-cdk-shared/lambda-runtime',
+      const { ExpectedFailure } = jest.requireActual<typeof import('@serverlessinbox/mail-server-cdk-shared/lambda-runtime')>(
+        '@serverlessinbox/mail-server-cdk-shared/lambda-runtime',
       );
       return {
         BootstrapUserRequestHandler: class {

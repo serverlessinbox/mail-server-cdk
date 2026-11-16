@@ -8,8 +8,8 @@
  * renders are pinned by the table and the triggers, not here.
  */
 
-import { statementsForAction }                from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { VENDOR_ACCOUNT_ID }                  from '@serverlessinbox/mailbox-cdk-shared';
+import { statementsForAction }                from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { VENDOR_ACCOUNT_ID }                  from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                           from 'aws-cdk-lib/assertions';
 
 import { LicenseRefreshSchedule }             from '../../events/license-refresh-schedule';

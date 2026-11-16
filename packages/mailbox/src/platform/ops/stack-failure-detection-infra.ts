@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                        from '@serverlessinbox/artifact-registry-cdk';
-import { PipelineLogGroup, PositionHash, StackIdentity } from '@serverlessinbox/mailbox-cdk-shared';
-import type { IPipelineLogGroup }                        from '@serverlessinbox/mailbox-cdk-shared';
+import { PipelineLogGroup, PositionHash, StackIdentity } from '@serverlessinbox/mail-server-cdk-shared';
+import type { IPipelineLogGroup }                        from '@serverlessinbox/mail-server-cdk-shared';
 import * as iam                                          from 'aws-cdk-lib/aws-iam';
 import * as lambda                                       from 'aws-cdk-lib/aws-lambda';
 import { Fn, Aws }                                       from 'aws-cdk-lib';

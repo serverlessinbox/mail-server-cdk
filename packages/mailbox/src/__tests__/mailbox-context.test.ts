@@ -8,7 +8,7 @@
  * the deployer type comes from the CDK context, and everything under the scope is tagged.
  */
 
-import { DEPLOYER_TYPE_CONTEXT_KEY, ServerlessInboxTagKeys } from '@serverlessinbox/mailbox-cdk-shared';
+import { DEPLOYER_TYPE_CONTEXT_KEY, ServerlessInboxTagKeys } from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                                   from 'aws-cdk-lib/assertions';
 import { CfnBucket }                                         from 'aws-cdk-lib/aws-s3';
 import { App, Stack }                                        from 'aws-cdk-lib';

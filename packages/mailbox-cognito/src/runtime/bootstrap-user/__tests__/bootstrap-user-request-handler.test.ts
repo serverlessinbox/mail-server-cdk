@@ -12,7 +12,7 @@ import {
   CognitoIdentityProviderClient,
   UsernameExistsException,
 }                                                                               from '@aws-sdk/client-cognito-identity-provider';
-import { InvalidOwnInput, LoggerBuffer }                                        from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { InvalidOwnInput, LoggerBuffer }                                        from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 
 import { PASSWORD_SET_AT_INSTALL_TIME }                                         from '../bootstrap-user-answers';

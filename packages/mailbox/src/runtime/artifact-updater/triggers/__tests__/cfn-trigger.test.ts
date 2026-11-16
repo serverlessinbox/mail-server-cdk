@@ -16,9 +16,9 @@ import {
   emitManualFinalize,
   ParentStackStatus,
   toPhysicalResourceId,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
-import type * as LambdaRuntime                                                  from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
-import { captureCfnResponse, type CapturedCfnResponse }                         from '@serverlessinbox/mailbox-cdk-shared/runtime-test-support';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
+import type * as LambdaRuntime                                                  from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
+import { captureCfnResponse, type CapturedCfnResponse }                         from '@serverlessinbox/mail-server-cdk-shared/runtime-test-support';
 import type { CloudFormationCustomResourceEvent }                               from 'aws-lambda';
 
 import {
@@ -36,8 +36,8 @@ jest.mock('../../update-cycle');
 jest.mock('https', () => ({
   request: jest.fn(),
 }));
-jest.mock('@serverlessinbox/mailbox-cdk-shared/lambda-runtime', () => ({
-  ...jest.requireActual<typeof LambdaRuntime>('@serverlessinbox/mailbox-cdk-shared/lambda-runtime'),
+jest.mock('@serverlessinbox/mail-server-cdk-shared/lambda-runtime', () => ({
+  ...jest.requireActual<typeof LambdaRuntime>('@serverlessinbox/mail-server-cdk-shared/lambda-runtime'),
   answerRequestWithBadConfig: jest.fn(),
   emitManualFinalize:         jest.fn(),
 }));

@@ -1,7 +1,7 @@
-import { isDevelopmentMode, removalPolicyForRetainedResources }                 from '@serverlessinbox/mailbox-cdk-shared';
+import { isDevelopmentMode, removalPolicyForRetainedResources }                 from '@serverlessinbox/mail-server-cdk-shared';
 import { applyServerlessInboxBaseTagsWithDeployerType,
-  applyServerlessInboxComponentTag }                                            from '@serverlessinbox/mailbox-cdk-shared';
-import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mailbox-cdk-shared';
+  applyServerlessInboxComponentTag }                                            from '@serverlessinbox/mail-server-cdk-shared';
+import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mail-server-cdk-shared';
 import * as cdk                                                                 from 'aws-cdk-lib';
 import { Construct }                                                            from 'constructs';
 

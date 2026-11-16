@@ -17,8 +17,8 @@ import {
   managedLambdasOf,
   probeManagedLambda,
   type ManagedLambda,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { MailboxArtifactResolverFactory }                                       from '@serverlessinbox/mailbox-cdk-shared';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { MailboxArtifactResolverFactory }                                       from '@serverlessinbox/mail-server-cdk-shared';
 import type { AdminApiAddonContext }                                            from '@serverlessinbox/mailbox';
 import { Template }                                                             from 'aws-cdk-lib/assertions';
 import * as cdk                                                                 from 'aws-cdk-lib';

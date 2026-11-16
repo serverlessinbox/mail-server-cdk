@@ -1,4 +1,4 @@
-import { isBrandedString, type Branded } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { isBrandedString, type Branded } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 /**
  * The identifiers of Cognito users, groups, pools and app clients, each a string of its own kind so that one kind

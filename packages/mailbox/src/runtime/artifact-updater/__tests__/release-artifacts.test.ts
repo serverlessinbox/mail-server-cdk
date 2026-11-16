@@ -8,7 +8,7 @@
  * reads S3; the track and key builders run for real.
  */
 
-import { LoggerBuffer }                                                         from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer }                                                         from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { SemVer }                                                               from 'semver';
 
 import { ReleaseArtifacts }                                                     from '../release-artifacts';

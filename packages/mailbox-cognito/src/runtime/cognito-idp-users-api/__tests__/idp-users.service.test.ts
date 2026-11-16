@@ -30,8 +30,8 @@ import {
   toPrincipalId as toCallerPrincipalId,
   toTenantId as toCallerTenantId,
   type HandlerContext,
-}                                                                               from '@serverlessinbox/mailbox-addon-sdk';
-import { LoggerBuffer, toAccountId, toFunctionName }                            from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+}                                                                               from '@serverlessinbox/mail-server-addon-sdk';
+import { LoggerBuffer, toAccountId, toFunctionName }                            from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 
 import { toGroupName, toUserPoolId, type GroupName }                            from '../../shared/cognito-identifiers';

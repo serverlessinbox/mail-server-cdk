@@ -1,5 +1,5 @@
-import { renderLiteralText, renderWithRefs } from '@serverlessinbox/mailbox-cdk-shared/cdk-test-support';
-import { ServerlessInboxTagKeys }            from '@serverlessinbox/mailbox-cdk-shared';
+import { renderLiteralText, renderWithRefs } from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
+import { ServerlessInboxTagKeys }            from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                          from 'aws-cdk-lib/assertions';
 import * as acm                              from 'aws-cdk-lib/aws-certificatemanager';
 import * as iam                              from 'aws-cdk-lib/aws-iam';

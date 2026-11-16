@@ -10,7 +10,7 @@
  */
 
 import { ArtifactZone, PinnedArtifactResolver }      from '@serverlessinbox/artifact-registry-cdk';
-import { VENDOR_ACCOUNT_ID, ServerlessInboxTagKeys } from '@serverlessinbox/mailbox-cdk-shared';
+import { VENDOR_ACCOUNT_ID, ServerlessInboxTagKeys } from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                           from 'aws-cdk-lib/assertions';
 import { Table, AttributeType }                      from 'aws-cdk-lib/aws-dynamodb';
 import { ReceiptRuleSet }                            from 'aws-cdk-lib/aws-ses';

@@ -4,7 +4,7 @@ import {
   UpdateFunctionCodeCommand,
   type LambdaClient,
 }                                                                               from '@aws-sdk/client-lambda';
-import { ServerlessInboxTagKeys }                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { ServerlessInboxTagKeys }                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { ArtifactLocation }                                                from '../release-artifacts';
 import type { ArtifactVersion, LambdaFunctionArn }                              from '../updater-identifiers';

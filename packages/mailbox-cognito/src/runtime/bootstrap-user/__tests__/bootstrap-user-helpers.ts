@@ -1,4 +1,4 @@
-import { readCustomResourceRequest, type CustomResourceRequest } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { readCustomResourceRequest, type CustomResourceRequest } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { BootstrapUserProperties }                          from '../properties';
 

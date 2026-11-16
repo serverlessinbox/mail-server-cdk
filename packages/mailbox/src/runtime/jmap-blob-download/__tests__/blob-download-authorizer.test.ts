@@ -8,7 +8,7 @@
  */
 
 import { DynamoDBClient }                                                       from '@aws-sdk/client-dynamodb';
-import { ExpectedFailure, LoggerBuffer, toIssuer, toTableName, toTenantId }     from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { ExpectedFailure, LoggerBuffer, toIssuer, toTableName, toTenantId }     from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { PAT_SESSION_IDENTITY, toAudience }                                     from '../auth-identifiers';
 import { BlobDownloadAuthorizer }                                               from '../blob-download-authorizer';

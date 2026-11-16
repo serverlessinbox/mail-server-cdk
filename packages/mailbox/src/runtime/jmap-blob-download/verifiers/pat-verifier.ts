@@ -1,5 +1,5 @@
 import { DynamoDBClient, GetItemCommand, type AttributeValue } from '@aws-sdk/client-dynamodb';
-import { toTenantId, type TableName }                          from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { toTenantId, type TableName }                          from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import * as crypto                                             from 'crypto';
 
 import type { PatVerdict }                                     from './auth-tokens';

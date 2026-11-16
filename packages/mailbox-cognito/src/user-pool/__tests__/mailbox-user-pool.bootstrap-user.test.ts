@@ -7,7 +7,7 @@
  * would leave the user created with the wrong name, groups or password.
  */
 
-import { MailboxArtifactResolverFactory }       from '@serverlessinbox/mailbox-cdk-shared';
+import { MailboxArtifactResolverFactory }       from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                             from 'aws-cdk-lib/assertions';
 import { App, BootstraplessSynthesizer, Stack } from 'aws-cdk-lib';
 import * as t                                   from 'typanion';

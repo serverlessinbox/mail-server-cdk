@@ -1,5 +1,5 @@
 import type { LambdaClient }                  from '@aws-sdk/client-lambda';
-import { CaughtError, type LoggerBuffer }     from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { CaughtError, type LoggerBuffer }     from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import type { LambdaTarget }                  from '../artifact-target';
 import type { ArtifactLocation, StaleTarget } from '../release-artifacts';

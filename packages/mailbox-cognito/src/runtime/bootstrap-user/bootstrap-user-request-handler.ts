@@ -3,7 +3,7 @@ import {
   toPhysicalResourceId,
   type CustomResourceRequest,
   type LoggerBuffer,
-}                                                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { generateSecurePassword }                                               from '../../utils/secure-password';
 import { toGroupName, toUserPoolId, toUsername, type GroupName }                from '../shared/cognito-identifiers';

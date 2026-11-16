@@ -1,5 +1,5 @@
 import type { IArtifactResolver }     from '@serverlessinbox/artifact-registry-cdk';
-import { GateOnConditionAspect }      from '@serverlessinbox/mailbox-cdk-shared';
+import { GateOnConditionAspect }      from '@serverlessinbox/mail-server-cdk-shared';
 import * as iam                       from 'aws-cdk-lib/aws-iam';
 import * as lambda                    from 'aws-cdk-lib/aws-lambda';
 import * as cdk                       from 'aws-cdk-lib';

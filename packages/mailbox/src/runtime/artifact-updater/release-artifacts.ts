@@ -1,6 +1,6 @@
 import type { S3Client }                                                        from '@aws-sdk/client-s3';
 import { buildArtifactKey, deriveTrack, readReleasePointer }                    from '@serverlessinbox/artifact-registry';
-import type { LoggerBuffer, Region }                                            from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import type { LoggerBuffer, Region }                                            from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { gt as semverGt, parse as semverParse, type SemVer }                    from 'semver';
 
 import type { ArtifactCoordinates }                                             from './artifact-target';

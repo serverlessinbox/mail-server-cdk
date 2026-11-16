@@ -1,8 +1,8 @@
 import { CognitoIdentityProviderClient }    from '@aws-sdk/client-cognito-identity-provider';
 import { LambdaClient }                     from '@aws-sdk/client-lambda';
 import { SQSClient }                        from '@aws-sdk/client-sqs';
-import { SqsAuditSink, wrapService }        from '@serverlessinbox/mailbox-addon-sdk';
-import { env, LoggerBuffer, withSmokeTest } from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { SqsAuditSink, wrapService }        from '@serverlessinbox/mail-server-addon-sdk';
+import { env, LoggerBuffer, withSmokeTest } from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 
 import { IdentityProvisionerClient }        from '../shared/identity-provisioner-client';
 

@@ -5,7 +5,7 @@
  * the Lambdas that record changelog state.
  */
 import { ArtifactZone, PinnedArtifactResolver }        from '@serverlessinbox/artifact-registry-cdk';
-import { ServerlessInboxTagKeys }                      from '@serverlessinbox/mailbox-cdk-shared';
+import { ServerlessInboxTagKeys }                      from '@serverlessinbox/mail-server-cdk-shared';
 import { Match, Template }                             from 'aws-cdk-lib/assertions';
 import { Table, AttributeType, TableEncryption }       from 'aws-cdk-lib/aws-dynamodb';
 import { Bucket }                                      from 'aws-cdk-lib/aws-s3';

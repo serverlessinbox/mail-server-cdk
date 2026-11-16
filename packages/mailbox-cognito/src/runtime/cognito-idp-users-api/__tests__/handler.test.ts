@@ -33,7 +33,7 @@ import {
 }                                                                               from '@aws-sdk/client-cognito-identity-provider';
 import { InvokeCommand, LambdaClient }                                          from '@aws-sdk/client-lambda';
 import { SendMessageCommand, SQSClient }                                        from '@aws-sdk/client-sqs';
-import * as lambdaRuntime                                                       from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import * as lambdaRuntime                                                       from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 
 import { handler }                                                              from '../handler';
@@ -82,14 +82,14 @@ describe('IdP users API handler', () => {
   });
 
   it('builds its logger with the configured service name and log level', () => {
-    const actualRuntime = jest.requireActual<typeof lambdaRuntime>('@serverlessinbox/mailbox-cdk-shared/lambda-runtime');
+    const actualRuntime = jest.requireActual<typeof lambdaRuntime>('@serverlessinbox/mail-server-cdk-shared/lambda-runtime');
     const loggerBuffer  = jest.fn((...args: ConstructorParameters<typeof lambdaRuntime.LoggerBuffer>) => new actualRuntime.LoggerBuffer(...args));
     const saved         = { ...process.env };
     try {
       process.env.SERVICE_NAME = 'cognito-idp-users-api';
       process.env.LOG_LEVEL    = 'warn';
       jest.isolateModules(() => {
-        jest.doMock('@serverlessinbox/mailbox-cdk-shared/lambda-runtime', () => ({ ...actualRuntime, LoggerBuffer: loggerBuffer }));
+        jest.doMock('@serverlessinbox/mail-server-cdk-shared/lambda-runtime', () => ({ ...actualRuntime, LoggerBuffer: loggerBuffer }));
         require('../handler');
       });
     } finally {

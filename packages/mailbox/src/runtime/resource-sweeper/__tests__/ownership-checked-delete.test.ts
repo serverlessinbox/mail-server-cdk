@@ -6,7 +6,7 @@
  * transient one is not given up on.
  */
 
-import { LoggerBuffer, type LogLevel }                from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { LoggerBuffer, type LogLevel }                from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import * as t                                         from 'typanion';
 
 import { OwnershipCheckedDelete, type OwnedResource } from '../ownership-checked-delete';

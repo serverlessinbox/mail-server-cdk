@@ -29,7 +29,7 @@ import {
   UpdateFunctionCodeCommand,
 }                                                                               from '@aws-sdk/client-lambda';
 import { GetResourcesCommand, ResourceGroupsTaggingAPIClient }                  from '@aws-sdk/client-resource-groups-tagging-api';
-import { ServerlessInboxTagKeys }                                               from '@serverlessinbox/mailbox-cdk-shared/lambda-runtime';
+import { ServerlessInboxTagKeys }                                               from '@serverlessinbox/mail-server-cdk-shared/lambda-runtime';
 import { mockClient }                                                           from 'aws-sdk-client-mock';
 
 import {

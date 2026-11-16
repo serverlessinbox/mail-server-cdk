@@ -1,4 +1,4 @@
-import { StackIdentity }                                              from '@serverlessinbox/mailbox-cdk-shared';
+import { StackIdentity }                                              from '@serverlessinbox/mail-server-cdk-shared';
 import * as iam                                                       from 'aws-cdk-lib/aws-iam';
 import * as lambda                                                    from 'aws-cdk-lib/aws-lambda';
 import * as sfn                                                       from 'aws-cdk-lib/aws-stepfunctions';
