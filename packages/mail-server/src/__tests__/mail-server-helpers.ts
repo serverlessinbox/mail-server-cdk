@@ -1,0 +1,55 @@
+import { AuthMethod }         from '../core/auth/auth-method';
+import type { IAuthProvider } from '../core/auth/auth-provider';
+import { Permission }         from '../core/auth/jmap-scopes';
+
+/** Artifact context that resolves every package a MailServer synthesizes, so tests need no artifact store. */
+export const TEST_ARTIFACT_CONTEXT = {
+  bucketBase: 'test-artifacts',
+  packages:   {
+    'mailbox-go':         { zone: 'regional', version: '1.0.0' },
+    'mailbox-cdk':        { zone: 'regional', version: '1.0.0' },
+    'mailbox-cdk-shared': { zone: 'regional', version: '1.0.0' },
+    'mailbox-cdk-edge':   { zone: 'edge', version: '1.0.0' },
+    'mailbox-admin-ui':   { zone: 'regional', version: '1.0.0' },
+    'mailbox-webmail-ui': { zone: 'regional', version: '1.0.0' },
+  },
+};
+
+/** The values a test varies on the mock provider; every other field is the same for all tests. */
+export interface MockAuthProviderOptions {
+  readonly scopeMap?:     IAuthProvider['scopeMap'];
+  readonly jmapClientId?: string;
+}
+
+/**
+ * Minimal IAuthProvider for synthesizing a MailServer. The defaults are the admin and JMAP clients
+ * and the mail scopes; a test overrides only the value its assertions depend on.
+ */
+export function createMockAuthProvider(options: MockAuthProviderOptions = {}): IAuthProvider {
+  return {
+    issuer:                'https://example.com/issuer',
+    tokenEndpoint:         'https://example.com/token',
+    authorizationEndpoint: 'https://example.com/authorize',
+    authMethod:            AuthMethod.HEADER,
+    usePkce:               false,
+    scopeMap:              options.scopeMap ?? {
+      'mail.read':  [Permission.MAIL_READ_ITEMS],
+      'mail.write': [
+        Permission.MAIL_ADD_ITEMS,
+        Permission.MAIL_REMOVE_ITEMS,
+        Permission.MAIL_SET_SEEN,
+        Permission.MAIL_SET_KEYWORDS,
+        Permission.MAIL_CREATE_CHILD,
+        Permission.MAIL_RENAME,
+        Permission.MAIL_DELETE,
+      ],
+    },
+    policies: {
+      adminApi: { audiences: ['admin-api'], requireAnyOfGroups: ['admins'] },
+      jmapApi:  { audiences: ['jmap-api'] },
+    },
+    provisionAdminApiClient: () => ({ clientId: 'test-admin-ui', requestScopeList: [], groups: [] }),
+    provisionJmapApiClient:  () => ({ clientId: options.jmapClientId ?? 'test-jmap-ui', requestScopeList: [], groups: [] }),
+    createAdminApiAddons:    () => [],
+  };
+}

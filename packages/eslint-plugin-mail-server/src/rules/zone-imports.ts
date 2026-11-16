@@ -6,7 +6,7 @@ import { ZoneClassifier }       from '../zones/zone-classifier';
 
 import { createRule }           from './create-rule';
 
-// Checks an import inside packages/mailbox/src against the zone matrix. A named import of a
+// Checks an import inside packages/mail-server/src against the zone matrix. A named import of a
 // platform-list file is not checked: the platform-list rule covers relative imports only.
 
 export const zoneImports = createRule({

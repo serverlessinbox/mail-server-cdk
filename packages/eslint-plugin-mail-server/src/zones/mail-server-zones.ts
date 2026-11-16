@@ -1,4 +1,4 @@
-// Zones of packages/mailbox/src. A file's zone comes from its path below src/ (zone-classifier.ts).
+// Zones of packages/mail-server/src. A file's zone comes from its path below src/ (zone-classifier.ts).
 // The matrix gives the verdict for an importing file's zone and the zone of the import target.
 
 const platformOnlyLambdaNames = [

@@ -1,7 +1,7 @@
 /** The modules the example consumer stack is built from: the source packages or the packed ones. */
 export interface ConsumerModules {
   readonly cdk: typeof import('aws-cdk-lib');
-  readonly mailbox: typeof import('../../../packages/mailbox/src/index');
+  readonly mailbox: typeof import('../../../packages/mail-server/src/index');
   readonly cognito: typeof import('../../../packages/mailbox-cognito/src/index');
 }
 

@@ -9,13 +9,13 @@ const tester = new RuleTester({
   languageOptions: { parser: typescriptEslint.parser },
 });
 
-const coreFile = '/repo/packages/mailbox/src/core/x.ts';
+const coreFile = '/repo/packages/mail-server/src/core/x.ts';
 
 tester.run('iam-statement-home', iamStatementHome, {
   valid: [
     {
       name:     'a statement in resources/',
-      filename: '/repo/packages/mailbox/src/resources/lambdas/x.ts',
+      filename: '/repo/packages/mail-server/src/resources/lambdas/x.ts',
       code:     'const statement = new PolicyStatement();',
     },
     {
@@ -25,7 +25,7 @@ tester.run('iam-statement-home', iamStatementHome, {
     },
     {
       name:     'an allow-listed file',
-      filename: '/repo/packages/mailbox/src/core/apis/websocket.ts',
+      filename: '/repo/packages/mail-server/src/core/apis/websocket.ts',
       code:     'const statement = new PolicyStatement();',
     },
     {

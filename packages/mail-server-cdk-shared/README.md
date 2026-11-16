@@ -1,6 +1,6 @@
 # @serverlessinbox/mail-server-cdk-shared
 
-This package holds the internal building blocks of `@serverlessinbox/mailbox` and
+This package holds the internal building blocks of `@serverlessinbox/mail-server` and
 `@serverlessinbox/mailbox-cognito`. It makes no compatibility promise.
 
 The building blocks that the `mailbox` and `mailbox-cognito` construct libraries share: artifact

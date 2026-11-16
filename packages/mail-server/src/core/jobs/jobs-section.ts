@@ -1,0 +1,69 @@
+import type { IArtifactResolver }                         from '@serverlessinbox/artifact-registry-cdk';
+import type { QueueEncryptionChoice }                     from '@serverlessinbox/mail-server-cdk-shared';
+import { applyServerlessInboxComponentTag }               from '@serverlessinbox/mail-server-cdk-shared';
+import { Construct }                                      from 'constructs';
+
+import type { IStateChangeFanout, IStateChangeSource }    from '../../contracts/state-change-fanout';
+import type { IDataBlobStore }                            from '../../resources/buckets/data-blob-store';
+import { MailImportRunnerLambda }                         from '../../resources/lambdas/mail-import-runner-lambda';
+import type { IMailImportRunner }                         from '../../resources/lambdas/mail-import-runner-lambda';
+import { ImportJobsQueue, type IImportJobsQueueConsumer } from '../../resources/queues/import-jobs-queue';
+import type { IAuthKeyStoreTable }                        from '../../resources/tables/auth-key-store-table';
+import type { IDataTable }                                from '../../resources/tables/data-tables';
+
+/** What {@link JobsSection} uses of the data section. */
+export interface IJobsDataInputs {
+  readonly itemTable:      IDataTable;
+  readonly configTable:    IDataTable;
+  readonly changelogTable: IDataTable;
+  readonly blobStore:      IDataBlobStore;
+}
+
+/** What {@link JobsSection} uses of the auth section. */
+export interface IJobsAuthInputs {
+  readonly authKeyStoreTable: IAuthKeyStoreTable;
+}
+
+/** Props of {@link JobsSection}. */
+export interface JobsSectionProps {
+  /** The encryption of the import-jobs queue and its DLQ, from the MailServer encryption plan. */
+  readonly queueEncryption:  QueueEncryptionChoice;
+  readonly artifactResolver: IArtifactResolver;
+  readonly data:             IJobsDataInputs;
+  readonly auth:             IJobsAuthInputs;
+}
+
+/**
+ * The mail-import data plane: the import-jobs queue with its dead-letter queue and the runner that consumes it.
+ * The queue and the runner are exposed through their narrow interfaces.
+ */
+export class JobsSection extends Construct {
+  public readonly importJobsQueue: IImportJobsQueueConsumer;
+  public readonly mailImportRunner: IMailImportRunner;
+
+  private readonly stateChangeSource: IStateChangeSource;
+
+  constructor(scope: Construct, id: string, props: JobsSectionProps) {
+    super(scope, id);
+    applyServerlessInboxComponentTag(this, 'data');
+
+    this.importJobsQueue = new ImportJobsQueue(this, 'import-jobs-queue', { encryption: props.queueEncryption });
+
+    const runner = new MailImportRunnerLambda(this, 'mail-import-runner', {
+      artifactResolver:  props.artifactResolver,
+      itemTable:         props.data.itemTable,
+      configTable:       props.data.configTable,
+      changelogTable:    props.data.changelogTable,
+      blobStore:         props.data.blobStore,
+      importJobsQueue:   this.importJobsQueue,
+      authKeyStoreTable: props.auth.authKeyStoreTable,
+    });
+    this.mailImportRunner  = runner;
+    this.stateChangeSource = runner;
+  }
+
+  /** Hands the state changes of the mail-import runner to the state-change fan-out. */
+  public enableStateChangeFanout(stateChangeFanout: IStateChangeFanout): void {
+    this.stateChangeSource.enableStateChangeFanout(stateChangeFanout);
+  }
+}

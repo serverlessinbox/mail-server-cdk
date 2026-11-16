@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                       from '@serverlessinbox/artifact-registry-cdk';
 import { TypeScriptLambda }                             from '@serverlessinbox/mail-server-cdk-shared';
-import type { IAuditEventsQueue, IIdentityProvisioner } from '@serverlessinbox/mailbox';
+import type { IAuditEventsQueue, IIdentityProvisioner } from '@serverlessinbox/mail-server';
 import { Duration }                                     from 'aws-cdk-lib';
 import { Construct }                                    from 'constructs';
 

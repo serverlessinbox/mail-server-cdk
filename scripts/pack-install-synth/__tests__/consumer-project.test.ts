@@ -11,7 +11,7 @@ import { ProcessRunner }         from '../process-runner';
  * NODE_OPTIONS removed. Inheriting NODE_OPTIONS would load the repository's PnP loader into the install.
  */
 describe('ConsumerProject', () => {
-  const tarballs = [{ name: '@serverlessinbox/mailbox', file: '/packed/mailbox.tgz' }];
+  const tarballs = [{ name: '@serverlessinbox/mail-server', file: '/packed/mailbox.tgz' }];
   const peerPins = { constructs: '10.4.2' };
   let directory: string;
   let project: string;
@@ -36,8 +36,8 @@ describe('ConsumerProject', () => {
       name:         'consumer',
       private:      true,
       dependencies: {
-        '@serverlessinbox/mailbox': 'file:/packed/mailbox.tgz',
-        constructs:                 '10.4.2',
+        '@serverlessinbox/mail-server': 'file:/packed/mailbox.tgz',
+        constructs:                     '10.4.2',
       },
     });
   });

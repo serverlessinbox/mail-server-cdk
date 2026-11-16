@@ -4,7 +4,7 @@ import {
   isDevelopmentMode,
 }                                                                               from '@serverlessinbox/mail-server-cdk-shared';
 import type { ServerlessInboxDeployerType }                                     from '@serverlessinbox/mail-server-cdk-shared';
-import { MailboxResourceDescriptions }                                          from '@serverlessinbox/mailbox';
+import { ResourceDescriptions }                                                 from '@serverlessinbox/mail-server';
 import * as cognito                                                             from 'aws-cdk-lib/aws-cognito';
 import * as cdk                                                                 from 'aws-cdk-lib';
 import { Aws, Fn, RemovalPolicy }                                               from 'aws-cdk-lib';
@@ -135,7 +135,7 @@ export class MailboxCognitoDataStack extends cdk.Stack {
     applyServerlessInboxComponentTag(this, 'auth');
 
     // Name tags and native descriptions for every L1 in this stack; the ids here are in no component map, so the fallback description applies.
-    cdk.Aspects.of(this).add(new MailboxResourceDescriptions(this.node.id, {
+    cdk.Aspects.of(this).add(new ResourceDescriptions(this.node.id, {
       fallbackDescription: 'ServerlessInbox identity - Cognito user directory.',
     }));
   }

@@ -9,7 +9,7 @@ The workspaces live in `packages/`.
 
 | Package | What it is | Published |
 |---------|------------|-----------|
-| `@serverlessinbox/mailbox` (`packages/mailbox`) | The `Mailbox` construct: the JMAP email server and everything around it | Yes |
+| `@serverlessinbox/mail-server` (`packages/mail-server`) | The `Mailbox` construct: the JMAP email server and everything around it | Yes |
 | `@serverlessinbox/mailbox-cognito` (`packages/mailbox-cognito`) | Cognito user pool as the sign-in provider of a `Mailbox`, plus its user-management API | Yes |
 | `@serverlessinbox/mail-server-cdk-shared` (`packages/mail-server-cdk-shared`) | Shared artifact resolution, Lambda base classes, tagging and naming helpers | Yes |
 | `@serverlessinbox/mail-server-addon-sdk` (`packages/mail-server-addon-sdk`) | Handler SDK for Lambdas that serve Admin API services of addons | No, internal; it is bundled into the Lambda code that serves addon routes |
@@ -18,7 +18,7 @@ The workspaces live in `packages/`.
 
 ## Where things live in `mailbox`
 
-Everything is under `packages/mailbox/src`.
+Everything is under `packages/mail-server/src`.
 
 - `core/<section>/` holds the mail server: the sections `apis`, `auth`, `data`, `edge`, `email`,
   `search` and `ui`, each with a `<section>-section.ts` class that `Mailbox` instantiates, and
@@ -61,7 +61,7 @@ unreachable for them.
 
 ### Add a Lambda
 
-1. Add a wrapper `packages/mailbox/src/resources/lambdas/<name>-lambda.ts` that extends `GoLambda` or
+1. Add a wrapper `packages/mail-server/src/resources/lambdas/<name>-lambda.ts` that extends `GoLambda` or
    `TypeScriptLambda`. Give it its `lambdaId`, `pipeline`, memory, timeout, the literal `environment`
    map and its grants. `support-api-lambda.ts` in that folder is a complete example.
 2. Instantiate the wrapper in the section that owns it, under `core/<section>/` or
@@ -71,9 +71,9 @@ unreachable for them.
 4. Register the code in the artifact registry:
    - A Go Lambda is resolved from `lambdas/<lambdaId>.zip` of the `mailbox-go` artifact package,
      which is published outside this repository.
-   - A TypeScript Lambda has its code in `packages/mailbox/src/runtime/<name>/` with an `index.ts`
-     entry. Add a `bundle:<name>` task to `packages/mailbox/Taskfile.yml`, call it from the `bundle`
-     task there, and add the zip to `packages/mailbox/artifact-registry.json`.
+   - A TypeScript Lambda has its code in `packages/mail-server/src/runtime/<name>/` with an `index.ts`
+     entry. Add a `bundle:<name>` task to `packages/mail-server/Taskfile.yml`, call it from the `bundle`
+     task there, and add the zip to `packages/mail-server/artifact-registry.json`.
 
 ### Add a construct prop
 
@@ -82,7 +82,7 @@ unreachable for them.
 2. Thread the value down from where `Mailbox` is composed. A construct does not read context or
    resolve its own configuration.
 3. Update every caller in the same change; the type check lists them.
-4. If the prop is reachable from `packages/mailbox/src/index.ts`, it is public API: the jsii build
+4. If the prop is reachable from `packages/mail-server/src/index.ts`, it is public API: the jsii build
    must pass, and the pull request should say so.
 
 ### Add an addon
@@ -108,9 +108,9 @@ Run the root commands in the repository root and the package commands inside the
 | Check | Command |
 |-------|---------|
 | Lint | `yarn lint` (runs `eslint packages scripts`) |
-| Type check and tests of one package | `yarn workspace @serverlessinbox/mailbox test` (runs `tsc -p tsconfig.test.json && jest`) |
+| Type check and tests of one package | `yarn workspace @serverlessinbox/mail-server test` (runs `tsc -p tsconfig.test.json && jest`) |
 | Everything | `yarn test` |
-| jsii build, in `packages/mailbox` or `packages/mailbox-cognito` | `yarn prepare-manifest build` |
+| jsii build, in `packages/mail-server` or `packages/mailbox-cognito` | `yarn prepare-manifest build` |
 | Published declarations name only declared packages, in the same package | `yarn check:declarations` |
 | Addon SDK public API against its baseline | `yarn api-report diff` |
 

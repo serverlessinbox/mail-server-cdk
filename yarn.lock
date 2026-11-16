@@ -2064,47 +2064,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@serverlessinbox/mailbox-cognito@workspace:packages/mailbox-cognito":
+"@serverlessinbox/mail-server@workspace:*, @serverlessinbox/mail-server@workspace:packages/mail-server":
   version: 0.0.0-use.local
-  resolution: "@serverlessinbox/mailbox-cognito@workspace:packages/mailbox-cognito"
-  dependencies:
-    "@aws-sdk/client-cloudformation": "npm:^3.1132.0"
-    "@aws-sdk/client-cognito-identity-provider": "npm:^3.1132.0"
-    "@aws-sdk/client-lambda": "npm:^3.1132.0"
-    "@aws-sdk/client-sqs": "npm:^3.1132.0"
-    "@bufbuild/protobuf": "npm:^2.2.3"
-    "@serverlessinbox/artifact-registry": "npm:^0.3.6"
-    "@serverlessinbox/artifact-registry-cdk": "npm:^0.3.0"
-    "@serverlessinbox/mail-server-addon-sdk": "workspace:*"
-    "@serverlessinbox/mail-server-bundler": "workspace:*"
-    "@serverlessinbox/mail-server-cdk-shared": "workspace:*"
-    "@serverlessinbox/mailbox": "workspace:*"
-    "@types/aws-lambda": "npm:^8.10.159"
-    "@types/jest": "npm:^29.0.0"
-    "@types/node": "npm:^24.10.1"
-    aws-cdk-lib: "npm:^2.261.0"
-    aws-custom-resources: "npm:^0.0.4"
-    aws-sdk-client-mock: "npm:^4.1.0"
-    constructs: "npm:^10.5.0"
-    esbuild: "npm:^0.27.1"
-    jest: "npm:^29.0.0"
-    jsii: "npm:^5.9.44"
-    jsii-pacmak: "npm:1.120.0"
-    jsii-rosetta: "npm:^5.9.15"
-    ts-jest: "npm:^29.0.0"
-    typanion: "npm:^3.14.0"
-    typescript: "npm:^5.9.3"
-  peerDependencies:
-    "@serverlessinbox/artifact-registry-cdk": ^0.3.0
-    "@serverlessinbox/mailbox": "workspace:*"
-    aws-cdk-lib: ^2.261.0
-    constructs: ^10.5.0
-  languageName: unknown
-  linkType: soft
-
-"@serverlessinbox/mailbox@workspace:*, @serverlessinbox/mailbox@workspace:packages/mailbox":
-  version: 0.0.0-use.local
-  resolution: "@serverlessinbox/mailbox@workspace:packages/mailbox"
+  resolution: "@serverlessinbox/mail-server@workspace:packages/mail-server"
   dependencies:
     "@aws-sdk/client-acm": "npm:^3.1132.0"
     "@aws-sdk/client-cloudformation": "npm:^3.1132.0"
@@ -2145,6 +2107,44 @@ __metadata:
     unzipper: "npm:^0.12.3"
   peerDependencies:
     "@serverlessinbox/artifact-registry-cdk": ^0.3.0
+    aws-cdk-lib: ^2.261.0
+    constructs: ^10.5.0
+  languageName: unknown
+  linkType: soft
+
+"@serverlessinbox/mailbox-cognito@workspace:packages/mailbox-cognito":
+  version: 0.0.0-use.local
+  resolution: "@serverlessinbox/mailbox-cognito@workspace:packages/mailbox-cognito"
+  dependencies:
+    "@aws-sdk/client-cloudformation": "npm:^3.1132.0"
+    "@aws-sdk/client-cognito-identity-provider": "npm:^3.1132.0"
+    "@aws-sdk/client-lambda": "npm:^3.1132.0"
+    "@aws-sdk/client-sqs": "npm:^3.1132.0"
+    "@bufbuild/protobuf": "npm:^2.2.3"
+    "@serverlessinbox/artifact-registry": "npm:^0.3.6"
+    "@serverlessinbox/artifact-registry-cdk": "npm:^0.3.0"
+    "@serverlessinbox/mail-server": "workspace:*"
+    "@serverlessinbox/mail-server-addon-sdk": "workspace:*"
+    "@serverlessinbox/mail-server-bundler": "workspace:*"
+    "@serverlessinbox/mail-server-cdk-shared": "workspace:*"
+    "@types/aws-lambda": "npm:^8.10.159"
+    "@types/jest": "npm:^29.0.0"
+    "@types/node": "npm:^24.10.1"
+    aws-cdk-lib: "npm:^2.261.0"
+    aws-custom-resources: "npm:^0.0.4"
+    aws-sdk-client-mock: "npm:^4.1.0"
+    constructs: "npm:^10.5.0"
+    esbuild: "npm:^0.27.1"
+    jest: "npm:^29.0.0"
+    jsii: "npm:^5.9.44"
+    jsii-pacmak: "npm:1.120.0"
+    jsii-rosetta: "npm:^5.9.15"
+    ts-jest: "npm:^29.0.0"
+    typanion: "npm:^3.14.0"
+    typescript: "npm:^5.9.3"
+  peerDependencies:
+    "@serverlessinbox/artifact-registry-cdk": ^0.3.0
+    "@serverlessinbox/mail-server": "workspace:*"
     aws-cdk-lib: ^2.261.0
     constructs: ^10.5.0
   languageName: unknown

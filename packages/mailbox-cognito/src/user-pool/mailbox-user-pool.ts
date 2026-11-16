@@ -4,8 +4,8 @@ import { ArtifactResolverFactory, resolveDeployerType, slugifyLabel,
 import {
   AuthClientConfig,
   AuthPolicyConfig,
-  MailboxAuthPolicies,
-  IMailboxAuthProviderBase,
+  MailServerAuthPolicies,
+  IAuthProviderBase,
   GenerateClientParams,
   AuthMethod,
   AuthPolicyName,
@@ -14,9 +14,9 @@ import {
   Permission,
   ProvisionAdminApiClientParams,
   ProvisionJmapApiClientParams,
-}                                                                               from '@serverlessinbox/mailbox';
+}                                                                               from '@serverlessinbox/mail-server';
 import type { AdminApiAddonContext, IAdminApiAddon, IAdminApiAddonProvider,
-  JmapApiAddonContext, IJmapApiAddon, MailboxAuthorizationConfig, ScopeMap }    from '@serverlessinbox/mailbox';
+  JmapApiAddonContext, IJmapApiAddon, MailServerAuthorizationConfig, ScopeMap } from '@serverlessinbox/mail-server';
 import * as cognito                                                             from 'aws-cdk-lib/aws-cognito';
 import * as lambda                                                              from 'aws-cdk-lib/aws-lambda';
 import type * as route53                                                        from 'aws-cdk-lib/aws-route53';
@@ -107,7 +107,7 @@ export interface MailboxUserPoolCognitoAutoDomain {
    * (`zoneName`) with every character Cognito does not allow replaced, and is computed at deploy time
    * without calling Route53 itself.
    *
-   * Pass the `hostedZone` of the `HostedZoneLookup` your `Mailbox` uses, so the zone is looked up once
+   * Pass the `hostedZone` of the `HostedZoneLookup` your `MailServer` uses, so the zone is looked up once
    * for your whole app. A zone with a fixed `zoneName` works as well.
    */
   readonly hostedZone: route53.IHostedZone;
@@ -251,11 +251,11 @@ export interface IBootstrapUserHandle {
  * The Cognito user pool that authenticates mailbox users and administrators, together with the OAuth
  * clients that sign them in.
  *
- * Pass it to `Mailbox` as the auth provider. It creates the pool and its OAuth domain through a
+ * Pass it to `MailServer` as the auth provider. It creates the pool and its OAuth domain through a
  * deployer, issues one OAuth client per application that needs to call the Admin API or the JMAP API,
  * and contributes the admin API addon that manages users.
  */
-export class MailboxUserPool extends Construct implements IMailboxAuthProviderBase, IAdminApiAddonProvider {
+export class MailboxUserPool extends Construct implements IAuthProviderBase, IAdminApiAddonProvider {
   /** The Cognito user pool, resolved through the data stack reference of the deployer this construct creates. */
   public readonly userPool: cognito.IUserPool;
 
@@ -304,7 +304,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
    * What the Admin API and JMAP API authorizers require of a token. Each OAuth client provisioned
    * through this construct adds its id to the audiences of the API it may call.
    */
-  public readonly policies: MailboxAuthPolicies;
+  public readonly policies: MailServerAuthPolicies;
 
   private readonly allowNativeSignIn: boolean;
   private readonly clientSignInProviders: string[];
@@ -312,7 +312,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
   private readonly signInSync?: SignInSyncLambda;
 
   private readonly authFlows: cognito.AuthFlow;
-  private readonly authzConfig: MailboxAuthorizationConfig;
+  private readonly authzConfig: MailServerAuthorizationConfig;
   private readonly adminApiClients = new Map<string, AuthClientConfig>();
   private readonly jmapApiClients = new Map<string, AuthClientConfig>();
   private readonly headlessClients = new Map<string, AuthClientConfig>();
@@ -490,7 +490,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
    * The Cognito groups that mark administrators and regular users, as set in the `authorization` prop
    * (`admin` and `user` where it is omitted).
    */
-  public authorizationConfig(): MailboxAuthorizationConfig {
+  public authorizationConfig(): MailServerAuthorizationConfig {
     return this.authzConfig;
   }
 
@@ -551,7 +551,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
     );
   }
 
-  private buildPolicies(): MailboxAuthPolicies {
+  private buildPolicies(): MailServerAuthPolicies {
     return {
       adminApi: {
         audiences: [],

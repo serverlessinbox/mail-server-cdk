@@ -7,10 +7,10 @@ const tester = new RuleTester({
   languageOptions: { parser: typescriptEslint.parser },
 });
 
-const corePath    = 'packages/mailbox/src/core/example.ts';
-const tablesPath  = 'packages/mailbox/src/resources/tables/example.ts';
-const lambdasPath = 'packages/mailbox/src/resources/lambdas/example.ts';
-const topicsPath  = 'packages/mailbox/src/resources/topics/example.ts';
+const corePath    = 'packages/mail-server/src/core/example.ts';
+const tablesPath  = 'packages/mail-server/src/resources/tables/example.ts';
+const lambdasPath = 'packages/mail-server/src/resources/lambdas/example.ts';
+const topicsPath  = 'packages/mail-server/src/resources/topics/example.ts';
 
 tester.run('resource-kind-home', resourceKindHome, {
   valid: [
@@ -102,7 +102,7 @@ tester.run('resource-kind-home', resourceKindHome, {
     {
       name:     'a covered class in a folder outside any kind',
       code:     'const table = new Table();',
-      filename: 'packages/mailbox/src/resources/example.ts',
+      filename: 'packages/mail-server/src/resources/example.ts',
       errors:   [{ messageId: 'wrongFolder', data: { className: 'Table', folder: 'tables' } }],
     },
   ],

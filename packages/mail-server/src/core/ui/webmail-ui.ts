@@ -1,0 +1,111 @@
+import type { IArtifactResolver }               from '@serverlessinbox/artifact-registry-cdk';
+import { ComponentDescription }                 from '@serverlessinbox/mail-server-cdk-shared';
+import type * as acm                            from 'aws-cdk-lib/aws-certificatemanager';
+import type { Construct, IDependable }          from 'constructs';
+
+import { AuthPolicyName, OAuthClientName }      from '../../contracts/auth-names';
+import type { IAuditEventsQueue }               from '../../resources/queues/audit-events-queue';
+import type { IDataTable }                      from '../../resources/tables/data-tables';
+import type { AuthClientConfig, IAuthProvider } from '../auth/auth-provider';
+import { Permission }                           from '../auth/jmap-scopes';
+
+import { MailServerUi }                         from './mail-server-ui';
+
+/** Props of {@link WebmailUi}. */
+export interface WebmailUiProps {
+  /**
+   * Domain name for the CloudFront distribution (e.g., webmail.example.com)
+   */
+  readonly domainName: string;
+
+  /**
+   * Optional ACM certificate for `domainName`.
+   * When provided, the CloudFront distribution will be configured with an alternate domain name.
+   */
+  readonly certificate?: acm.ICertificate;
+
+  /**
+   * Shared config table used by token exchange API.
+   */
+  readonly configTable: IDataTable;
+
+  /** Auth provider used to provision the OAuth client for this UI. */
+  readonly authProvider: IAuthProvider;
+
+  /** Audit events queue for publishing audit logs from token exchange. */
+  readonly auditEventsQueue: IAuditEventsQueue;
+
+  /** Base URL for the JMAP API. Written into `/config/config.json` as `jmapUrl`. */
+  readonly jmapUrl: string;
+
+  /** Base URL for the user API's routes. Written into `/config/config.json` as `userApiUrl`. */
+  readonly userApiUrl: string;
+
+  /** Artifact resolver for all UI resources (bundle + ui-deployer + token-exchange). */
+  readonly artifactResolver: IArtifactResolver;
+
+  /** Resources that must be deployed before the token-exchange function switches to the `WEBMAIL_UI` client row. */
+  readonly dependsOn?: IDependable[];
+}
+
+/**
+ * The webmail client: a {@link MailServerUi} that serves the Webmail UI bundle and registers the OAuth
+ * client the Webmail UI logs in with.
+ */
+export class WebmailUi extends MailServerUi {
+  readonly oauthClient: AuthClientConfig;
+  readonly oauthRedirectUri: string;
+
+  constructor(scope: Construct, id: string, props: WebmailUiProps) {
+    super(scope, id, {
+      label:                    'Webmail UI',
+      tokenExchangeServiceName: 'idp-token-exchange-webmail-ui',
+      tokenExchangePipeline:    'jmap',
+      domainName:               props.domainName,
+      certificate:              props.certificate,
+      configTable:              props.configTable,
+      auditEventsQueue:         props.auditEventsQueue,
+      authPolicyName:           AuthPolicyName.JMAP_API,
+      oauthClientName:          OAuthClientName.WEBMAIL_UI,
+      tokenExchangeDependsOn:   props.dependsOn,
+      uiBundle:                 {
+        packageName: 'mailbox-webmail-ui',
+        objectPath:  'webmail-ui.zip',
+      },
+      uiConfig:         { jmapUrl: props.jmapUrl, userApiUrl: props.userApiUrl },
+      artifactResolver: props.artifactResolver,
+    });
+    ComponentDescription.describe(this, 'Webmail client — S3-hosted static site behind CloudFront with an OAuth token-exchange backend (BFF).');
+
+    const uiHost                           = this.distributionDomainName;
+    const webmailPermissions: Permission[] = [
+      Permission.MAIL_READ_ITEMS,
+      Permission.MAIL_ADD_ITEMS,
+      Permission.MAIL_REMOVE_ITEMS,
+      Permission.MAIL_SET_SEEN,
+      Permission.MAIL_SET_KEYWORDS,
+      Permission.MAIL_CREATE_CHILD,
+      Permission.MAIL_RENAME,
+      Permission.MAIL_DELETE,
+      Permission.MAIL_SUBMIT,
+      Permission.PREFERENCES_READ,
+      Permission.PREFERENCES_WRITE,
+      Permission.IMPORT_READ,
+      Permission.IMPORT_WRITE,
+      Permission.CONTACTS_READ,
+      Permission.CONTACTS_WRITE,
+      Permission.SIEVE_READ,
+      Permission.SIEVE_WRITE,
+      Permission.TOKENS_MANAGE,
+      Permission.PUSH_MANAGE,
+    ];
+    this.oauthClient = props.authProvider.provisionJmapApiClient({
+      name:         'webmail-ui',
+      permissions:  webmailPermissions,
+      callbackUrls: [`https://${uiHost}/auth/callback`],
+      logoutUrls:   [`https://${uiHost}/`],
+    });
+
+    this.oauthRedirectUri = '/';
+  }
+}

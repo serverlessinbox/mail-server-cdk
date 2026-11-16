@@ -10,7 +10,7 @@
 
 import { ArtifactZone, PinnedArtifactResolver }  from '@serverlessinbox/artifact-registry-cdk';
 import { renderWithTokens, statementsForAction } from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
-import type { IIdentityProvisioner }             from '@serverlessinbox/mailbox';
+import type { IIdentityProvisioner }             from '@serverlessinbox/mail-server';
 import { Match, Template }                       from 'aws-cdk-lib/assertions';
 import { UserPool }                              from 'aws-cdk-lib/aws-cognito';
 import { App, BootstraplessSynthesizer, Stack }  from 'aws-cdk-lib';

@@ -14,11 +14,11 @@ describe('PackagePacker', () => {
     const runSpy = jest.spyOn(ProcessRunner.prototype, 'run')
       .mockResolvedValue({ exitCode: 0, stdout: '', stderr: '' });
 
-    await new PackagePacker(new ProcessRunner(), repositoryRoot).pack('@serverlessinbox/mailbox', outFile);
+    await new PackagePacker(new ProcessRunner(), repositoryRoot).pack('@serverlessinbox/mail-server', outFile);
 
     expect(runSpy).toHaveBeenCalledWith(
       'yarn',
-      ['workspace', '@serverlessinbox/mailbox', 'pack', '--out', outFile],
+      ['workspace', '@serverlessinbox/mail-server', 'pack', '--out', outFile],
       { cwd: repositoryRoot, env: process.env },
     );
   });
@@ -29,9 +29,9 @@ describe('PackagePacker', () => {
       stdout:   `start-marker${'x'.repeat(2500)}end-marker`,
       stderr:   '',
     });
-    const failure = new PackagePacker(new ProcessRunner(), repositoryRoot).pack('@serverlessinbox/mailbox', outFile);
+    const failure = new PackagePacker(new ProcessRunner(), repositoryRoot).pack('@serverlessinbox/mail-server', outFile);
 
-    await expect(failure).rejects.toThrow('Packing @serverlessinbox/mailbox failed');
+    await expect(failure).rejects.toThrow('Packing @serverlessinbox/mail-server failed');
     await expect(failure).rejects.toThrow('end-marker');
     await expect(failure).rejects.not.toThrow('start-marker');
   });

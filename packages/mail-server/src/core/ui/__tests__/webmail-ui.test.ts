@@ -1,0 +1,159 @@
+/// <reference types="jest" />
+
+/**
+ * WebmailUi tests: what the Webmail UI adds on top of MailServerUi.
+ *
+ * The token-exchange function reads the `WEBMAIL_UI` config row, so the env value must name that
+ * row, and the function must wait on whatever writes it. The OAuth client is requested from the
+ * auth provider as a JMAP-API client named after the app.
+ */
+
+import { ArtifactZone, PinnedArtifactResolver } from '@serverlessinbox/artifact-registry-cdk';
+import { Match, Template }                      from 'aws-cdk-lib/assertions';
+import * as dynamodb                            from 'aws-cdk-lib/aws-dynamodb';
+import * as cdk                                 from 'aws-cdk-lib';
+import { App, BootstraplessSynthesizer }        from 'aws-cdk-lib';
+
+import { AuditEventsQueue }                     from '../../../resources/queues/audit-events-queue';
+import { DataTable }                            from '../../../resources/tables/data-tables';
+import { AuthMethod }                           from '../../auth/auth-method';
+import type { IAuthProvider }                   from '../../auth/auth-provider';
+import { Permission }                           from '../../auth/jmap-scopes';
+import { WebmailUi }                            from '../webmail-ui';
+
+interface SynthesizedFunction {
+  Properties?: { Environment?: { Variables?: Record<string, string> } };
+  DependsOn?:  string[];
+}
+
+describe('WebmailUi', () => {
+  let stack: cdk.Stack;
+  const provisionJmapApiClient = jest.fn((_request: { permissions: Permission[] }) => ({ clientId: 'webmail-client', requestScopeList: [], groups: [] }));
+
+  function createAuthProvider(): IAuthProvider {
+    return {
+      issuer:                  'https://example.com/issuer',
+      tokenEndpoint:           'https://example.com/token',
+      authorizationEndpoint:   'https://example.com/authorize',
+      authMethod:              AuthMethod.HEADER,
+      usePkce:                 false,
+      scopeMap:                {},
+      policies:                { adminApi: { audiences: ['admin-api'] }, jmapApi: { audiences: ['jmap-api'] } },
+      provisionAdminApiClient: () => ({ clientId: 'admin-client', requestScopeList: [], groups: [] }),
+      provisionJmapApiClient,
+      createAdminApiAddons: () => [],
+    };
+  }
+
+  function createWebmailUi(dependsOn?: cdk.CfnResource[]): WebmailUi {
+    return new WebmailUi(stack, 'webmail-ui', {
+      domainName:  'webmail.example.com',
+      configTable: new DataTable(new dynamodb.Table(stack, 'config-table', {
+        partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
+      })),
+      auditEventsQueue: new AuditEventsQueue(stack, 'audit-events-queue', { encryption: { kind: 'aws-managed' } }),
+      authProvider:     createAuthProvider(),
+      jmapUrl:          'https://jmap.example.com',
+      userApiUrl:       'https://api.example.com/user',
+      artifactResolver: new PinnedArtifactResolver({
+        packages: {
+          'mailbox-go':         { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mailbox-cdk-shared': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+          'mailbox-webmail-ui': { version: '1.0.0', zone: ArtifactZone.REGIONAL },
+        },
+        location:         { bucketBase: 'test-artifacts', project: 'serverlessinbox' },
+        deploymentRegion: stack.region,
+      }),
+      dependsOn,
+    });
+  }
+
+  function tokenExchangeFunction(template: Template): SynthesizedFunction {
+    const matching = Object.values<SynthesizedFunction>(template.findResources('AWS::Lambda::Function')).filter(
+      (functionResource) => functionResource.Properties?.Environment?.Variables?.SERVICE_NAME === 'idp-token-exchange-webmail-ui',
+    );
+    expect(matching).toHaveLength(1);
+    return matching[0];
+  }
+
+  beforeEach(() => {
+    provisionJmapApiClient.mockClear();
+    stack = new cdk.Stack(new App(), 'TestStack', {
+      env:         { account: '123456789012', region: 'us-west-2' },
+      synthesizer: new BootstraplessSynthesizer(),
+    });
+  });
+
+  it('provisions a JMAP-API client named webmail-ui with the explicit allow-list of permissions and the distribution callback URLs', () => {
+    const webmailUi = createWebmailUi();
+
+    expect(provisionJmapApiClient).toHaveBeenCalledTimes(1);
+    expect(provisionJmapApiClient).toHaveBeenCalledWith({
+      name:        'webmail-ui',
+      permissions: [
+        Permission.MAIL_READ_ITEMS,
+        Permission.MAIL_ADD_ITEMS,
+        Permission.MAIL_REMOVE_ITEMS,
+        Permission.MAIL_SET_SEEN,
+        Permission.MAIL_SET_KEYWORDS,
+        Permission.MAIL_CREATE_CHILD,
+        Permission.MAIL_RENAME,
+        Permission.MAIL_DELETE,
+        Permission.MAIL_SUBMIT,
+        Permission.PREFERENCES_READ,
+        Permission.PREFERENCES_WRITE,
+        Permission.IMPORT_READ,
+        Permission.IMPORT_WRITE,
+        Permission.CONTACTS_READ,
+        Permission.CONTACTS_WRITE,
+        Permission.SIEVE_READ,
+        Permission.SIEVE_WRITE,
+        Permission.TOKENS_MANAGE,
+        Permission.PUSH_MANAGE,
+      ],
+      callbackUrls: [`https://${webmailUi.distributionDomainName}/auth/callback`],
+      logoutUrls:   [`https://${webmailUi.distributionDomainName}/`],
+    });
+  });
+
+  it('grants the webmail client the push/manage right to create and revoke its push subscriptions', () => {
+    createWebmailUi();
+
+    const [request] = provisionJmapApiClient.mock.calls[0];
+
+    expect(request.permissions).toContain(Permission.PUSH_MANAGE);
+  });
+
+  it('never grants admin to the webmail client', () => {
+    createWebmailUi();
+
+    const [request] = provisionJmapApiClient.mock.calls[0];
+
+    expect(request.permissions).not.toContain(Permission.ADMIN);
+  });
+
+  it('deploys the Webmail UI bundle published by the mailbox-webmail-ui artifact', () => {
+    createWebmailUi();
+
+    Template.fromStack(stack).hasResourceProperties('Custom::ContentDeployment', {
+      sources: [Match.objectLike({ kind: 'zip', sourceKey: Match.stringLikeRegexp('mailbox-webmail-ui/.*webmail-ui\\.zip$'), targetPrefix: 'content/' })],
+    });
+  });
+
+  it('points the token exchange at the WEBMAIL_UI config row', () => {
+    createWebmailUi();
+
+    const tokenExchangeResource = tokenExchangeFunction(Template.fromStack(stack));
+
+    expect(tokenExchangeResource.Properties?.Environment?.Variables?.OAUTH_CLIENT_NAME).toBe('WEBMAIL_UI');
+  });
+
+  it('makes the token-exchange function wait on the resources it is given', () => {
+    const prerequisite = new cdk.CfnResource(stack, 'prerequisite', { type: 'Custom::Prerequisite' });
+    createWebmailUi([prerequisite]);
+
+    const tokenExchangeResource = tokenExchangeFunction(Template.fromStack(stack));
+
+    expect(tokenExchangeResource.DependsOn).toContain(stack.getLogicalId(prerequisite));
+  });
+});

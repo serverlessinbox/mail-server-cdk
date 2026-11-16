@@ -3,16 +3,16 @@ import { Template }                                             from 'aws-cdk-li
 import { App, BootstraplessSynthesizer, Stack }                 from 'aws-cdk-lib';
 
 import { ARTIFACT_VERSIONS_CONTEXT_KEY, ARTIFACTS_CONTEXT_KEY } from '../../packages/mail-server-cdk-shared/src/context/context-keys';
+import { SesReceivingMode }                                     from '../../packages/mail-server/src/contracts/ses-receiving-mode';
+import { HostedZoneLookup }                                     from '../../packages/mail-server/src/core/domains/hosted-zone-lookup';
+import { MailServer }                                           from '../../packages/mail-server/src/mail-server';
+import { SendStackFailuresMode }                                from '../../packages/mail-server/src/platform/ops/stack-failure-detection';
+import { SupportAddonProvider }                                 from '../../packages/mail-server/src/platform/support/support-addon-provider';
+import { SupportMode }                                          from '../../packages/mail-server/src/platform/support/support-addon';
+import { AutoUpdater }                                          from '../../packages/mail-server/src/platform/update/auto-updater';
+import { StackUpdateAddonProvider }                             from '../../packages/mail-server/src/platform/update/stack-update-addon-provider';
 import { DynamicClientRegistrationMode }                        from '../../packages/mailbox-cognito/src/user-pool/dynamic-client-registration-mode';
 import { MailboxUserPool }                                      from '../../packages/mailbox-cognito/src/user-pool/mailbox-user-pool';
-import { SesReceivingMode }                                     from '../../packages/mailbox/src/contracts/ses-receiving-mode';
-import { HostedZoneLookup }                                     from '../../packages/mailbox/src/core/domains/hosted-zone-lookup';
-import { Mailbox }                                              from '../../packages/mailbox/src/mailbox';
-import { SendStackFailuresMode }                                from '../../packages/mailbox/src/platform/ops/stack-failure-detection';
-import { SupportAddonProvider }                                 from '../../packages/mailbox/src/platform/support/support-addon-provider';
-import { SupportMode }                                          from '../../packages/mailbox/src/platform/support/support-addon';
-import { AutoUpdater }                                          from '../../packages/mailbox/src/platform/update/auto-updater';
-import { StackUpdateAddonProvider }                             from '../../packages/mailbox/src/platform/update/stack-update-addon-provider';
 import { StandaloneStackFactory }                               from '../stacks/standalone-stack-factory';
 import { parseJsonObject }                                      from '../utils/json-value';
 
@@ -102,7 +102,7 @@ export class BaselineSynthesizer {
     });
     authProvider.addBootstrapUser({ username: 'baseline-admin', groups: ['admin'] });
     const hostedZone = new HostedZoneLookup(stack, 'hosted-zone-lookup', { hostedZoneId: 'Z1234567890ABC', artifactResolver: autoUpdater }).hostedZone;
-    new Mailbox(stack, 'mailbox', {
+    new MailServer(stack, 'mailbox', {
       authProvider,
       hostedZone,
       enableMcp:              true,

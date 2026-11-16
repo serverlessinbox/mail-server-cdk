@@ -1,8 +1,8 @@
 import { App, BootstraplessSynthesizer, type Environment, type StackProps } from 'aws-cdk-lib';
 
+import { DataStack }                                                        from '../../packages/mail-server/src/core/data/mail-server-data-stack';
+import { EdgeStack }                                                        from '../../packages/mail-server/src/core/edge/mail-server-edge-stack';
 import { MailboxCognitoDataStack }                                          from '../../packages/mailbox-cognito/src/data-stack/mailbox-cognito-data-stack';
-import { MailboxDataStack }                                                 from '../../packages/mailbox/src/core/data/mailbox-data-stack';
-import { MailboxEdgeStack }                                                 from '../../packages/mailbox/src/core/edge/mailbox-edge-stack';
 
 /**
  * Creates the standalone data, edge and cognito-data stacks with the ids, environments and synthesizer
@@ -18,16 +18,16 @@ export class StandaloneStackFactory {
     private readonly cognitoDataEnvironment: Environment | undefined,
   ) {}
 
-  createDataStack(app: App): MailboxDataStack {
-    return new MailboxDataStack(app, `${this.idPrefix}Data`, this.stackProps(this.dataEnvironment));
+  createDataStack(app: App): DataStack {
+    return new DataStack(app, `${this.idPrefix}Data`, this.stackProps(this.dataEnvironment));
   }
 
   /** The edge stack is always in us-east-1. It carries no account, so its account stays unresolved. */
-  createEdgeStack(app: App): MailboxEdgeStack {
+  createEdgeStack(app: App): EdgeStack {
     const edgeEnvironment: Environment = {
       region: StandaloneStackFactory.EDGE_REGION,
     };
-    return new MailboxEdgeStack(app, `${this.idPrefix}Edge`, this.stackProps(edgeEnvironment));
+    return new EdgeStack(app, `${this.idPrefix}Edge`, this.stackProps(edgeEnvironment));
   }
 
   /** An undefined environment leaves the stack environment-agnostic, so its account and region stay unresolved. */

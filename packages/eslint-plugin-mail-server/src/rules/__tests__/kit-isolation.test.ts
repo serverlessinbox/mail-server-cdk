@@ -27,11 +27,11 @@ tester.run('kit-isolation', kitIsolation, {
     {
       name:     'an exempt runtime file of the kit may import the mailbox',
       filename: 'packages/mail-server-cdk-shared/src/runtime/x.ts',
-      code:     "import { value } from '@serverlessinbox/mailbox/core/x';",
+      code:     "import { value } from '@serverlessinbox/mail-server/core/x';",
     },
     {
       name:     'the mailbox may import the kit',
-      filename: 'packages/mailbox/src/core/x.ts',
+      filename: 'packages/mail-server/src/core/x.ts',
       code:     "import { value } from '@serverlessinbox/mail-server-cdk-shared/resources/x';",
     },
     {
@@ -44,37 +44,37 @@ tester.run('kit-isolation', kitIsolation, {
     {
       name:     'the kit re-exports everything from the mailbox',
       filename: 'packages/mail-server-cdk-shared/src/x.ts',
-      code:     "export * from '@serverlessinbox/mailbox/core/x';",
+      code:     "export * from '@serverlessinbox/mail-server/core/x';",
       errors:   [{ messageId: 'mailServerImport' }],
     },
     {
       name:     'the kit re-exports a named value from the mailbox',
       filename: 'packages/mail-server-cdk-shared/src/x.ts',
-      code:     "export { value } from '@serverlessinbox/mailbox/core/x';",
+      code:     "export { value } from '@serverlessinbox/mail-server/core/x';",
       errors:   [{ messageId: 'mailServerImport' }],
     },
     {
       name:     'the kit imports the mailbox root by name',
       filename: 'packages/mail-server-cdk-shared/src/x.ts',
-      code:     "import { value } from '@serverlessinbox/mailbox';",
+      code:     "import { value } from '@serverlessinbox/mail-server';",
       errors:   [{ messageId: 'mailServerImport' }],
     },
     {
       name:     'the kit imports a mailbox subpath by name',
       filename: 'packages/mail-server-cdk-shared/src/x.ts',
-      code:     "import { value } from '@serverlessinbox/mailbox/core/x';",
+      code:     "import { value } from '@serverlessinbox/mail-server/core/x';",
       errors:   [{ messageId: 'mailServerImport' }],
     },
     {
       name:     'the kit root imports the mailbox source by relative path',
       filename: 'packages/mail-server-cdk-shared/src/x.ts',
-      code:     "import { value } from '../../mailbox/src/core/x';",
+      code:     "import { value } from '../../mail-server/src/core/x';",
       errors:   [{ messageId: 'mailServerImport' }],
     },
     {
       name:     'a kit lambda imports the mailbox source by relative path',
       filename: 'packages/mail-server-cdk-shared/src/resources/lambdas/x.ts',
-      code:     "import type { value } from '../../../../mailbox/src/core/x';",
+      code:     "import type { value } from '../../../../mail-server/src/core/x';",
       errors:   [{ messageId: 'mailServerImport' }],
     },
   ],

@@ -9,8 +9,8 @@ const tester = new RuleTester({
   languageOptions: { parser: typescriptEslint.parser },
 });
 
-const opsFile     = '/repo/packages/mailbox/src/platform/ops/x.ts';
-const sweeperFile = '/repo/packages/mailbox/src/platform/ops/sweeper/x.ts';
+const opsFile     = '/repo/packages/mail-server/src/platform/ops/x.ts';
+const sweeperFile = '/repo/packages/mail-server/src/platform/ops/sweeper/x.ts';
 
 tester.run('removal-home', removalHome, {
   valid: [

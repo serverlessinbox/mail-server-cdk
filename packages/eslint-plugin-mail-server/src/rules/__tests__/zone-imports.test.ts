@@ -11,26 +11,26 @@ import { zoneImports }                            from '../zone-imports';
 // typeOnly cells also get an import type case that is valid.
 
 const importerFiles: Record<ImporterZone, string> = {
-  core:            'packages/mailbox/src/core/fixture/importer.ts',
-  platform:        'packages/mailbox/src/platform/fixture/importer.ts',
-  'platform-list': 'packages/mailbox/src/resources/workflows/sweeper-workflow.ts',
-  resources:       'packages/mailbox/src/resources/tables/importer.ts',
-  contracts:       'packages/mailbox/src/contracts/importer.ts',
-  other:           'packages/mailbox/src/utils/importer.ts',
+  core:            'packages/mail-server/src/core/fixture/importer.ts',
+  platform:        'packages/mail-server/src/platform/fixture/importer.ts',
+  'platform-list': 'packages/mail-server/src/resources/workflows/sweeper-workflow.ts',
+  resources:       'packages/mail-server/src/resources/tables/importer.ts',
+  contracts:       'packages/mail-server/src/contracts/importer.ts',
+  other:           'packages/mail-server/src/utils/importer.ts',
 };
 
 const targetFiles: Record<TargetZone, string> = {
-  'core-addons':         'packages/mailbox/src/core/apis/addons.ts',
-  'core-auth-types':     'packages/mailbox/src/core/auth/types.ts',
-  core:                  'packages/mailbox/src/core/g4-core.ts',
-  platform:              'packages/mailbox/src/platform/g4-platform.ts',
-  'platform-list':       'packages/mailbox/src/resources/lambdas/support-api-lambda.ts',
-  'platform-list-event': 'packages/mailbox/src/resources/events/stack-failed-event.ts',
-  'contract-resource':   'packages/mailbox/src/resources/tables/data-tables.ts',
-  resources:             'packages/mailbox/src/resources/tables/g4-other-table.ts',
-  contracts:             'packages/mailbox/src/contracts/auth-names.ts',
-  'utils-runtime':       'packages/mailbox/src/utils/g4-util.ts',
-  other:                 'packages/mailbox/src/mailbox-props.ts',
+  'core-addons':         'packages/mail-server/src/core/apis/addons.ts',
+  'core-auth-types':     'packages/mail-server/src/core/auth/types.ts',
+  core:                  'packages/mail-server/src/core/g4-core.ts',
+  platform:              'packages/mail-server/src/platform/g4-platform.ts',
+  'platform-list':       'packages/mail-server/src/resources/lambdas/support-api-lambda.ts',
+  'platform-list-event': 'packages/mail-server/src/resources/events/stack-failed-event.ts',
+  'contract-resource':   'packages/mail-server/src/resources/tables/data-tables.ts',
+  resources:             'packages/mail-server/src/resources/tables/g4-other-table.ts',
+  contracts:             'packages/mail-server/src/contracts/auth-names.ts',
+  'utils-runtime':       'packages/mail-server/src/utils/g4-util.ts',
+  other:                 'packages/mail-server/src/mail-server-props.ts',
   foreign:               'packages/mailbox-cognito/src/g4-x.ts',
 };
 
@@ -92,17 +92,17 @@ const explicitValid = [
   {
     name:     'a named import of a platform-list file is not checked',
     filename: importerFiles['platform-list'],
-    code:     "import { value } from '@serverlessinbox/mailbox/resources/lambdas/support-api-lambda';",
+    code:     "import { value } from '@serverlessinbox/mail-server/resources/lambdas/support-api-lambda';",
   },
   {
     name:     'a file in a __tests__ folder is exempt',
-    filename: 'packages/mailbox/src/resources/tables/__tests__/x.test.ts',
+    filename: 'packages/mail-server/src/resources/tables/__tests__/x.test.ts',
     code:     "import { value } from '../../../platform/x';",
   },
   {
     name:     'a file of the kit package is not checked by this rule',
     filename: 'packages/mail-server-cdk-shared/src/x.ts',
-    code:     "import { value } from '@serverlessinbox/mailbox/platform/x';",
+    code:     "import { value } from '@serverlessinbox/mail-server/platform/x';",
   },
   {
     name:     `an export type of a typeOnly cell (${typeOnlyCell.importer} to ${typeOnlyCell.target}) is allowed`,
@@ -120,7 +120,7 @@ const explicitInvalid = [
   {
     name:     'a named import from core to platform is forbidden',
     filename: importerFiles.core,
-    code:     "import { value } from '@serverlessinbox/mailbox/platform/x';",
+    code:     "import { value } from '@serverlessinbox/mail-server/platform/x';",
     errors:   [{ messageId: 'forbidden' as const }],
   },
   {

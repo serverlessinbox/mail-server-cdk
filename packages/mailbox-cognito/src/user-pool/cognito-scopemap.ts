@@ -1,4 +1,4 @@
-import { Permission }   from '@serverlessinbox/mailbox';
+import { Permission }   from '@serverlessinbox/mail-server';
 
 import { CognitoScope } from './cognito-scope';
 

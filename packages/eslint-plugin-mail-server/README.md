@@ -8,7 +8,7 @@ carries the shared lint configuration that the repository's `eslint.config.cjs` 
 
 ## Concepts
 
-- **Zones.** A file of `packages/mailbox/src` belongs to a zone by its path: `core`, `platform`,
+- **Zones.** A file of `packages/mail-server/src` belongs to a zone by its path: `core`, `platform`,
   `platform-list`, `resources`, `contracts` or other. A matrix decides, per importing zone and target zone,
   whether an import is allowed, allowed only with `import type`, or forbidden.
 - **Defined resources.** A resource class is created only in the `resources/` folder of its own kind:

@@ -8,7 +8,7 @@
  */
 
 import { ArtifactZone, PinnedArtifactResolver }                         from '@serverlessinbox/artifact-registry-cdk';
-import type { IAuditEventsQueue, IIdentityProvisioner }                 from '@serverlessinbox/mailbox';
+import type { IAuditEventsQueue, IIdentityProvisioner }                 from '@serverlessinbox/mail-server';
 import { Match, Template }                                              from 'aws-cdk-lib/assertions';
 import { UserPool }                                                     from 'aws-cdk-lib/aws-cognito';
 import { App, BootstraplessSynthesizer, Stack }                         from 'aws-cdk-lib';

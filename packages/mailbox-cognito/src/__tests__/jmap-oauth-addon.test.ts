@@ -382,7 +382,7 @@ describe('JmapOAuthAddon: dynamicClientRegistration gating', () => {
   });
 
   // Regression: the JMAP API builds its throttled stage with `addStage` and `createDefaultStage: false`, so the addon
-  // read an undefined `api.defaultStage` and `Mailbox` failed to synthesize with "no default stage".
+  // read an undefined `api.defaultStage` and `MailServer` failed to synthesize with "no default stage".
   it('puts the OAuth route settings on a $default stage added with addStage', () => {
     const { stack, addon } = buildHarness(DynamicClientRegistrationMode.DISABLED);
     const api              = new HttpApi(stack, 'api-with-added-stage', { createDefaultStage: false });

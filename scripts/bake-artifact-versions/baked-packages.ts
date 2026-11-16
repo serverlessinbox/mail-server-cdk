@@ -7,10 +7,10 @@ import type { BakedPackage } from './baked-package';
 export class BakedPackages {
   /**
    * The files to bake for the repository at `root`. `mailbox-cdk` and `mailbox-cdk-edge` are both
-   * published from the `mailbox` package folder, so they take its version.
+   * published from the `mail-server` package folder, so they take its version.
    */
   public static forRepository(root: string, mailboxPinsFile: string): BakedPackage[] {
-    const mailboxDirectory = path.join(root, 'packages', 'mailbox');
+    const mailboxDirectory = path.join(root, 'packages', 'mail-server');
     const cognitoDirectory = path.join(root, 'packages', 'mailbox-cognito');
     const sharedDirectory  = path.join(root, 'packages', 'mail-server-cdk-shared');
     return [

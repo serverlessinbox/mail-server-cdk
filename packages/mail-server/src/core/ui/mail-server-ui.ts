@@ -1,0 +1,275 @@
+import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
+import type { Pipeline }                                                        from '@serverlessinbox/mail-server-cdk-shared';
+import {
+  BucketAutoEmpty,
+  StaticContentDeployer,
+  StaticContentSource,
+  slugifyLabel,
+  ServerlessInboxTagKeys,
+}                                                                               from '@serverlessinbox/mail-server-cdk-shared';
+import * as acm                                                                 from 'aws-cdk-lib/aws-certificatemanager';
+import { HttpOrigin }                                                           from 'aws-cdk-lib/aws-cloudfront-origins';
+import {
+  AllowedMethods,
+  CachePolicy,
+  Distribution,
+  Function as CloudFrontFunction,
+  FunctionCode,
+  FunctionEventType,
+  IDistribution,
+  OriginRequestPolicy,
+  ResponseHeadersPolicy,
+  SecurityPolicyProtocol,
+  ViewerProtocolPolicy,
+}                                                                               from 'aws-cdk-lib/aws-cloudfront';
+import * as iam                                                                 from 'aws-cdk-lib/aws-iam';
+import { Bucket }                                                               from 'aws-cdk-lib/aws-s3';
+import { Duration, Fn, Tags }                                                   from 'aws-cdk-lib';
+import { Construct, IDependable }                                               from 'constructs';
+
+import { AuthPolicyName, OAuthClientName }                                      from '../../contracts/auth-names';
+import { UiBucket }                                                             from '../../resources/buckets/ui-bucket';
+import type { IAuditEventsQueue }                                               from '../../resources/queues/audit-events-queue';
+import type { IDataTable }                                                      from '../../resources/tables/data-tables';
+
+import { IdpTokenExchangeApi }                                                  from './idp-token-exchange-api';
+
+/** Location of a UI bundle zip in the artifact registry: the package that publishes it and the object path within it. */
+export type UiBundleSource = {
+  readonly packageName: string;
+  readonly objectPath:  string;
+};
+
+/** Runtime config of a UI, serialized as-is into the `config.json` that the UI fetches. */
+export interface MailServerUiConfig {
+  /** Further keys are written to `config.json` unchanged. */
+  [key: string]: unknown;
+  /** Base URL of the UI's backend API. */
+  apiUrl?: string;
+}
+
+/** Inputs of `MailServerUi`: the CloudFront domain, the token-exchange wiring behind `/auth/*`, and the optional static content to deploy. */
+export interface MailServerUiProps {
+  readonly domainName: string;
+
+  /**
+   * Without a certificate the distribution is served on its default CloudFront domain and
+   * `domainName` is not attached to it as an alias.
+   */
+  readonly certificate?: acm.ICertificate;
+
+  readonly configTable: IDataTable;
+
+  readonly authPolicyName: AuthPolicyName;
+
+  readonly oauthClientName: OAuthClientName;
+
+  readonly auditEventsQueue: IAuditEventsQueue;
+
+  /** Used for the CloudFront comments, and slugified into the bucket's construct ID. */
+  readonly label: string;
+
+  /** SERVICE_NAME for the token-exchange lambda. */
+  readonly tokenExchangeServiceName: string;
+
+  readonly tokenExchangePipeline: Pipeline;
+
+  /** Resources that must be deployed before the token-exchange function is created or updated. */
+  readonly tokenExchangeDependsOn?: IDependable[];
+
+  /** Optional UI bundle (zip) published as an artifact. Deployed to `s3://<ui-bucket>/content/` via custom resource. */
+  readonly uiBundle?: UiBundleSource;
+
+  /** Optional UI runtime config written to `s3://<ui-bucket>/config/config.json` via custom resource. */
+  readonly uiConfig?: MailServerUiConfig;
+
+  readonly artifactResolver: IArtifactResolver;
+}
+
+/**
+ * Static-content UI: an S3 bucket behind a CloudFront distribution, with a `/config/*` behavior
+ * for runtime config and an `/auth/*` behavior routed to a token-exchange API.
+ *
+ * It deploys the UI bundle and config into the bucket when given them. It does not create the DNS
+ * record for `domainName`, and it does not decide which OAuth client the token exchange serves
+ * beyond passing `oauthClientName` through.
+ */
+export class MailServerUi extends Construct {
+  readonly distribution: IDistribution;
+  readonly distributionDomainName: string;
+
+  private readonly bucket: UiBucket;
+
+  constructor(scope: Construct, id: string, props: MailServerUiProps) {
+    super(scope, id);
+
+    const artifacts = props.artifactResolver;
+
+    this.bucket = new UiBucket(this, `ui-${slugifyLabel(props.label)}`);
+
+    BucketAutoEmpty.getOrCreate(this, artifacts).attach(this, 'bucket-auto-empty', this.bucket);
+
+    const responseHeadersPolicy = this.createResponseHeadersPolicy(props.label);
+
+    const distribution = new Distribution(this, 'distribution', {
+      comment:                `Mailbox ${props.label}`,
+      defaultRootObject:      'index.html',
+      domainNames:            props.certificate ? [props.domainName] : undefined,
+      certificate:            props.certificate,
+      minimumProtocolVersion: SecurityPolicyProtocol.TLS_V1_2_2021,
+      defaultBehavior:        {
+        origin:               this.bucket.contentOrigin(),
+        viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        cachePolicy:          CachePolicy.CACHING_OPTIMIZED,
+        compress:             true,
+        responseHeadersPolicy,
+      },
+      errorResponses: [
+        {
+          httpStatus:         404,
+          responseHttpStatus: 200,
+          responsePagePath:   '/index.html',
+        },
+        {
+          httpStatus:         403,
+          responseHttpStatus: 200,
+          responsePagePath:   '/index.html',
+        },
+      ],
+    });
+    this.distribution = distribution;
+
+    // Always route /config/* to the bucket's /config/* (not /content/config/*).
+    // Disable caching so CDK-driven config updates propagate immediately.
+    distribution.addBehavior('/config/*', this.bucket.configOrigin(), {
+      viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+      cachePolicy:          CachePolicy.CACHING_DISABLED,
+      compress:             true,
+      allowedMethods:       AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
+      responseHeadersPolicy,
+    });
+
+    this.addAuthBehavior(distribution, props, responseHeadersPolicy);
+
+    if (props.uiBundle || props.uiConfig) {
+      this.addUiDeployment(props);
+    }
+
+    this.distributionDomainName = props.certificate ? props.domainName : distribution.distributionDomainName;
+  }
+
+  /**
+   * Grants `grantee` exactly the S3 actions needed to deploy static content into this UI's own
+   * bucket: `s3:PutObject`/`s3:DeleteObject` on the `content/` and `config/` prefixes, and
+   * `s3:ListBucket` scoped to list only those prefixes.
+   *
+   * The grant is scoped by this bucket's ARN and key patterns, never by tag: `aws:ResourceTag`
+   * reads the still-untagged object being written, and `s3:BucketTag` is not honored for
+   * `PutObject` even though it is listed as a supported condition key on the S3 `object`
+   * resource type. A tag condition on these actions therefore denies the write.
+   */
+  grantContentDeploy(grantee: iam.IGrantable): void {
+    this.bucket.grantContentDeploy(grantee);
+  }
+
+  private createResponseHeadersPolicy(label: string): ResponseHeadersPolicy {
+    return new ResponseHeadersPolicy(this, 'response-headers-policy', {
+      comment:                 `Security headers for Mailbox ${label}`,
+      securityHeadersBehavior: {
+        strictTransportSecurity: {
+          accessControlMaxAge: Duration.days(365),
+          includeSubdomains:   false,
+          override:            true,
+        },
+        contentTypeOptions:    { override: true },
+        contentSecurityPolicy: {
+          contentSecurityPolicy: "frame-ancestors 'none'",
+          override:              true,
+        },
+      },
+    });
+  }
+
+  private addUiDeployment(props: MailServerUiProps): void {
+    const artifacts = props.artifactResolver;
+    const deployer  = StaticContentDeployer.getOrCreate(this, artifacts);
+
+    Tags.of(this.distribution).add(ServerlessInboxTagKeys.autoUpdateType, 'ui');
+
+    const uiResolved = props.uiBundle
+      ? artifacts.resolve(props.uiBundle.packageName, props.uiBundle.objectPath)
+      : undefined;
+
+    if (props.uiBundle) {
+      const bundleVersion = artifacts.getVersion(props.uiBundle.packageName);
+      Tags.of(this.distribution).add(ServerlessInboxTagKeys.artifactPackage, props.uiBundle.packageName);
+      Tags.of(this.distribution).add(ServerlessInboxTagKeys.artifactName, props.uiBundle.objectPath);
+      Tags.of(this.distribution).add(ServerlessInboxTagKeys.artifactVersion, bundleVersion);
+      Tags.of(this.distribution).add(ServerlessInboxTagKeys.bucketName, this.bucket.bucketName);
+    }
+
+    if (uiResolved) {
+      deployer.deploy(this, 'ui-content', {
+        targetBucket: this.bucket,
+        source:       StaticContentSource.zipFromBucket(Bucket.fromBucketName(this, 'ui-artifact-bucket', uiResolved.bucket), uiResolved.key, 'content/', {
+          sourceVersionId: uiResolved.versionId,
+        }),
+      });
+    }
+
+    if (props.uiConfig) {
+      deployer.deploy(this, 'ui-config', {
+        targetBucket: this.bucket,
+        source:       StaticContentSource.data('config/config.json', JSON.stringify(props.uiConfig), {
+          contentType:  'application/json; charset=utf-8',
+          cacheControl: 'no-store',
+        }),
+      });
+    }
+
+    deployer.invalidate(this, 'ui-invalidate', {
+      distribution: this.distribution,
+      paths:        ['/*'],
+    });
+  }
+
+  private addAuthBehavior(distribution: Distribution, props: MailServerUiProps, responseHeadersPolicy: ResponseHeadersPolicy): void {
+    const tokenExchange = new IdpTokenExchangeApi(this, 'oauth-api', {
+      artifactResolver: props.artifactResolver,
+      configTable:      props.configTable,
+      auditEventsQueue: props.auditEventsQueue,
+      authPolicyName:   props.authPolicyName,
+      oauthClientName:  props.oauthClientName,
+      dependsOn:        props.tokenExchangeDependsOn,
+      serviceName:      props.tokenExchangeServiceName,
+      pipeline:         props.tokenExchangePipeline,
+    });
+
+    const hostname    = Fn.select(1, Fn.split('://', tokenExchange.api.apiEndpoint));
+    const oauthOrigin = new HttpOrigin(hostname, { originPath: '' });
+
+    const authViewerRequestFunction = new CloudFrontFunction(this, 'auth-viewer-request', {
+      code: FunctionCode.fromInline(`function handler(event) {
+  var req = event.request;
+  var host = req.headers.host.value;
+  req.headers['x-forwarded-host'] = { value: host };
+  return req;
+}`),
+    });
+
+    distribution.addBehavior('/auth/*', oauthOrigin, {
+      viewerProtocolPolicy: ViewerProtocolPolicy.HTTPS_ONLY,
+      cachePolicy:          CachePolicy.CACHING_DISABLED,
+      originRequestPolicy:  OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
+      functionAssociations: [
+        {
+          function:  authViewerRequestFunction,
+          eventType: FunctionEventType.VIEWER_REQUEST,
+        },
+      ],
+      compress:       false,
+      allowedMethods: AllowedMethods.ALLOW_ALL,
+      responseHeadersPolicy,
+    });
+  }
+}

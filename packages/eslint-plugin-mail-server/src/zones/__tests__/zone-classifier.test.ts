@@ -43,7 +43,7 @@ describe('ZoneClassifier.verdict', () => {
 
 describe('ZoneClassifier.locate', () => {
   it('finds the package and the path below its src folder for a repo-relative path', () => {
-    expect(classifier.locate('packages/mailbox/src/core/x.ts')).toEqual({ packageRoot: mailServerPackage, rest: 'core/x' });
+    expect(classifier.locate('packages/mail-server/src/core/x.ts')).toEqual({ packageRoot: mailServerPackage, rest: 'core/x' });
   });
 
   it('finds the package for an absolute path', () => {
@@ -65,10 +65,10 @@ describe('ZoneClassifier.locate', () => {
 
 describe('ZoneClassifier.isExempt', () => {
   it.each([
-    ['a file under __tests__', 'packages/mailbox/src/core/__tests__/x.test.ts', true],
-    ['a file under runtime', 'packages/mailbox/src/runtime/x.ts', true],
-    ['a file under a nested runtime folder', 'packages/mailbox/src/core/runtime/x.ts', true],
-    ['a file named runtime is not exempt', 'packages/mailbox/src/core/runtime.ts', false],
+    ['a file under __tests__', 'packages/mail-server/src/core/__tests__/x.test.ts', true],
+    ['a file under runtime', 'packages/mail-server/src/runtime/x.ts', true],
+    ['a file under a nested runtime folder', 'packages/mail-server/src/core/runtime/x.ts', true],
+    ['a file named runtime is not exempt', 'packages/mail-server/src/core/runtime.ts', false],
   ])('%s', (_title, path, expected) => {
     expect(classifier.isExempt(classifier.locate(path))).toBe(expected);
   });
@@ -76,14 +76,14 @@ describe('ZoneClassifier.isExempt', () => {
 
 describe('ZoneClassifier.importerZone', () => {
   it.each([
-    ['core', 'packages/mailbox/src/core/x.ts', 'core'],
-    ['platform', 'packages/mailbox/src/platform/x.ts', 'platform'],
-    ['a platform-only lambda', 'packages/mailbox/src/resources/lambdas/support-api-lambda.ts', 'platform-list'],
-    ['a platform-only event', 'packages/mailbox/src/resources/events/stack-failed-event.ts', 'platform-list'],
-    ['the sweeper workflow', 'packages/mailbox/src/resources/workflows/sweeper-workflow.ts', 'platform-list'],
-    ['a resource', 'packages/mailbox/src/resources/tables/x.ts', 'resources'],
-    ['a contract', 'packages/mailbox/src/contracts/x.ts', 'contracts'],
-    ['a utility', 'packages/mailbox/src/utils/x.ts', 'other'],
+    ['core', 'packages/mail-server/src/core/x.ts', 'core'],
+    ['platform', 'packages/mail-server/src/platform/x.ts', 'platform'],
+    ['a platform-only lambda', 'packages/mail-server/src/resources/lambdas/support-api-lambda.ts', 'platform-list'],
+    ['a platform-only event', 'packages/mail-server/src/resources/events/stack-failed-event.ts', 'platform-list'],
+    ['the sweeper workflow', 'packages/mail-server/src/resources/workflows/sweeper-workflow.ts', 'platform-list'],
+    ['a resource', 'packages/mail-server/src/resources/tables/x.ts', 'resources'],
+    ['a contract', 'packages/mail-server/src/contracts/x.ts', 'contracts'],
+    ['a utility', 'packages/mail-server/src/utils/x.ts', 'other'],
   ])('%s is %s', (_title, path, expected) => {
     expect(classifier.importerZone(classifier.locate(path))).toBe(expected);
   });
@@ -91,17 +91,17 @@ describe('ZoneClassifier.importerZone', () => {
 
 describe('ZoneClassifier.targetZone', () => {
   it.each([
-    ['the addons contract', 'packages/mailbox/src/core/apis/addons.ts', 'core-addons'],
-    ['the auth types', 'packages/mailbox/src/core/auth/types.ts', 'core-auth-types'],
-    ['other core', 'packages/mailbox/src/core/x.ts', 'core'],
-    ['platform', 'packages/mailbox/src/platform/x.ts', 'platform'],
-    ['a platform-only lambda', 'packages/mailbox/src/resources/lambdas/support-api-lambda.ts', 'platform-list'],
-    ['a platform-only event', 'packages/mailbox/src/resources/events/stack-failed-event.ts', 'platform-list-event'],
-    ['a contract resource', 'packages/mailbox/src/resources/tables/data-tables.ts', 'contract-resource'],
-    ['another resource', 'packages/mailbox/src/resources/tables/other.ts', 'resources'],
-    ['a contract', 'packages/mailbox/src/contracts/x.ts', 'contracts'],
-    ['a utility', 'packages/mailbox/src/utils/x.ts', 'utils-runtime'],
-    ['a root file', 'packages/mailbox/src/mailbox-props.ts', 'other'],
+    ['the addons contract', 'packages/mail-server/src/core/apis/addons.ts', 'core-addons'],
+    ['the auth types', 'packages/mail-server/src/core/auth/types.ts', 'core-auth-types'],
+    ['other core', 'packages/mail-server/src/core/x.ts', 'core'],
+    ['platform', 'packages/mail-server/src/platform/x.ts', 'platform'],
+    ['a platform-only lambda', 'packages/mail-server/src/resources/lambdas/support-api-lambda.ts', 'platform-list'],
+    ['a platform-only event', 'packages/mail-server/src/resources/events/stack-failed-event.ts', 'platform-list-event'],
+    ['a contract resource', 'packages/mail-server/src/resources/tables/data-tables.ts', 'contract-resource'],
+    ['another resource', 'packages/mail-server/src/resources/tables/other.ts', 'resources'],
+    ['a contract', 'packages/mail-server/src/contracts/x.ts', 'contracts'],
+    ['a utility', 'packages/mail-server/src/utils/x.ts', 'utils-runtime'],
+    ['a root file', 'packages/mail-server/src/mail-server-props.ts', 'other'],
     ['a file of the kit package', 'packages/mail-server-cdk-shared/src/x.ts', 'foreign'],
   ])('%s is %s', (_title, path, expected) => {
     expect(classifier.targetZone(classifier.locate(path))).toBe(expected);
@@ -114,14 +114,14 @@ describe('ZoneClassifier.targetZone', () => {
 
 describe('ZoneClassifier.eventsRestricted', () => {
   it.each([
-    ['a core file', 'packages/mailbox/src/core/x.ts', true],
-    ['a platform file', 'packages/mailbox/src/platform/x.ts', true],
-    ['a resource file', 'packages/mailbox/src/resources/tables/x.ts', true],
-    ['a wiring file', 'packages/mailbox/src/resources/lambdas/x.ts', false],
-    ['an events file', 'packages/mailbox/src/resources/events/x.ts', false],
-    ['a platform-list file', 'packages/mailbox/src/resources/workflows/sweeper-workflow.ts', false],
-    ['a contract file', 'packages/mailbox/src/contracts/x.ts', false],
-    ['an exempt test file', 'packages/mailbox/src/core/__tests__/x.test.ts', false],
+    ['a core file', 'packages/mail-server/src/core/x.ts', true],
+    ['a platform file', 'packages/mail-server/src/platform/x.ts', true],
+    ['a resource file', 'packages/mail-server/src/resources/tables/x.ts', true],
+    ['a wiring file', 'packages/mail-server/src/resources/lambdas/x.ts', false],
+    ['an events file', 'packages/mail-server/src/resources/events/x.ts', false],
+    ['a platform-list file', 'packages/mail-server/src/resources/workflows/sweeper-workflow.ts', false],
+    ['a contract file', 'packages/mail-server/src/contracts/x.ts', false],
+    ['an exempt test file', 'packages/mail-server/src/core/__tests__/x.test.ts', false],
     ['a kit file', 'packages/mail-server-cdk-shared/src/x.ts', true],
     ['the kit index', 'packages/mail-server-cdk-shared/src/index.ts', false],
     ['a cognito wiring file', 'packages/mailbox-cognito/src/resources/lambdas/x.ts', false],

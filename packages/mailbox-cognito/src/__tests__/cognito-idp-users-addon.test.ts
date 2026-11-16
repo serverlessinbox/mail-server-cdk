@@ -6,8 +6,8 @@
  */
 
 import { ArtifactZone, PinnedArtifactResolver }         from '@serverlessinbox/artifact-registry-cdk';
-import type { IAuditEventsQueue, IIdentityProvisioner } from '@serverlessinbox/mailbox';
-import type { MailboxAuthorizationConfig }              from '@serverlessinbox/mailbox';
+import type { IAuditEventsQueue, IIdentityProvisioner } from '@serverlessinbox/mail-server';
+import type { MailServerAuthorizationConfig }           from '@serverlessinbox/mail-server';
 import { Template }                                     from 'aws-cdk-lib/assertions';
 import { HttpMethod }                                   from 'aws-cdk-lib/aws-apigatewayv2';
 import { UserPool }                                     from 'aws-cdk-lib/aws-cognito';
@@ -21,7 +21,7 @@ const USER_POOL_ARN = 'arn:aws:cognito-idp:us-west-2:123456789012:userpool/us-we
 const USER_POOL_ID  = 'us-west-2_abcdefgh';
 
 interface AddonOptions {
-  readonly authorization?: MailboxAuthorizationConfig;
+  readonly authorization?: MailServerAuthorizationConfig;
   readonly basePath?:      string;
   readonly uiConfig?:      MailboxUserPoolAdminUiConfig;
 }

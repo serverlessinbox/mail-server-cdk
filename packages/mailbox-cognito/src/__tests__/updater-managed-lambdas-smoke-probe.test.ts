@@ -8,7 +8,7 @@
  *
  * The managed Lambdas are read from a synthesized template that holds a `MailboxUserPool` with dynamic client
  * registration enabled, a bootstrap user and the admin API addons, so that every Lambda of this package is
- * present. The `Mailbox` suite of the mailbox package cannot cover them: it synthesizes with a fake auth provider.
+ * present. The `MailServer` suite of the mailbox package cannot cover them: it synthesizes with a fake auth provider.
  */
 
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
@@ -19,7 +19,7 @@ import {
   type ManagedLambda,
 }                                                                               from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
 import { ArtifactResolverFactory }                                              from '@serverlessinbox/mail-server-cdk-shared';
-import type { AdminApiAddonContext }                                            from '@serverlessinbox/mailbox';
+import type { AdminApiAddonContext }                                            from '@serverlessinbox/mail-server';
 import { Template }                                                             from 'aws-cdk-lib/assertions';
 import * as cdk                                                                 from 'aws-cdk-lib';
 import { App, BootstraplessSynthesizer }                                        from 'aws-cdk-lib';

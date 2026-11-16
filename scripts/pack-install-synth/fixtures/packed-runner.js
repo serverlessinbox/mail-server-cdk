@@ -15,7 +15,7 @@ async function main(argv) {
 
   const cdk = require('aws-cdk-lib');
   const { Template } = require('aws-cdk-lib/assertions');
-  const mailbox = require('@serverlessinbox/mailbox');
+  const mailbox = require('@serverlessinbox/mail-server');
   const cognito = require('@serverlessinbox/mailbox-cognito');
   const { build } = require('./consumer-stack.js');
 

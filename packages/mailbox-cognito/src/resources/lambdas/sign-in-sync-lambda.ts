@@ -1,6 +1,6 @@
 import type { IArtifactResolver }    from '@serverlessinbox/artifact-registry-cdk';
 import { TypeScriptLambda }          from '@serverlessinbox/mail-server-cdk-shared';
-import type { IIdentityProvisioner } from '@serverlessinbox/mailbox';
+import type { IIdentityProvisioner } from '@serverlessinbox/mail-server';
 import type { IUserPool }            from 'aws-cdk-lib/aws-cognito';
 import * as iam                      from 'aws-cdk-lib/aws-iam';
 import { Aws, Duration }             from 'aws-cdk-lib';

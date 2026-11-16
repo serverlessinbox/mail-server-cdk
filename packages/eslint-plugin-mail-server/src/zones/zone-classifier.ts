@@ -98,7 +98,7 @@ export class ZoneClassifier {
     return location !== null && location.rest.startsWith('resources/events/');
   }
 
-  // Mailbox core, platform and resources never import an event; kit and cognito index files may.
+  // MailServer core, platform and resources never import an event; kit and cognito index files may.
   public eventsRestricted(location: SourceLocation): boolean {
     if (location.packageRoot === null || this.isExempt(location) || this.isWiring(location)) {
       return false;

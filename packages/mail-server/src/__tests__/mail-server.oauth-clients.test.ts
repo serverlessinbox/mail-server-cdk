@@ -1,0 +1,153 @@
+/// <reference types="jest" />
+
+/**
+ * MailServer OAuth client wiring tests.
+ *
+ * MailServer decides which UI clients are sent to the bootstrap custom resource, which UI URLs exist,
+ * and the order in which the webmail token exchange may switch to its config row. These tests pin
+ * that wiring on the synthesized template: a UI that is not enabled leaves no URL, no client block
+ * and no env value behind (never an empty stand-in), and the webmail token-exchange function waits
+ * on the bootstrap custom resource that writes the row it reads.
+ */
+
+import { Match, Template }                               from 'aws-cdk-lib/assertions';
+import * as cdk                                          from 'aws-cdk-lib';
+import { App, BootstraplessSynthesizer }                 from 'aws-cdk-lib';
+
+import { Permission }                                    from '../core/auth/jmap-scopes';
+import type { MailServerProps }                          from '../mail-server-props';
+import { MailServer }                                    from '../mail-server';
+
+import { createMockAuthProvider, TEST_ARTIFACT_CONTEXT } from './mail-server-helpers';
+
+interface SynthesizedResource {
+  Properties?: Record<string, unknown>;
+  DependsOn?:  string[];
+}
+
+describe('Mailbox OAuth client wiring', () => {
+  /** The webmail client and a mail.read-only scope map: the values the cases below assert on. */
+  function createAuthProvider() {
+    return createMockAuthProvider({
+      jmapClientId: 'test-webmail-ui',
+      scopeMap:     { 'mail.read': [Permission.MAIL_READ_ITEMS] },
+    });
+  }
+
+  function synthesize(extraProps: Partial<MailServerProps> = {}): { mailServer: MailServer; template: Template } {
+    const app = new App({
+      context: { 'serverlessinbox:artifacts': TEST_ARTIFACT_CONTEXT },
+    });
+    const stack = new cdk.Stack(app, 'TestMailboxOAuthClients', {
+      env:         { account: '123456789012', region: 'us-west-2' },
+      synthesizer: new BootstraplessSynthesizer(),
+    });
+
+    const mailServer = new MailServer(stack, 'mailbox', { authProvider: createAuthProvider(), ...extraProps });
+    return { mailServer, template: Template.fromStack(stack) };
+  }
+
+  function bootstrapResource(template: Template): [string, SynthesizedResource] {
+    const matching = Object.entries(template.findResources('Custom::Bootstrap'));
+    expect(matching).toHaveLength(1);
+    return matching[0];
+  }
+
+  function functionsByEnvironment(template: Template, variable: string, value?: string): Array<[string, SynthesizedResource]> {
+    return Object.entries(template.findResources('AWS::Lambda::Function')).filter(([, resource]) => {
+      const variables = (resource.Properties as { Environment?: { Variables?: Record<string, string> } }).Environment?.Variables;
+      return variables !== undefined && variable in variables && (value === undefined || variables[variable] === value);
+    });
+  }
+
+  describe('with both UIs enabled', () => {
+    it('sends the admin and webmail client blocks, and no jmapUi block, to the bootstrap resource', () => {
+      const { template }  = synthesize();
+      const [, bootstrap] = bootstrapResource(template);
+
+      expect(bootstrap.Properties).toMatchObject({
+        oauthClients: {
+          adminUi:   { clientId: 'test-admin-ui' },
+          webmailUi: { clientId: 'test-webmail-ui' },
+        },
+      });
+      expect(bootstrap.Properties?.oauthClients).not.toHaveProperty('jmapUi');
+    });
+
+    it('exposes both UI URLs', () => {
+      const { mailServer } = synthesize();
+
+      expect(mailServer.urls.adminUi).toBeDefined();
+      expect(mailServer.urls.webmailUi).toBeDefined();
+    });
+
+    it('makes the webmail token-exchange function depend on the bootstrap custom resource', () => {
+      const { template }         = synthesize();
+      const [bootstrapLogicalId] = bootstrapResource(template);
+      const webmailTokenExchange = functionsByEnvironment(template, 'SERVICE_NAME', 'idp-token-exchange-webmail-ui');
+
+      expect(webmailTokenExchange).toHaveLength(1);
+      expect(webmailTokenExchange[0][1].DependsOn).toContain(bootstrapLogicalId);
+    });
+  });
+
+  describe('with the Webmail UI disabled', () => {
+    it('synthesizes without a Webmail UI URL or client block, and still creates the JMAP API', () => {
+      const { mailServer, template } = synthesize({ enableWebmailUi: false });
+      const [, bootstrap]            = bootstrapResource(template);
+
+      expect(mailServer.urls.webmailUi).toBeUndefined();
+      expect(bootstrap.Properties?.oauthClients).not.toHaveProperty('webmailUi');
+      expect(functionsByEnvironment(template, 'SERVICE_NAME', 'jmap-api')).toHaveLength(1);
+      expect(functionsByEnvironment(template, 'SERVICE_NAME', 'user-api')).toHaveLength(1);
+      expect(functionsByEnvironment(template, 'OAUTH_HANDLER_CONFIG')).toHaveLength(2);
+    });
+  });
+
+  describe('authorizer Lambdas', () => {
+    it.each([
+      ['authorizer-jmap-api'],
+      ['authorizer-user-api'],
+      ['authorizer-admin-api'],
+      ['authorizer-admin-api-lookup'],
+    ])('gives %s the provider scope map as OAUTH_SCOPE_MAP', (serviceName) => {
+      const { template } = synthesize();
+
+      template.hasResourceProperties('AWS::Lambda::Function', {
+        Environment: { Variables: Match.objectLike({ SERVICE_NAME: serviceName, OAUTH_SCOPE_MAP: JSON.stringify(createAuthProvider().scopeMap) }) },
+      });
+    });
+  });
+
+  describe('with the Admin UI disabled', () => {
+    it('leaves out the admin client block and still sends the webmail block', () => {
+      const { template }  = synthesize({ enableAdminUi: false });
+      const [, bootstrap] = bootstrapResource(template);
+
+      expect(bootstrap.Properties?.oauthClients).toMatchObject({ webmailUi: { clientId: 'test-webmail-ui' } });
+      expect(bootstrap.Properties?.oauthClients).not.toHaveProperty('adminUi');
+    });
+
+    it('still sends the Admin API authorizer policy', () => {
+      const { template }  = synthesize({ enableAdminUi: false });
+      const [, bootstrap] = bootstrapResource(template);
+
+      expect(bootstrap.Properties?.authPolicies).toMatchObject({ adminApi: { audiences: ['admin-api'] } });
+    });
+
+    it('has no Admin UI URL and no Admin UI token-exchange function', () => {
+      const { mailServer, template } = synthesize({ enableAdminUi: false });
+
+      expect(mailServer.urls.adminUi).toBeUndefined();
+      expect(functionsByEnvironment(template, 'SERVICE_NAME', 'idp-token-exchange-admin-ui')).toHaveLength(0);
+    });
+
+    it('gives the identity provisioner no ADMIN_UI_URL instead of an empty one', () => {
+      const { template }        = synthesize({ enableAdminUi: false });
+      const identityProvisioner = functionsByEnvironment(template, 'SERVICE_NAME', 'identity-provisioner');
+
+      expect(identityProvisioner).toHaveLength(1);
+      expect(identityProvisioner[0][1].Properties).not.toHaveProperty('Environment.Variables.ADMIN_UI_URL');
+    });
+  });
+});

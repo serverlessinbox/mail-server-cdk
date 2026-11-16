@@ -3,7 +3,7 @@ export interface PackageRoot {
   readonly dir:  string;
 }
 
-export const mailServerPackage: PackageRoot = { name: '@serverlessinbox/mailbox', dir: 'mailbox' };
+export const mailServerPackage: PackageRoot = { name: '@serverlessinbox/mail-server', dir: 'mail-server' };
 
 export const kitPackage: PackageRoot = { name: '@serverlessinbox/mail-server-cdk-shared', dir: 'mail-server-cdk-shared' };
 

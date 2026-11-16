@@ -24,7 +24,7 @@ You need an AWS account, Node.js 24 and the
 [AWS CDK CLI](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html).
 
 ```sh
-npm install @serverlessinbox/mailbox @serverlessinbox/mailbox-cognito \
+npm install @serverlessinbox/mail-server @serverlessinbox/mailbox-cognito \
   @serverlessinbox/artifact-registry-cdk aws-cdk-lib constructs
 ```
 
@@ -34,7 +34,7 @@ zone serving the domain:
 ```typescript
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { HostedZoneLookup, Mailbox } from '@serverlessinbox/mailbox';
+import { HostedZoneLookup, Mailbox } from '@serverlessinbox/mail-server';
 import { MailboxUserPool } from '@serverlessinbox/mailbox-cognito';
 
 export class MyStack extends Stack {
@@ -64,7 +64,7 @@ flowchart LR
   zone -->|hostedZone| mailbox
   zone -->|hostedZone| pool
   pool -->|authProvider| mailbox
-  subgraph pkgM["@serverlessinbox/mailbox"]
+  subgraph pkgM["@serverlessinbox/mail-server"]
     zone
     mailbox
   end
@@ -80,7 +80,7 @@ The app looks up your hosted zone, creates a `MailboxUserPool` in it and passes 
 
 | Package | Description |
 |---------|-------------|
-| [`@serverlessinbox/mailbox`](packages/mailbox/) | The `Mailbox` construct: the JMAP email server and everything around it |
+| [`@serverlessinbox/mail-server`](packages/mail-server/) | The `Mailbox` construct: the JMAP email server and everything around it |
 | [`@serverlessinbox/mailbox-cognito`](packages/mailbox-cognito/) | Cognito user pool as the sign-in provider of a `Mailbox`, plus the user-management API for it |
 
 ## Contributing and architecture
@@ -94,12 +94,12 @@ The app looks up your hosted zone, creates a `MailboxUserPool` in it and passes 
 
 | Question | Where |
 |----------|-------|
-| How do I create a mailbox in my own stack? | [`packages/mailbox/src/mailbox.ts`](packages/mailbox/src/mailbox.ts) and its props in [`packages/mailbox/src/mailbox-props.ts`](packages/mailbox/src/mailbox-props.ts) |
+| How do I create a mailbox in my own stack? | [`packages/mail-server/src/mail-server.ts`](packages/mail-server/src/mail-server.ts) and its props in [`packages/mail-server/src/mail-server-props.ts`](packages/mail-server/src/mail-server-props.ts) |
 | How do I sign users in? | [`packages/mailbox-cognito/src/user-pool/`](packages/mailbox-cognito/src/user-pool/) |
-| Which Lambdas, tables, queues and state machines exist? | [`packages/mailbox/src/resources/`](packages/mailbox/src/resources/), one file per resource |
-| Where is a feature such as email, auth or the APIs assembled? | [`packages/mailbox/src/core/`](packages/mailbox/src/core/) |
-| How does the mailbox update itself? | [`packages/mailbox/src/platform/`](packages/mailbox/src/platform/) |
-| Where is the code that runs inside the TypeScript Lambdas? | `src/runtime/` of [`mailbox`](packages/mailbox/src/runtime/), `src/runtime/` of [`mailbox-cognito`](packages/mailbox-cognito/src/runtime/) |
+| Which Lambdas, tables, queues and state machines exist? | [`packages/mail-server/src/resources/`](packages/mail-server/src/resources/), one file per resource |
+| Where is a feature such as email, auth or the APIs assembled? | [`packages/mail-server/src/core/`](packages/mail-server/src/core/) |
+| How does the mailbox update itself? | [`packages/mail-server/src/platform/`](packages/mail-server/src/platform/) |
+| Where is the code that runs inside the TypeScript Lambdas? | `src/runtime/` of [`mailbox`](packages/mail-server/src/runtime/), `src/runtime/` of [`mailbox-cognito`](packages/mailbox-cognito/src/runtime/) |
 | Where are the architecture and the contribution rules? | [`docs/architecture.md`](docs/architecture.md), [`CONTRIBUTING.md`](CONTRIBUTING.md) |
 | What changed between releases? | [`CHANGELOG.md`](CHANGELOG.md) |
 

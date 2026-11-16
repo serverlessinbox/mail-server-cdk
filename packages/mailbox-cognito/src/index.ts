@@ -1,5 +1,5 @@
 /**
- * @serverlessinbox/mailbox-cognito - CDK Construct Library for Cognito-backed Mailbox Auth
+ * @serverlessinbox/mailbox-cognito - CDK Construct Library for Cognito-backed MailServer Auth
  */
 
 // Auth — user pool construct

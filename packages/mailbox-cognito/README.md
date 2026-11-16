@@ -2,7 +2,7 @@
 
 > **Beta.** Use at your own risk; no warranty. Breaking changes are possible before 1.0.
 
-Amazon Cognito as the authentication provider of a [`@serverlessinbox/mailbox`](../mailbox/) email
+Amazon Cognito as the authentication provider of a [`@serverlessinbox/mail-server`](../mail-server/) email
 server. `MailboxUserPool` creates the user pool and its OAuth endpoint, issues one OAuth client per
 application that calls the Admin API or the JMAP API, and contributes the Admin API addon that manages
 the pool's users. It is a jsii library.
@@ -11,7 +11,7 @@ Built for [ServerlessInbox](https://github.com/serverlessinbox/serverlessinbox).
 
 ## Concepts
 
-- **`MailboxUserPool`** implements the auth provider contract of `@serverlessinbox/mailbox`. You pass it
+- **`MailboxUserPool`** implements the auth provider contract of `@serverlessinbox/mail-server`. You pass it
   to `Mailbox` as `authProvider`; the Mailbox then trusts the tokens this pool issues.
 - **Groups and roles.** Members of the admin groups (`admin` by default) may call the Admin API; members of
   the user groups (`user` by default) are mailbox users. Both lists are set through
@@ -34,7 +34,7 @@ Built for [ServerlessInbox](https://github.com/serverlessinbox/serverlessinbox).
 ```mermaid
 flowchart TD
   app["Your CDK stack"] -->|"new MailboxUserPool(props)"| pool["MailboxUserPool"]
-  pool -->|"authProvider"| mailbox["Mailbox (@serverlessinbox/mailbox)"]
+  pool -->|"authProvider"| mailbox["Mailbox (@serverlessinbox/mail-server)"]
 
   pool --> deployer["MailboxCognitoDataDeployer"]
   deployer --> worker["MailboxCognitoDataDeployerWorkerLambda"]
@@ -83,7 +83,7 @@ Folders of `src/`:
 ## Usage
 
 ```sh
-npm install @serverlessinbox/mailbox @serverlessinbox/mailbox-cognito \
+npm install @serverlessinbox/mail-server @serverlessinbox/mailbox-cognito \
   @serverlessinbox/artifact-registry-cdk aws-cdk-lib constructs
 ```
 
@@ -92,7 +92,7 @@ A user pool whose OAuth domain is derived from the hosted zone of your Mailbox:
 ```typescript
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { HostedZoneLookup, Mailbox } from '@serverlessinbox/mailbox';
+import { HostedZoneLookup, Mailbox } from '@serverlessinbox/mail-server';
 import { MailboxUserPool } from '@serverlessinbox/mailbox-cognito';
 
 export class MyMailboxStack extends Stack {
@@ -121,7 +121,7 @@ machine client that may call the JMAP API:
 ```typescript
 import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { Mailbox, Permission } from '@serverlessinbox/mailbox';
+import { Mailbox, Permission } from '@serverlessinbox/mail-server';
 import {
   DynamicClientRegistrationMode,
   MailboxUserPool,

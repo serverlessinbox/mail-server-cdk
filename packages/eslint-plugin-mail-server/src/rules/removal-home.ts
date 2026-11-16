@@ -12,7 +12,7 @@ type RemovalContext = Readonly<TSESLint.RuleContext<RemovalMessageId, []>>;
 
 type MemberNode = TSESTree.MethodDefinition | TSESTree.TSAbstractMethodDefinition | TSESTree.TSMethodSignature | TSESTree.Property;
 
-const sweeperFolder    = /(^|\/)packages\/mailbox\/src\/platform\/ops\/sweeper\//;
+const sweeperFolder    = /(^|\/)packages\/mail-server\/src\/platform\/ops\/sweeper\//;
 const removalInterface = 'IResourceRemoval';
 const statementMethod  = 'grantStatements';
 const statementType    = 'PolicyStatement';

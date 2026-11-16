@@ -10,7 +10,7 @@
  */
 
 import { ArtifactZone, PinnedArtifactResolver }                                 from '@serverlessinbox/artifact-registry-cdk';
-import { Permission }                                                           from '@serverlessinbox/mailbox';
+import { Permission }                                                           from '@serverlessinbox/mail-server';
 import { Match, Template }                                                      from 'aws-cdk-lib/assertions';
 import * as cognito                                                             from 'aws-cdk-lib/aws-cognito';
 import * as lambda                                                              from 'aws-cdk-lib/aws-lambda';

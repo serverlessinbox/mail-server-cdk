@@ -1,6 +1,6 @@
 # Architecture
 
-This page describes how the constructs in `packages/mailbox` and `packages/mailbox-cognito` are put
+This page describes how the constructs in `packages/mail-server` and `packages/mailbox-cognito` are put
 together and how a request travels through what they deploy. For the rules to follow when changing
 them, see [CONTRIBUTING.md](../CONTRIBUTING.md).
 
@@ -83,7 +83,7 @@ are the only place that declare CloudFormation parameters and outputs.
 
 ## Zones
 
-`packages/mailbox/src` is split into zones, and the `zone-imports` lint rule enforces the matrix in
+`packages/mail-server/src` is split into zones, and the `zone-imports` lint rule enforces the matrix in
 `packages/eslint-plugin-mail-server/src/zones/mail-server-zones.ts`.
 
 - **`core`** is the mail server. It never imports `platform`.

@@ -19,6 +19,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/eslint-plugin-mail-server"\
     },\
     {\
+      "name": "@serverlessinbox/mail-server",\
+      "reference": "workspace:packages/mail-server"\
+    },\
+    {\
       "name": "@serverlessinbox/mail-server-addon-sdk",\
       "reference": "workspace:packages/mail-server-addon-sdk"\
     },\
@@ -31,10 +35,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/mail-server-cdk-shared"\
     },\
     {\
-      "name": "@serverlessinbox/mailbox",\
-      "reference": "workspace:packages/mailbox"\
-    },\
-    {\
       "name": "@serverlessinbox/mailbox-cognito",\
       "reference": "workspace:packages/mailbox-cognito"\
     }\
@@ -44,10 +44,10 @@ const RAW_RUNTIME_STATE =
   "pnpZipBackend": "libzip",\
   "fallbackExclusionList": [\
     ["@serverlessinbox/eslint-plugin-mail-server", ["workspace:packages/eslint-plugin-mail-server"]],\
+    ["@serverlessinbox/mail-server", ["virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server", "workspace:packages/mail-server"]],\
     ["@serverlessinbox/mail-server-addon-sdk", ["virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server-addon-sdk", "workspace:packages/mail-server-addon-sdk"]],\
     ["@serverlessinbox/mail-server-bundler", ["virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#workspace:packages/mail-server-bundler", "workspace:packages/mail-server-bundler"]],\
     ["@serverlessinbox/mail-server-cdk-shared", ["workspace:packages/mail-server-cdk-shared"]],\
-    ["@serverlessinbox/mailbox", ["virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mailbox", "workspace:packages/mailbox"]],\
     ["@serverlessinbox/mailbox-cognito", ["workspace:packages/mailbox-cognito"]],\
     ["mailbox-cdk", ["workspace:."]]\
   ],\
@@ -745,6 +745,10 @@ const RAW_RUNTIME_STATE =
       "workspace:packages/eslint-plugin-mail-server"\
     ],\
     [\
+      "@serverlessinbox/mail-server",\
+      "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server"\
+    ],\
+    [\
       "@serverlessinbox/mail-server-addon-sdk",\
       "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server-addon-sdk"\
     ],\
@@ -755,10 +759,6 @@ const RAW_RUNTIME_STATE =
     [\
       "@serverlessinbox/mail-server-cdk-shared",\
       "workspace:packages/mail-server-cdk-shared"\
-    ],\
-    [\
-      "@serverlessinbox/mailbox",\
-      "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mailbox"\
     ],\
     [\
       "@serverlessinbox/mailbox-cognito",\
@@ -2234,7 +2234,7 @@ const RAW_RUNTIME_STATE =
     ],\
     [\
       "jsii-pacmak",\
-      "virtual:e94fb04ddfbfdee71b0195e6f2baf696bf5deb0f51628f77f3bc222132eb01152aec53022f57fcce7ca18f81424f1a0ceead8c91220c7968490da2b31b3f8a37#npm:1.120.0"\
+      "virtual:90d7aa30748c7826129cd2728677d4925266156c15c0c02341984dc2d56554192e76d7465fbd33cf598ea429f19a04230eb451a37c06e5ca36de698a962f792b#npm:1.120.0"\
     ],\
     [\
       "jsii-reflect",\
@@ -5879,6 +5879,107 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@serverlessinbox/mail-server", [\
+      ["virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server", {\
+        "packageLocation": "./.yarn/__virtual__/@serverlessinbox-mail-server-virtual-5e1363d600/1/packages/mail-server/",\
+        "packageDependencies": [\
+          ["@aws-sdk/client-acm", "npm:3.1132.0"],\
+          ["@aws-sdk/client-cloudformation", "npm:3.1132.0"],\
+          ["@aws-sdk/client-cloudfront", "npm:3.1132.0"],\
+          ["@aws-sdk/client-dynamodb", "npm:3.1132.0"],\
+          ["@aws-sdk/client-eventbridge", "npm:3.1132.0"],\
+          ["@aws-sdk/client-iam", "npm:3.1132.0"],\
+          ["@aws-sdk/client-lambda", "npm:3.1132.0"],\
+          ["@aws-sdk/client-resource-groups-tagging-api", "npm:3.1132.0"],\
+          ["@aws-sdk/client-route-53", "npm:3.1132.0"],\
+          ["@aws-sdk/client-s3", "npm:3.1132.0"],\
+          ["@aws-sdk/client-sfn", "npm:3.1132.0"],\
+          ["@serverlessinbox/artifact-registry", "npm:0.3.6"],\
+          ["@serverlessinbox/artifact-registry-cdk", "virtual:18aa64ba92d78387e200e5b44bcf43b06204cbf3f763f86636ce57acb7635002abe16b7ea7f442476cd390df45560c2a09ada9212b44aaa7a06df1e86d6d5320#npm:0.3.0"],\
+          ["@serverlessinbox/mail-server", "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server"],\
+          ["@serverlessinbox/mail-server-bundler", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#workspace:packages/mail-server-bundler"],\
+          ["@serverlessinbox/mail-server-cdk-shared", "workspace:packages/mail-server-cdk-shared"],\
+          ["@types/aws-cdk-lib", null],\
+          ["@types/aws-lambda", "npm:8.10.159"],\
+          ["@types/constructs", null],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/mime-types", "npm:2.1.4"],\
+          ["@types/node", "npm:24.10.1"],\
+          ["@types/semver", "npm:7.7.1"],\
+          ["@types/serverlessinbox__artifact-registry-cdk", null],\
+          ["@types/unzipper", "npm:0.10.11"],\
+          ["aws-cdk-lib", "virtual:18aa64ba92d78387e200e5b44bcf43b06204cbf3f763f86636ce57acb7635002abe16b7ea7f442476cd390df45560c2a09ada9212b44aaa7a06df1e86d6d5320#npm:2.261.0"],\
+          ["aws-custom-resources", "npm:0.0.4"],\
+          ["aws-sdk-client-mock", "npm:4.1.0"],\
+          ["constructs", "npm:10.6.0"],\
+          ["esbuild", "npm:0.27.1"],\
+          ["jest", "virtual:766f49a1b4b33f54d417bf93eda96c55918b1f91e786073d4cd2b5a9099891bfb82b2c75a3bef519167e549c8c124d135aa5e212469cc2cec7f25a67c8340992#npm:29.7.0"],\
+          ["jose", "npm:5.10.0"],\
+          ["jsii", "npm:5.9.44"],\
+          ["jsii-pacmak", "virtual:90d7aa30748c7826129cd2728677d4925266156c15c0c02341984dc2d56554192e76d7465fbd33cf598ea429f19a04230eb451a37c06e5ca36de698a962f792b#npm:1.120.0"],\
+          ["jsii-rosetta", "npm:5.9.15"],\
+          ["mime-types", "npm:2.1.35"],\
+          ["semver", "npm:7.8.5"],\
+          ["ts-jest", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#npm:29.4.6"],\
+          ["typanion", "npm:3.14.0"],\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
+          ["unzipper", "npm:0.12.3"]\
+        ],\
+        "packagePeers": [\
+          "@serverlessinbox/artifact-registry-cdk",\
+          "@types/aws-cdk-lib",\
+          "@types/constructs",\
+          "@types/serverlessinbox__artifact-registry-cdk",\
+          "aws-cdk-lib",\
+          "constructs"\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["workspace:packages/mail-server", {\
+        "packageLocation": "./packages/mail-server/",\
+        "packageDependencies": [\
+          ["@aws-sdk/client-acm", "npm:3.1132.0"],\
+          ["@aws-sdk/client-cloudformation", "npm:3.1132.0"],\
+          ["@aws-sdk/client-cloudfront", "npm:3.1132.0"],\
+          ["@aws-sdk/client-dynamodb", "npm:3.1132.0"],\
+          ["@aws-sdk/client-eventbridge", "npm:3.1132.0"],\
+          ["@aws-sdk/client-iam", "npm:3.1132.0"],\
+          ["@aws-sdk/client-lambda", "npm:3.1132.0"],\
+          ["@aws-sdk/client-resource-groups-tagging-api", "npm:3.1132.0"],\
+          ["@aws-sdk/client-route-53", "npm:3.1132.0"],\
+          ["@aws-sdk/client-s3", "npm:3.1132.0"],\
+          ["@aws-sdk/client-sfn", "npm:3.1132.0"],\
+          ["@serverlessinbox/artifact-registry", "npm:0.3.6"],\
+          ["@serverlessinbox/artifact-registry-cdk", "virtual:18aa64ba92d78387e200e5b44bcf43b06204cbf3f763f86636ce57acb7635002abe16b7ea7f442476cd390df45560c2a09ada9212b44aaa7a06df1e86d6d5320#npm:0.3.0"],\
+          ["@serverlessinbox/mail-server", "workspace:packages/mail-server"],\
+          ["@serverlessinbox/mail-server-bundler", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#workspace:packages/mail-server-bundler"],\
+          ["@serverlessinbox/mail-server-cdk-shared", "workspace:packages/mail-server-cdk-shared"],\
+          ["@types/aws-lambda", "npm:8.10.159"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/mime-types", "npm:2.1.4"],\
+          ["@types/node", "npm:24.10.1"],\
+          ["@types/semver", "npm:7.7.1"],\
+          ["@types/unzipper", "npm:0.10.11"],\
+          ["aws-cdk-lib", "virtual:18aa64ba92d78387e200e5b44bcf43b06204cbf3f763f86636ce57acb7635002abe16b7ea7f442476cd390df45560c2a09ada9212b44aaa7a06df1e86d6d5320#npm:2.261.0"],\
+          ["aws-custom-resources", "npm:0.0.4"],\
+          ["aws-sdk-client-mock", "npm:4.1.0"],\
+          ["constructs", "npm:10.6.0"],\
+          ["esbuild", "npm:0.27.1"],\
+          ["jest", "virtual:766f49a1b4b33f54d417bf93eda96c55918b1f91e786073d4cd2b5a9099891bfb82b2c75a3bef519167e549c8c124d135aa5e212469cc2cec7f25a67c8340992#npm:29.7.0"],\
+          ["jose", "npm:5.10.0"],\
+          ["jsii", "npm:5.9.44"],\
+          ["jsii-pacmak", "virtual:90d7aa30748c7826129cd2728677d4925266156c15c0c02341984dc2d56554192e76d7465fbd33cf598ea429f19a04230eb451a37c06e5ca36de698a962f792b#npm:1.120.0"],\
+          ["jsii-rosetta", "npm:5.9.15"],\
+          ["mime-types", "npm:2.1.35"],\
+          ["semver", "npm:7.8.5"],\
+          ["ts-jest", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#npm:29.4.6"],\
+          ["typanion", "npm:3.14.0"],\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
+          ["unzipper", "npm:0.12.3"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@serverlessinbox/mail-server-addon-sdk", [\
       ["virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server-addon-sdk", {\
         "packageLocation": "./.yarn/__virtual__/@serverlessinbox-mail-server-addon-sdk-virtual-90b4d4a1ae/1/packages/mail-server-addon-sdk/",\
@@ -5931,7 +6032,7 @@ const RAW_RUNTIME_STATE =
           ["fflate", "npm:0.8.3"],\
           ["glob", "npm:10.5.0"],\
           ["jest", "virtual:766f49a1b4b33f54d417bf93eda96c55918b1f91e786073d4cd2b5a9099891bfb82b2c75a3bef519167e549c8c124d135aa5e212469cc2cec7f25a67c8340992#npm:29.7.0"],\
-          ["ts-jest", "virtual:934d9827a8a75d0dd9ebb3a43930c41fc7b746bf65db43e9e795cbbe85701cbfc3069a9c93fbf8977ef76876dd21b1ba74a28549f62d757445fdced196bfc715#npm:29.4.6"],\
+          ["ts-jest", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#npm:29.4.6"],\
           ["ts-node", "virtual:766f49a1b4b33f54d417bf93eda96c55918b1f91e786073d4cd2b5a9099891bfb82b2c75a3bef519167e549c8c124d135aa5e212469cc2cec7f25a67c8340992#npm:10.9.2"],\
           ["typanion", "npm:3.14.0"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
@@ -5953,7 +6054,7 @@ const RAW_RUNTIME_STATE =
           ["fflate", "npm:0.8.3"],\
           ["glob", "npm:10.5.0"],\
           ["jest", "virtual:766f49a1b4b33f54d417bf93eda96c55918b1f91e786073d4cd2b5a9099891bfb82b2c75a3bef519167e549c8c124d135aa5e212469cc2cec7f25a67c8340992#npm:29.7.0"],\
-          ["ts-jest", "virtual:934d9827a8a75d0dd9ebb3a43930c41fc7b746bf65db43e9e795cbbe85701cbfc3069a9c93fbf8977ef76876dd21b1ba74a28549f62d757445fdced196bfc715#npm:29.4.6"],\
+          ["ts-jest", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#npm:29.4.6"],\
           ["ts-node", "virtual:766f49a1b4b33f54d417bf93eda96c55918b1f91e786073d4cd2b5a9099891bfb82b2c75a3bef519167e549c8c124d135aa5e212469cc2cec7f25a67c8340992#npm:10.9.2"],\
           ["typanion", "npm:3.14.0"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
@@ -5985,108 +6086,7 @@ const RAW_RUNTIME_STATE =
           ["esbuild", "npm:0.27.1"],\
           ["jest", "virtual:766f49a1b4b33f54d417bf93eda96c55918b1f91e786073d4cd2b5a9099891bfb82b2c75a3bef519167e549c8c124d135aa5e212469cc2cec7f25a67c8340992#npm:29.7.0"],\
           ["mime-types", "npm:2.1.35"],\
-          ["ts-jest", "virtual:934d9827a8a75d0dd9ebb3a43930c41fc7b746bf65db43e9e795cbbe85701cbfc3069a9c93fbf8977ef76876dd21b1ba74a28549f62d757445fdced196bfc715#npm:29.4.6"],\
-          ["typanion", "npm:3.14.0"],\
-          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
-          ["unzipper", "npm:0.12.3"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@serverlessinbox/mailbox", [\
-      ["virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mailbox", {\
-        "packageLocation": "./.yarn/__virtual__/@serverlessinbox-mailbox-virtual-903c37be11/1/packages/mailbox/",\
-        "packageDependencies": [\
-          ["@aws-sdk/client-acm", "npm:3.1132.0"],\
-          ["@aws-sdk/client-cloudformation", "npm:3.1132.0"],\
-          ["@aws-sdk/client-cloudfront", "npm:3.1132.0"],\
-          ["@aws-sdk/client-dynamodb", "npm:3.1132.0"],\
-          ["@aws-sdk/client-eventbridge", "npm:3.1132.0"],\
-          ["@aws-sdk/client-iam", "npm:3.1132.0"],\
-          ["@aws-sdk/client-lambda", "npm:3.1132.0"],\
-          ["@aws-sdk/client-resource-groups-tagging-api", "npm:3.1132.0"],\
-          ["@aws-sdk/client-route-53", "npm:3.1132.0"],\
-          ["@aws-sdk/client-s3", "npm:3.1132.0"],\
-          ["@aws-sdk/client-sfn", "npm:3.1132.0"],\
-          ["@serverlessinbox/artifact-registry", "npm:0.3.6"],\
-          ["@serverlessinbox/artifact-registry-cdk", "virtual:18aa64ba92d78387e200e5b44bcf43b06204cbf3f763f86636ce57acb7635002abe16b7ea7f442476cd390df45560c2a09ada9212b44aaa7a06df1e86d6d5320#npm:0.3.0"],\
-          ["@serverlessinbox/mail-server-bundler", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#workspace:packages/mail-server-bundler"],\
-          ["@serverlessinbox/mail-server-cdk-shared", "workspace:packages/mail-server-cdk-shared"],\
-          ["@serverlessinbox/mailbox", "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mailbox"],\
-          ["@types/aws-cdk-lib", null],\
-          ["@types/aws-lambda", "npm:8.10.159"],\
-          ["@types/constructs", null],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/mime-types", "npm:2.1.4"],\
-          ["@types/node", "npm:24.10.1"],\
-          ["@types/semver", "npm:7.7.1"],\
-          ["@types/serverlessinbox__artifact-registry-cdk", null],\
-          ["@types/unzipper", "npm:0.10.11"],\
-          ["aws-cdk-lib", "virtual:18aa64ba92d78387e200e5b44bcf43b06204cbf3f763f86636ce57acb7635002abe16b7ea7f442476cd390df45560c2a09ada9212b44aaa7a06df1e86d6d5320#npm:2.261.0"],\
-          ["aws-custom-resources", "npm:0.0.4"],\
-          ["aws-sdk-client-mock", "npm:4.1.0"],\
-          ["constructs", "npm:10.6.0"],\
-          ["esbuild", "npm:0.27.1"],\
-          ["jest", "virtual:766f49a1b4b33f54d417bf93eda96c55918b1f91e786073d4cd2b5a9099891bfb82b2c75a3bef519167e549c8c124d135aa5e212469cc2cec7f25a67c8340992#npm:29.7.0"],\
-          ["jose", "npm:5.10.0"],\
-          ["jsii", "npm:5.9.44"],\
-          ["jsii-pacmak", "virtual:e94fb04ddfbfdee71b0195e6f2baf696bf5deb0f51628f77f3bc222132eb01152aec53022f57fcce7ca18f81424f1a0ceead8c91220c7968490da2b31b3f8a37#npm:1.120.0"],\
-          ["jsii-rosetta", "npm:5.9.15"],\
-          ["mime-types", "npm:2.1.35"],\
-          ["semver", "npm:7.8.5"],\
-          ["ts-jest", "virtual:934d9827a8a75d0dd9ebb3a43930c41fc7b746bf65db43e9e795cbbe85701cbfc3069a9c93fbf8977ef76876dd21b1ba74a28549f62d757445fdced196bfc715#npm:29.4.6"],\
-          ["typanion", "npm:3.14.0"],\
-          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
-          ["unzipper", "npm:0.12.3"]\
-        ],\
-        "packagePeers": [\
-          "@serverlessinbox/artifact-registry-cdk",\
-          "@types/aws-cdk-lib",\
-          "@types/constructs",\
-          "@types/serverlessinbox__artifact-registry-cdk",\
-          "aws-cdk-lib",\
-          "constructs"\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["workspace:packages/mailbox", {\
-        "packageLocation": "./packages/mailbox/",\
-        "packageDependencies": [\
-          ["@aws-sdk/client-acm", "npm:3.1132.0"],\
-          ["@aws-sdk/client-cloudformation", "npm:3.1132.0"],\
-          ["@aws-sdk/client-cloudfront", "npm:3.1132.0"],\
-          ["@aws-sdk/client-dynamodb", "npm:3.1132.0"],\
-          ["@aws-sdk/client-eventbridge", "npm:3.1132.0"],\
-          ["@aws-sdk/client-iam", "npm:3.1132.0"],\
-          ["@aws-sdk/client-lambda", "npm:3.1132.0"],\
-          ["@aws-sdk/client-resource-groups-tagging-api", "npm:3.1132.0"],\
-          ["@aws-sdk/client-route-53", "npm:3.1132.0"],\
-          ["@aws-sdk/client-s3", "npm:3.1132.0"],\
-          ["@aws-sdk/client-sfn", "npm:3.1132.0"],\
-          ["@serverlessinbox/artifact-registry", "npm:0.3.6"],\
-          ["@serverlessinbox/artifact-registry-cdk", "virtual:18aa64ba92d78387e200e5b44bcf43b06204cbf3f763f86636ce57acb7635002abe16b7ea7f442476cd390df45560c2a09ada9212b44aaa7a06df1e86d6d5320#npm:0.3.0"],\
-          ["@serverlessinbox/mail-server-bundler", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#workspace:packages/mail-server-bundler"],\
-          ["@serverlessinbox/mail-server-cdk-shared", "workspace:packages/mail-server-cdk-shared"],\
-          ["@serverlessinbox/mailbox", "workspace:packages/mailbox"],\
-          ["@types/aws-lambda", "npm:8.10.159"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/mime-types", "npm:2.1.4"],\
-          ["@types/node", "npm:24.10.1"],\
-          ["@types/semver", "npm:7.7.1"],\
-          ["@types/unzipper", "npm:0.10.11"],\
-          ["aws-cdk-lib", "virtual:18aa64ba92d78387e200e5b44bcf43b06204cbf3f763f86636ce57acb7635002abe16b7ea7f442476cd390df45560c2a09ada9212b44aaa7a06df1e86d6d5320#npm:2.261.0"],\
-          ["aws-custom-resources", "npm:0.0.4"],\
-          ["aws-sdk-client-mock", "npm:4.1.0"],\
-          ["constructs", "npm:10.6.0"],\
-          ["esbuild", "npm:0.27.1"],\
-          ["jest", "virtual:766f49a1b4b33f54d417bf93eda96c55918b1f91e786073d4cd2b5a9099891bfb82b2c75a3bef519167e549c8c124d135aa5e212469cc2cec7f25a67c8340992#npm:29.7.0"],\
-          ["jose", "npm:5.10.0"],\
-          ["jsii", "npm:5.9.44"],\
-          ["jsii-pacmak", "virtual:e94fb04ddfbfdee71b0195e6f2baf696bf5deb0f51628f77f3bc222132eb01152aec53022f57fcce7ca18f81424f1a0ceead8c91220c7968490da2b31b3f8a37#npm:1.120.0"],\
-          ["jsii-rosetta", "npm:5.9.15"],\
-          ["mime-types", "npm:2.1.35"],\
-          ["semver", "npm:7.8.5"],\
-          ["ts-jest", "virtual:934d9827a8a75d0dd9ebb3a43930c41fc7b746bf65db43e9e795cbbe85701cbfc3069a9c93fbf8977ef76876dd21b1ba74a28549f62d757445fdced196bfc715#npm:29.4.6"],\
+          ["ts-jest", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#npm:29.4.6"],\
           ["typanion", "npm:3.14.0"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
           ["unzipper", "npm:0.12.3"]\
@@ -6105,10 +6105,10 @@ const RAW_RUNTIME_STATE =
           ["@bufbuild/protobuf", "npm:2.10.2"],\
           ["@serverlessinbox/artifact-registry", "npm:0.3.6"],\
           ["@serverlessinbox/artifact-registry-cdk", "virtual:18aa64ba92d78387e200e5b44bcf43b06204cbf3f763f86636ce57acb7635002abe16b7ea7f442476cd390df45560c2a09ada9212b44aaa7a06df1e86d6d5320#npm:0.3.0"],\
+          ["@serverlessinbox/mail-server", "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server"],\
           ["@serverlessinbox/mail-server-addon-sdk", "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mail-server-addon-sdk"],\
           ["@serverlessinbox/mail-server-bundler", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#workspace:packages/mail-server-bundler"],\
           ["@serverlessinbox/mail-server-cdk-shared", "workspace:packages/mail-server-cdk-shared"],\
-          ["@serverlessinbox/mailbox", "virtual:3a729a5adfa6a00b7fa8fdec3ba98e73c47136a4989c6f46655da25cc98b7a0ac5cf1d3b584bd3ccb151d40fe55038db98ba480d529df891ea127469e4ee91d1#workspace:packages/mailbox"],\
           ["@serverlessinbox/mailbox-cognito", "workspace:packages/mailbox-cognito"],\
           ["@types/aws-lambda", "npm:8.10.159"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6120,9 +6120,9 @@ const RAW_RUNTIME_STATE =
           ["esbuild", "npm:0.27.1"],\
           ["jest", "virtual:766f49a1b4b33f54d417bf93eda96c55918b1f91e786073d4cd2b5a9099891bfb82b2c75a3bef519167e549c8c124d135aa5e212469cc2cec7f25a67c8340992#npm:29.7.0"],\
           ["jsii", "npm:5.9.44"],\
-          ["jsii-pacmak", "virtual:e94fb04ddfbfdee71b0195e6f2baf696bf5deb0f51628f77f3bc222132eb01152aec53022f57fcce7ca18f81424f1a0ceead8c91220c7968490da2b31b3f8a37#npm:1.120.0"],\
+          ["jsii-pacmak", "virtual:90d7aa30748c7826129cd2728677d4925266156c15c0c02341984dc2d56554192e76d7465fbd33cf598ea429f19a04230eb451a37c06e5ca36de698a962f792b#npm:1.120.0"],\
           ["jsii-rosetta", "npm:5.9.15"],\
-          ["ts-jest", "virtual:934d9827a8a75d0dd9ebb3a43930c41fc7b746bf65db43e9e795cbbe85701cbfc3069a9c93fbf8977ef76876dd21b1ba74a28549f62d757445fdced196bfc715#npm:29.4.6"],\
+          ["ts-jest", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#npm:29.4.6"],\
           ["typanion", "npm:3.14.0"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
         ],\
@@ -11695,8 +11695,8 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:e94fb04ddfbfdee71b0195e6f2baf696bf5deb0f51628f77f3bc222132eb01152aec53022f57fcce7ca18f81424f1a0ceead8c91220c7968490da2b31b3f8a37#npm:1.120.0", {\
-        "packageLocation": "./.yarn/__virtual__/jsii-pacmak-virtual-28a42230c5/6/.yarn/berry/cache/jsii-pacmak-npm-1.120.0-9e1f80fa92-10c0.zip/node_modules/jsii-pacmak/",\
+      ["virtual:90d7aa30748c7826129cd2728677d4925266156c15c0c02341984dc2d56554192e76d7465fbd33cf598ea429f19a04230eb451a37c06e5ca36de698a962f792b#npm:1.120.0", {\
+        "packageLocation": "./.yarn/__virtual__/jsii-pacmak-virtual-e87455d3ff/6/.yarn/berry/cache/jsii-pacmak-npm-1.120.0-9e1f80fa92-10c0.zip/node_modules/jsii-pacmak/",\
         "packageDependencies": [\
           ["@jsii/check-node", "npm:1.120.0"],\
           ["@jsii/spec", "npm:1.120.0"],\
@@ -11706,7 +11706,7 @@ const RAW_RUNTIME_STATE =
           ["commonmark", "npm:0.31.2"],\
           ["escape-string-regexp", "npm:4.0.0"],\
           ["fs-extra", "npm:10.1.0"],\
-          ["jsii-pacmak", "virtual:e94fb04ddfbfdee71b0195e6f2baf696bf5deb0f51628f77f3bc222132eb01152aec53022f57fcce7ca18f81424f1a0ceead8c91220c7968490da2b31b3f8a37#npm:1.120.0"],\
+          ["jsii-pacmak", "virtual:90d7aa30748c7826129cd2728677d4925266156c15c0c02341984dc2d56554192e76d7465fbd33cf598ea429f19a04230eb451a37c06e5ca36de698a962f792b#npm:1.120.0"],\
           ["jsii-reflect", "npm:1.120.0"],\
           ["jsii-rosetta", "npm:5.9.15"],\
           ["semver", "npm:7.8.5"],\
@@ -13948,8 +13948,8 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:934d9827a8a75d0dd9ebb3a43930c41fc7b746bf65db43e9e795cbbe85701cbfc3069a9c93fbf8977ef76876dd21b1ba74a28549f62d757445fdced196bfc715#npm:29.4.6", {\
-        "packageLocation": "./.yarn/__virtual__/ts-jest-virtual-19010b2651/6/.yarn/berry/cache/ts-jest-npm-29.4.6-a9cc323ce9-10c0.zip/node_modules/ts-jest/",\
+      ["virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#npm:29.4.6", {\
+        "packageLocation": "./.yarn/__virtual__/ts-jest-virtual-c25feccf56/6/.yarn/berry/cache/ts-jest-npm-29.4.6-a9cc323ce9-10c0.zip/node_modules/ts-jest/",\
         "packageDependencies": [\
           ["@babel/core", null],\
           ["@jest/transform", null],\
@@ -13973,7 +13973,7 @@ const RAW_RUNTIME_STATE =
           ["lodash.memoize", "npm:4.1.2"],\
           ["make-error", "npm:1.3.6"],\
           ["semver", "npm:7.8.5"],\
-          ["ts-jest", "virtual:934d9827a8a75d0dd9ebb3a43930c41fc7b746bf65db43e9e795cbbe85701cbfc3069a9c93fbf8977ef76876dd21b1ba74a28549f62d757445fdced196bfc715#npm:29.4.6"],\
+          ["ts-jest", "virtual:ac16119b0a26ad90f55972b64259166c5852ea22f91524a6d24fb362428d4072d510a18214fe4c170c337f14d4e540cd10b44c8209ad4be8c77f5de238907f7f#npm:29.4.6"],\
           ["type-fest", "npm:4.41.0"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
           ["yargs-parser", "npm:21.1.1"]\

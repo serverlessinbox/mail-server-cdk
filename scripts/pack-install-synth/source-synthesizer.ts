@@ -1,8 +1,8 @@
 import { Template }                         from 'aws-cdk-lib/assertions';
 import * as cdk                             from 'aws-cdk-lib';
 
+import * as mailbox                         from '../../packages/mail-server/src/index';
 import * as cognito                         from '../../packages/mailbox-cognito/src/index';
-import * as mailbox                         from '../../packages/mailbox/src/index';
 import type { FrozenProcessValues }         from '../template-baseline/frozen-process-values';
 import { parseJsonObject, type JsonObject } from '../utils/json-value';
 

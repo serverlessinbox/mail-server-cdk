@@ -9,7 +9,7 @@ const tester = new RuleTester({
   languageOptions: { parser: typescriptEslint.parser },
 });
 
-const coreFile = '/repo/packages/mailbox/src/core/x.ts';
+const coreFile = '/repo/packages/mail-server/src/core/x.ts';
 
 tester.run('logical-id-home', logicalIdHome, {
   valid: [
@@ -25,7 +25,7 @@ tester.run('logical-id-home', logicalIdHome, {
     },
     {
       name:     'the allow-listed file, outside any Stack',
-      filename: '/repo/packages/mailbox/src/core/apis/apis-section.ts',
+      filename: '/repo/packages/mail-server/src/core/apis/apis-section.ts',
       code:     'construct.overrideLogicalId("a");',
     },
     {

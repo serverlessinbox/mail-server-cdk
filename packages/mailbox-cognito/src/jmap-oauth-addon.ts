@@ -2,7 +2,7 @@ import type { IArtifactResolver }                                               
 import { StaticContentDeployer, StaticContentSource, PublicStaticAssetsBucket,
   GateOnConditionAspect }                                                       from '@serverlessinbox/mail-server-cdk-shared';
 import type { IPublicStaticAssetsBucket }                                       from '@serverlessinbox/mail-server-cdk-shared';
-import { IJmapApiAddon, IIdentityProvisioner }                                  from '@serverlessinbox/mailbox';
+import { IJmapApiAddon, IIdentityProvisioner }                                  from '@serverlessinbox/mail-server';
 import { HttpUrlIntegration, HttpLambdaIntegration }                            from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 import { HttpApi, HttpMethod, HttpRoute, HttpStage, CfnStage }                  from 'aws-cdk-lib/aws-apigatewayv2';
 import { IUserPool }                                                            from 'aws-cdk-lib/aws-cognito';

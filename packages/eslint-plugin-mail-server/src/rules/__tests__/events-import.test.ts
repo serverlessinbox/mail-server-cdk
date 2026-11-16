@@ -7,14 +7,14 @@ const tester = new RuleTester({
   languageOptions: { parser: typescriptEslint.parser },
 });
 
-const restricted  = 'packages/mailbox/src/core/x.ts';
+const restricted  = 'packages/mail-server/src/core/x.ts';
 const eventModule = '../resources/events/audit-events-queue-event';
 
 tester.run('events-import', eventsImport, {
   valid: [
     {
       name:     'an importer allowed to import events imports an event value',
-      filename: 'packages/mailbox/src/resources/lambdas/x.ts',
+      filename: 'packages/mail-server/src/resources/lambdas/x.ts',
       code:     "import { value } from '../events/audit-events-queue-event';",
     },
     {

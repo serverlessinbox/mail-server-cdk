@@ -1,6 +1,6 @@
-import type { MailboxAuthorizationConfig } from '@serverlessinbox/mailbox';
-import type { IUserPool }                  from 'aws-cdk-lib/aws-cognito';
-import type { IFunction }                  from 'aws-cdk-lib/aws-lambda';
+import type { MailServerAuthorizationConfig } from '@serverlessinbox/mail-server';
+import type { IUserPool }                     from 'aws-cdk-lib/aws-cognito';
+import type { IFunction }                     from 'aws-cdk-lib/aws-lambda';
 
 /**
  * What the users API needs from a Cognito user pool: which pool it is, the permission to administer the users
@@ -20,5 +20,5 @@ export interface ICognitoIdpUsersPoolConfig {
    * Returns the groups that mark admins and users. Leave it out when your pool defines no such groups: the API
    * is then configured with no group names.
    */
-  authorizationConfig?(): MailboxAuthorizationConfig;
+  authorizationConfig?(): MailServerAuthorizationConfig;
 }

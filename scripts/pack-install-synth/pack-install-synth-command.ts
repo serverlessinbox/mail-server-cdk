@@ -15,7 +15,7 @@ import { ProcessRunner }        from './process-runner';
 import { SourceSynthesizer }    from './source-synthesizer';
 
 /** The packages a consumer installs, in pack order: the cognito package peers on the mailbox package. */
-const PACKED_WORKSPACES = ['@serverlessinbox/mailbox', '@serverlessinbox/mailbox-cognito'];
+const PACKED_WORKSPACES = ['@serverlessinbox/mail-server', '@serverlessinbox/mailbox-cognito'];
 
 /** The repository root, two folders above this script. */
 const REPOSITORY_ROOT = path.resolve(__dirname, '..', '..');
@@ -31,7 +31,7 @@ const STACK_NAME = 'consumer-stack';
  */
 export class PackInstallSynthCommand extends Command {
   static usage = Command.Usage({
-    description: 'Pack @serverlessinbox/mailbox and @serverlessinbox/mailbox-cognito, install the tarballs into an empty project at the versions yarn.lock resolves, synthesize the example stack from both sides and require identical CloudFormation templates. Writes the packages\' gitignored build outputs and a temporary folder; needs network access to the npm registry. Exits 0 when every check passes, 1 when a check fails (the packed folder is kept and printed), and 2 when the check itself cannot run.',
+    description: 'Pack @serverlessinbox/mail-server and @serverlessinbox/mailbox-cognito, install the tarballs into an empty project at the versions yarn.lock resolves, synthesize the example stack from both sides and require identical CloudFormation templates. Writes the packages\' gitignored build outputs and a temporary folder; needs network access to the npm registry. Exits 0 when every check passes, 1 when a check fails (the packed folder is kept and printed), and 2 when the check itself cannot run.',
     examples:    [
       ['Run the packed-install check from the repository root', 'yarn pack-install-synth'],
     ],

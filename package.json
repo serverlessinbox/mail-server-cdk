@@ -20,7 +20,7 @@
     "fetch-registry-record": "task fetch-registry-record",
     "test:scripts": "tsc -p tsconfig.scripts.json --noEmit && jest --config jest.config.js",
     "test:lint": "yarn workspace @serverlessinbox/eslint-plugin-mail-server test",
-    "test": "yarn test:scripts && yarn test:lint && yarn workspace @serverlessinbox/mail-server-cdk-shared test && yarn workspace @serverlessinbox/mail-server-bundler test && yarn workspace @serverlessinbox/mailbox test && yarn workspace @serverlessinbox/mailbox-cognito test"
+    "test": "yarn test:scripts && yarn test:lint && yarn workspace @serverlessinbox/mail-server-cdk-shared test && yarn workspace @serverlessinbox/mail-server-bundler test && yarn workspace @serverlessinbox/mail-server test && yarn workspace @serverlessinbox/mailbox-cognito test"
   },
   "devDependencies": {
     "@jwpkg/gitversion": "^1.4.0-pack-order.3",

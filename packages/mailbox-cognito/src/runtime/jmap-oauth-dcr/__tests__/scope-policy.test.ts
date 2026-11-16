@@ -5,7 +5,7 @@
  * administrator or personal access token right.
  */
 
-import { Permission }                from '@serverlessinbox/mailbox';
+import { Permission }                from '@serverlessinbox/mail-server';
 
 import { CognitoScopeToPermissions } from '../../../user-pool/cognito-scopemap';
 import { CognitoScope }              from '../../../user-pool/cognito-scope';

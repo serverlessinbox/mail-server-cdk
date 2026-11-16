@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
 import { IAdminApiAddon, type AdminApiRouteSpec, type IAuditEventsQueue,
-  type IIdentityProvisioner }                                                   from '@serverlessinbox/mailbox';
+  type IIdentityProvisioner }                                                   from '@serverlessinbox/mail-server';
 import { HttpMethod }                                                           from 'aws-cdk-lib/aws-apigatewayv2';
 import type { IFunction }                                                       from 'aws-cdk-lib/aws-lambda';
 import { Construct }                                                            from 'constructs';

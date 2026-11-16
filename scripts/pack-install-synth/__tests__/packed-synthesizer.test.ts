@@ -13,7 +13,7 @@ import { ProcessRunner }           from '../process-runner';
  * and the packed runner are answered by the fake, which writes the template the real runner would.
  */
 describe('PackedSynthesizer', () => {
-  const workspaces                   = ['@serverlessinbox/mailbox'];
+  const workspaces                   = ['@serverlessinbox/mail-server'];
   const lockText                     = ['"constructs@npm:^10.0.0":', '  version: 10.4.2', '  resolution: "constructs@npm:10.4.2"', ''].join('\n');
   const okResult: ProcessResult      = { exitCode: 0, stdout: '', stderr: '' };
   const createdDirectories: string[] = [];

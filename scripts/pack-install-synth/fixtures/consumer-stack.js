@@ -17,7 +17,7 @@ function build(modules) {
     enableJmapOAuthDiscovery: true,
   });
   userPool.addBootstrapUser({ username: 'admin', groups: ['admin'] });
-  new mailbox.Mailbox(stack, 'Mailbox', { hostedZone: zone.hostedZone, authProvider: userPool });
+  new mailbox.MailServer(stack, 'Mailbox', { hostedZone: zone.hostedZone, authProvider: userPool });
 
   return stack;
 }
