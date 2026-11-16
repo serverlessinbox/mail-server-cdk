@@ -9,7 +9,7 @@ import { removalHome }      from './removal-home';
 import { resourceKindHome } from './resource-kind-home';
 import { zoneImports }      from './zone-imports';
 
-export const mailboxRules = {
+export const mailServerRules = {
   align,
   'events-import':      eventsImport,
   'iam-statement-home': iamStatementHome,

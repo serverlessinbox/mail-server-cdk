@@ -4,7 +4,7 @@ import { resolve }                   from 'path';
 import { DeclarationClosureChecker } from '../jsii-package/declaration-closure-checker';
 
 /**
- * CLI entry point of `mailbox-bundler check-declarations`: exits 1, printing one line per
+ * CLI entry point of `mail-server-bundler check-declarations`: exits 1, printing one line per
  * violation, when the declaration closure of a built package names a package its consumers do not
  * get installed. Unreadable or malformed inputs reject `execute`.
  */
@@ -17,7 +17,7 @@ export class CheckDeclarationsCommand extends Command {
 
       The one required argument, \`package-folder\`, is the folder of the built package, relative to the current directory or absolute. It is given once.
     `,
-    examples: [['Check the current package', 'mailbox-bundler check-declarations .']],
+    examples: [['Check the current package', 'mail-server-bundler check-declarations .']],
   });
 
   packageFolder = Option.String({ required: true, name: 'package-folder' });

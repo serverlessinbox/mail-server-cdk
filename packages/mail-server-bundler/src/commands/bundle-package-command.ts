@@ -5,7 +5,7 @@ import { bundleJsiiPackage } from '../jsii-package/bundle-jsii-package';
 import { readPackageJson }   from '../jsii-package/package-json';
 
 /**
- * CLI entry point of `mailbox-bundler package`: resolves the package folder and its jsii excludes,
+ * CLI entry point of `mail-server-bundler package`: resolves the package folder and its jsii excludes,
  * then bundles it. An unreadable or malformed package.json, or a bundling error, rejects `execute`.
  */
 export class BundlePackageCommand extends Command {
@@ -17,7 +17,7 @@ export class BundlePackageCommand extends Command {
 
       The one required argument, \`package-folder\`, is the folder of the jsii package to bundle, relative to the current directory or absolute. It is given once.
     `,
-    examples: [['Bundle current package', 'mailbox-bundler package .']],
+    examples: [['Bundle current package', 'mail-server-bundler package .']],
   });
 
   packageFolder = Option.String({ required: true, name: 'package-folder' });

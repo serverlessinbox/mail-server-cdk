@@ -1,7 +1,7 @@
 import type { TSESTree }        from '@typescript-eslint/utils';
 
 import { ImportTargetResolver } from '../zones/import-target-resolver';
-import { mailboxPackage }       from '../zones/package-roots';
+import { mailServerPackage }    from '../zones/package-roots';
 import { ZoneClassifier }       from '../zones/zone-classifier';
 
 import { createRule }           from './create-rule';
@@ -27,7 +27,7 @@ export const zoneImports = createRule({
     const classifier = new ZoneClassifier();
     const resolver   = new ImportTargetResolver(classifier);
     const importer   = classifier.locate(context.filename);
-    if (importer.packageRoot !== mailboxPackage || classifier.isExempt(importer)) {
+    if (importer.packageRoot !== mailServerPackage || classifier.isExempt(importer)) {
       return {};
     }
     const importerZone = classifier.importerZone(importer);

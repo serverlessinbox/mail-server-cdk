@@ -34,8 +34,8 @@
     "clean": "rm -rf dist lib *.tsbuildinfo",
     "dev": "task build:watch",
     "bundle": "task bundle",
-    "bundle:jsii": "mailbox-bundler package .",
-    "check:declarations": "mailbox-bundler check-declarations .",
+    "bundle:jsii": "mail-server-bundler package .",
+    "check:declarations": "mail-server-bundler check-declarations .",
     "publish:dev": "task publish:dev"
   },
   "publishConfig": {

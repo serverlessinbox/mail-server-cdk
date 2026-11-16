@@ -3,13 +3,13 @@ export interface PackageRoot {
   readonly dir:  string;
 }
 
-export const mailboxPackage: PackageRoot = { name: '@serverlessinbox/mailbox', dir: 'mailbox' };
+export const mailServerPackage: PackageRoot = { name: '@serverlessinbox/mailbox', dir: 'mailbox' };
 
 export const kitPackage: PackageRoot = { name: '@serverlessinbox/mail-server-cdk-shared', dir: 'mail-server-cdk-shared' };
 
 export const cognitoPackage: PackageRoot = { name: '@serverlessinbox/mailbox-cognito', dir: 'mailbox-cognito' };
 
-export const packageRoots: readonly PackageRoot[] = [mailboxPackage, kitPackage, cognitoPackage];
+export const packageRoots: readonly PackageRoot[] = [mailServerPackage, kitPackage, cognitoPackage];
 
 export interface SourceRuleScope {
   readonly files:   readonly string[];

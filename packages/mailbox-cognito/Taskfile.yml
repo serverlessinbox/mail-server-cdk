@@ -37,7 +37,7 @@ tasks:
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/cognito-idp-users-api.zip'
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/cognito-idp-users-api/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/cognito-idp-users-api.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/cognito-idp-users-api/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/cognito-idp-users-api.zip
 
   bundle:bootstrap-user:
     desc: Bundle cognito bootstrap-user custom resource lambda zip to dist/lambdas
@@ -48,7 +48,7 @@ tasks:
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/cognito-bootstrap-user.zip'
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/bootstrap-user/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/cognito-bootstrap-user.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/bootstrap-user/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/cognito-bootstrap-user.zip
 
   # The output must publish as objectName `lambdas/jmap-oauth-dcr.zip` in artifact-registry.json:
   # JmapOAuthDcrLambda passes `lambdaId: 'jmap-oauth-dcr'` and TypeScriptLambda resolves
@@ -64,7 +64,7 @@ tasks:
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/jmap-oauth-dcr.zip'
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/jmap-oauth-dcr/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/jmap-oauth-dcr.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/jmap-oauth-dcr/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/jmap-oauth-dcr.zip
 
   bundle:
     desc: Bundle all cognito lambdas to dist/lambdas/*.zip

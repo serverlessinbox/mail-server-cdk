@@ -84,13 +84,13 @@ are the only place that declare CloudFormation parameters and outputs.
 ## Zones
 
 `packages/mailbox/src` is split into zones, and the `zone-imports` lint rule enforces the matrix in
-`packages/eslint-plugin-mail-server/src/zones/mailbox-zones.ts`.
+`packages/eslint-plugin-mail-server/src/zones/mail-server-zones.ts`.
 
 - **`core`** is the mail server. It never imports `platform`.
 - **`platform`** (`ops`, `support`, `update`) is everything around the mail server. It never imports
   `core` apart from the addon interfaces in `core/apis/addons.ts`.
 - **`resources`** holds the single-resource classes. `core` imports them freely; `platform` imports
-  only the Lambda wrappers and events listed as platform-only in `mailbox-zones.ts`, plus three
+  only the Lambda wrappers and events listed as platform-only in `mail-server-zones.ts`, plus three
   contract files (`data-tables`, `audit-events-queue`, `identity-provisioner-lambda`).
 - **`contracts`** holds the names and payload types that both zones read, and imports from neither.
 
@@ -141,7 +141,7 @@ the stack needs no `cdk bootstrap`.
 - `GoLambda` and `TypeScriptLambda` extend `ArtifactLambda`, which resolves the code from
   `lambdas/<lambdaId>.zip` through an `IArtifactResolver`.
 - `Mailbox` uses the resolver passed in `MailboxProps.artifactResolver`. Without one,
-  `MailboxArtifactResolverFactory.fromContext` builds a `PinnedArtifactResolver` from the versions the
+  `ArtifactResolverFactory.fromContext` builds a `PinnedArtifactResolver` from the versions the
   package ships in `artifact-versions.json`, which the CDK context keys `serverlessinbox:artifacts` and
   `serverlessinbox:artifact_versions` can override.
 - A release is an immutable, versioned set of objects; a mutable channel such as `dev` serves

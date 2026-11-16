@@ -4,14 +4,14 @@ import { resolve }          from 'path';
 import { LambdaZipBundler } from '../lambda-zip/lambda-zip-bundler';
 
 /**
- * CLI entry point of `mailbox-bundler lambda-zip`: turns the flags into a bundle request and runs it.
+ * CLI entry point of `mail-server-bundler lambda-zip`: turns the flags into a bundle request and runs it.
  * A bundling error or a failing `zip` rejects `execute`.
  */
 export class BundleLambdaZipCommand extends Command {
   static paths = [['lambda-zip']];
   static usage = Command.Usage({
     description: 'Bundle a TS/JS Lambda entry into a zip containing a single index.js.',
-    examples:    [['Bundle a Lambda', 'mailbox-bundler lambda-zip --entry src/handler.ts --out /tmp/handler.zip']],
+    examples:    [['Bundle a Lambda', 'mail-server-bundler lambda-zip --entry src/handler.ts --out /tmp/handler.zip']],
   });
 
   entry = Option.String('--entry', {

@@ -3,7 +3,7 @@ import arca                                                from 'eslint-plugin-a
 import { globSync }                                        from 'node:fs';
 import tseslint                                            from 'typescript-eslint';
 
-import { mailboxRules }                                    from '../rules/mailbox-rules';
+import { mailServerRules }                                 from '../rules/mail-server-rules';
 import { kitSourceScope, sourceRuleScope }                 from '../zones/package-roots';
 
 import { classFamilyFiles }                                from './class-family-files';
@@ -41,7 +41,7 @@ export function recommendedConfig(options: RecommendedConfigOptions): TSESLint.F
       plugins: {
         '@typescript-eslint': tseslint.plugin,
         arca,
-        'mail-server': { rules: mailboxRules },
+        'mail-server': { rules: mailServerRules },
       },
       rules: {
         ...typeSafetyRules,

@@ -1,12 +1,12 @@
-import { importerZones, targetZones, zoneMatrix }     from '../mailbox-zones';
-import { cognitoPackage, kitPackage, mailboxPackage } from '../package-roots';
-import { ZoneClassifier }                             from '../zone-classifier';
+import { importerZones, targetZones, zoneMatrix }        from '../mail-server-zones';
+import { cognitoPackage, kitPackage, mailServerPackage } from '../package-roots';
+import { ZoneClassifier }                                from '../zone-classifier';
 
 let mockMatrixOverride: readonly unknown[] | undefined;
 
 // The matrix is a constant of the module; the override lets one test show the classifier's reaction to a missing cell.
-jest.mock('../mailbox-zones', () => {
-  const actual = jest.requireActual<Record<string, unknown>>('../mailbox-zones');
+jest.mock('../mail-server-zones', () => {
+  const actual = jest.requireActual<Record<string, unknown>>('../mail-server-zones');
 
   return {
     ...actual,
@@ -43,7 +43,7 @@ describe('ZoneClassifier.verdict', () => {
 
 describe('ZoneClassifier.locate', () => {
   it('finds the package and the path below its src folder for a repo-relative path', () => {
-    expect(classifier.locate('packages/mailbox/src/core/x.ts')).toEqual({ packageRoot: mailboxPackage, rest: 'core/x' });
+    expect(classifier.locate('packages/mailbox/src/core/x.ts')).toEqual({ packageRoot: mailServerPackage, rest: 'core/x' });
   });
 
   it('finds the package for an absolute path', () => {

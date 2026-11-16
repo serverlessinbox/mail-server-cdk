@@ -1,10 +1,10 @@
-import type { TSESTree }              from '@typescript-eslint/utils';
+import type { TSESTree }                 from '@typescript-eslint/utils';
 
-import { ImportTargetResolver }       from '../zones/import-target-resolver';
-import { mailboxPackage, kitPackage } from '../zones/package-roots';
-import { ZoneClassifier }             from '../zones/zone-classifier';
+import { ImportTargetResolver }          from '../zones/import-target-resolver';
+import { mailServerPackage, kitPackage } from '../zones/package-roots';
+import { ZoneClassifier }                from '../zones/zone-classifier';
 
-import { createRule }                 from './create-rule';
+import { createRule }                    from './create-rule';
 
 // The kit package (mailbox-cdk-shared) never imports the mailbox package, by name or by path.
 
@@ -17,7 +17,7 @@ export const kitIsolation = createRule({
     },
     schema:   [],
     messages: {
-      mailboxImport: 'The kit never imports the mailbox package.',
+      mailServerImport: 'The kit never imports the mailbox package.',
     },
   },
   defaultOptions: [],
@@ -31,8 +31,8 @@ export const kitIsolation = createRule({
 
     const checkSource = (source: TSESTree.StringLiteral): void => {
       const target = resolver.resolve(source.value, context.filename);
-      if (target.location?.packageRoot === mailboxPackage) {
-        context.report({ node: source, messageId: 'mailboxImport' });
+      if (target.location?.packageRoot === mailServerPackage) {
+        context.report({ node: source, messageId: 'mailServerImport' });
       }
     };
 

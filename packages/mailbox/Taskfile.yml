@@ -25,7 +25,7 @@ tasks:
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/jmap-blob-download.zip'
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/jmap-blob-download/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/jmap-blob-download.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/jmap-blob-download/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/jmap-blob-download.zip
 
   bundle:resource-sweeper:
     desc: Bundle resource-sweeper lambda zip to dist/lambdas
@@ -35,7 +35,7 @@ tasks:
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/resource-sweeper.zip'
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/resource-sweeper/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/resource-sweeper.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/resource-sweeper/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/resource-sweeper.zip
 
   bundle:artifact-updater:
     desc: Bundle artifact-updater lambda zip to dist/lambdas
@@ -45,7 +45,7 @@ tasks:
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/artifact-updater.zip'
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/artifact-updater/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/artifact-updater.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/artifact-updater/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/artifact-updater.zip
 
   bundle:data-override-resolver:
     desc: Bundle data-override-resolver lambda zip to dist/lambdas
@@ -55,7 +55,7 @@ tasks:
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/data-override-resolver.zip'
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/data-override-resolver/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/data-override-resolver.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/data-override-resolver/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/data-override-resolver.zip
 
   bundle:
     desc: Bundle all TypeScript lambdas to dist/lambdas/*.zip
@@ -85,7 +85,7 @@ tasks:
     desc: Publish edge stack template and lambdas to dev channel
     cmds:
       - task: build:edge-stack
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/jmap-blob-download/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/jmap-blob-download.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/jmap-blob-download/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/jmap-blob-download.zip
       - du -sh {{.TASKFILE_DIR}}/dist/lambdas/jmap-blob-download.zip
       - yarn  artifact-registry publish channel --channel dev --cwd {{.TASKFILE_DIR}} --object lambdas/jmap-blob-download.zip
       - yarn  artifact-registry publish channel --channel dev --cwd {{.TASKFILE_DIR}} --object edge-stack-template.json
@@ -93,9 +93,9 @@ tasks:
   publish:regional:dev:
     desc: Bundle and publish the regional runtime lambdas in src/runtime/ (resource-sweeper, artifact-updater, data-override-resolver) to the dev channel
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/resource-sweeper/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/resource-sweeper.zip
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/artifact-updater/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/artifact-updater.zip
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/data-override-resolver/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/data-override-resolver.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/resource-sweeper/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/resource-sweeper.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/artifact-updater/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/artifact-updater.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/data-override-resolver/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/data-override-resolver.zip
       - yarn  artifact-registry publish channel --channel dev --cwd {{.TASKFILE_DIR}} --object lambdas/resource-sweeper.zip
       - yarn  artifact-registry publish channel --channel dev --cwd {{.TASKFILE_DIR}} --object lambdas/artifact-updater.zip
       - yarn  artifact-registry publish channel --channel dev --cwd {{.TASKFILE_DIR}} --object lambdas/data-override-resolver.zip

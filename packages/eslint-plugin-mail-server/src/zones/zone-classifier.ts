@@ -1,7 +1,7 @@
 import { contractResourcePaths, platformOnlyEventPaths, platformOnlyPaths,
-  zoneMatrix }                                                                  from './mailbox-zones';
-import type { ImporterZone, TargetZone, Verdict }                               from './mailbox-zones';
-import { mailboxPackage, packageRoots }                                         from './package-roots';
+  zoneMatrix }                                                                  from './mail-server-zones';
+import type { ImporterZone, TargetZone, Verdict }                               from './mail-server-zones';
+import { mailServerPackage, packageRoots }                                      from './package-roots';
 import type { PackageRoot }                                                     from './package-roots';
 
 export interface SourceLocation {
@@ -51,7 +51,7 @@ export class ZoneClassifier {
   }
 
   public targetZone(location: SourceLocation | null): TargetZone {
-    if (location === null || location.packageRoot !== mailboxPackage) {
+    if (location === null || location.packageRoot !== mailServerPackage) {
       return 'foreign';
     }
     const { rest } = location;
@@ -103,7 +103,7 @@ export class ZoneClassifier {
     if (location.packageRoot === null || this.isExempt(location) || this.isWiring(location)) {
       return false;
     }
-    if (location.packageRoot === mailboxPackage) {
+    if (location.packageRoot === mailServerPackage) {
       const zone = this.importerZone(location);
 
       return zone === 'core' || zone === 'platform' || zone === 'resources';

@@ -67,7 +67,7 @@ unreachable for them.
 2. Instantiate the wrapper in the section that owns it, under `core/<section>/` or
    `platform/<area>/`.
 3. If only `platform/` uses the wrapper, add its name to `platformOnlyLambdaNames` in
-   `packages/eslint-plugin-mail-server/src/zones/mailbox-zones.ts`.
+   `packages/eslint-plugin-mail-server/src/zones/mail-server-zones.ts`.
 4. Register the code in the artifact registry:
    - A Go Lambda is resolved from `lambdas/<lambdaId>.zip` of the `mailbox-go` artifact package,
      which is published outside this repository.

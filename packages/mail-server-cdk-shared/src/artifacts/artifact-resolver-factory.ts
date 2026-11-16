@@ -9,12 +9,12 @@ import type { EmbeddedArtifactVersions }                        from './embedded
 import type { RegistryRecord }                                  from './registry-record-contract';
 
 /**
- * Builds the artifact resolver of a mailbox package from what the package ships (its registry
+ * Builds the artifact resolver of a mail-server package from what the package ships (its registry
  * record and baked artifact versions), overridden by the `serverlessinbox:` CDK context keys.
  * It owns the product's context keys and the deployment region; the resolution itself is
  * `PinnedArtifactResolver`'s.
  */
-export class MailboxArtifactResolverFactory {
+export class ArtifactResolverFactory {
   /**
    * @param scope the construct whose stack region and CDK context are read
    * @param registryRecord the registry record of the package the calling construct ships in

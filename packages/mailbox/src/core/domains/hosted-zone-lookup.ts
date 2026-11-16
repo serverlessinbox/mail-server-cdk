@@ -1,5 +1,5 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
-import { ComponentDescription, MailboxArtifactResolverFactory, StackHelpers,
+import { ArtifactResolverFactory, ComponentDescription, StackHelpers,
   applyServerlessInboxComponentTag }                                            from '@serverlessinbox/mail-server-cdk-shared';
 import * as route53                                                             from 'aws-cdk-lib/aws-route53';
 import { Construct }                                                            from 'constructs';
@@ -53,7 +53,7 @@ export class HostedZoneLookup extends Construct {
     ComponentDescription.describe(this, 'Deploy-time lookup of the name of the hosted zone.');
 
     const artifactResolver = props.artifactResolver
-      ?? MailboxArtifactResolverFactory.fromContext(this, loadMailboxRegistryRecord(), loadMailboxArtifactVersions());
+      ?? ArtifactResolverFactory.fromContext(this, loadMailboxRegistryRecord(), loadMailboxArtifactVersions());
     const zoneName = StackHelpers.getOrCreate(this, artifactResolver)
       .resolveHostedZoneName(this, 'resource', props.hostedZoneId);
 

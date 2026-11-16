@@ -12,7 +12,7 @@ built on.
 
 - **Artifact resolution.** The Lambda code, UI bundles and stack templates are published ahead of time, so
   a synthesized template points at them directly and the stack needs no `cdk bootstrap`.
-  `MailboxArtifactResolverFactory` builds the resolver of a package from what that package ships: its
+  `ArtifactResolverFactory` builds the resolver of a package from what that package ships: its
   registry record (the buckets artifacts are published to) and its artifact versions (the pinned version of
   every package it resolves). `serverlessinbox:` CDK context keys override both.
 - **Lambda wrappers.** `TypeScriptLambda` and `GoLambda` are Lambda functions on ARM64 whose code is a
@@ -36,7 +36,7 @@ built on.
 
 ```mermaid
 flowchart TD
-  record["loadEmbeddedRegistryRecord"] --> factory["MailboxArtifactResolverFactory"]
+  record["loadEmbeddedRegistryRecord"] --> factory["ArtifactResolverFactory"]
   versions["loadEmbeddedArtifactVersions"] --> factory
   factory --> resolver["PinnedArtifactResolver"]
   resolver --> artifact["ArtifactLambda"]
@@ -81,7 +81,7 @@ root:
 ```typescript
 import * as path from 'node:path';
 import {
-  MailboxArtifactResolverFactory,
+  ArtifactResolverFactory,
   TypeScriptLambda,
   loadEmbeddedArtifactVersions,
   loadEmbeddedRegistryRecord,
@@ -93,7 +93,7 @@ export class ExampleFeature extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const resolver = MailboxArtifactResolverFactory.fromContext(
+    const resolver = ArtifactResolverFactory.fromContext(
       this,
       loadEmbeddedRegistryRecord(path.join(__dirname, '..', 'registry-record.json')),
       loadEmbeddedArtifactVersions(path.join(__dirname, '..', 'artifact-versions.json')),
@@ -138,7 +138,7 @@ export class ExampleStack extends Stack {
 | Export | Purpose |
 |---|---|
 | `ARTIFACTS_CONTEXT_KEY`, `ARTIFACT_VERSIONS_CONTEXT_KEY`, `DEPLOYER_TYPE_CONTEXT_KEY`, `DEVELOPMENT_CONTEXT_KEY`, `VENDOR_ACCOUNT_IDS_CONTEXT_KEY` | The CDK context keys |
-| `MailboxArtifactResolverFactory`, `loadEmbeddedRegistryRecord`, `loadEmbeddedArtifactVersions`, `RegistryRecord`, `EmbeddedArtifactVersions` | Build the artifact resolver of a package from what it ships |
+| `ArtifactResolverFactory`, `loadEmbeddedRegistryRecord`, `loadEmbeddedArtifactVersions`, `RegistryRecord`, `EmbeddedArtifactVersions` | Build the artifact resolver of a package from what it ships |
 | `TypeScriptLambda`, `GoLambda`, `TypeScriptLambdaProps`, `GoLambdaProps`, `applyArtifactTags`, `AutoUpdateType` | Lambdas that run published code, and their artifact tags |
 | `Pipeline`, `PipelineLogGroup`, `IPipelineLogGroup` | The pipeline taxonomy and the shared log group of each pipeline |
 | `isDevelopmentMode`, `removalPolicyForRetainedResources`, `autoDeleteObjectsInDevelopment` | Development mode and what it changes |

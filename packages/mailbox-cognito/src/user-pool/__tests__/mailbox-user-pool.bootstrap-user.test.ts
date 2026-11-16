@@ -7,7 +7,7 @@
  * would leave the user created with the wrong name, groups or password.
  */
 
-import { MailboxArtifactResolverFactory }       from '@serverlessinbox/mail-server-cdk-shared';
+import { ArtifactResolverFactory }              from '@serverlessinbox/mail-server-cdk-shared';
 import { Template }                             from 'aws-cdk-lib/assertions';
 import { App, BootstraplessSynthesizer, Stack } from 'aws-cdk-lib';
 import * as t                                   from 'typanion';
@@ -44,7 +44,7 @@ function synthesizeBootstrapUser(passwordMinLength?: number): Record<string, t.I
   });
   const pool = new MailboxUserPool(stack, 'user-pool', {
     domain:           { kind: 'cognito', cognitoDomainPrefix: 'test-bootstrap' },
-    artifactResolver: MailboxArtifactResolverFactory.fromContext(stack, loadMailboxCognitoRegistryRecord(), loadMailboxCognitoArtifactVersions()),
+    artifactResolver: ArtifactResolverFactory.fromContext(stack, loadMailboxCognitoRegistryRecord(), loadMailboxCognitoArtifactVersions()),
     ...(passwordMinLength !== undefined ? { passwordMinLength } : {}),
   });
 

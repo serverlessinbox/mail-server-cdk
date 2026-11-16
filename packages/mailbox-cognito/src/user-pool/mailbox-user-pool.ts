@@ -1,5 +1,5 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
-import { MailboxArtifactResolverFactory, resolveDeployerType, slugifyLabel,
+import { ArtifactResolverFactory, resolveDeployerType, slugifyLabel,
   StackHelpers, StackIdentity }                                                 from '@serverlessinbox/mail-server-cdk-shared';
 import {
   AuthClientConfig,
@@ -329,7 +329,7 @@ export class MailboxUserPool extends Construct implements IMailboxAuthProviderBa
     this.dynamicClientRegistration = props.dynamicClientRegistration ?? DynamicClientRegistrationMode.DISABLED;
     this.passwordMinLength         = props.passwordMinLength ?? DEFAULT_PASSWORD_MIN_LENGTH;
     this.artifacts                 = props.artifactResolver
-      ?? MailboxArtifactResolverFactory.fromContext(this, loadMailboxCognitoRegistryRecord(), loadMailboxCognitoArtifactVersions());
+      ?? ArtifactResolverFactory.fromContext(this, loadMailboxCognitoRegistryRecord(), loadMailboxCognitoArtifactVersions());
     if (props.authorization?.adminGroups?.length === 0) {
       throw new Error('MailboxUserPool: authorization.adminGroups is an empty list; it must name at least one admin group, or be omitted to use the default [\'admin\'].');
     }

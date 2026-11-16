@@ -5,7 +5,7 @@ Internal package; it is not published.
 The build tool for the `mailbox-cdk` packages. It bundles the TypeScript Lambda handlers that the CDK
 constructs deploy as zip files, it bundles a jsii construct package into its `lib/` folder, and it checks
 that the declarations of a built package name only packages its consumers get installed. It runs as the
-`mailbox-bundler` command, which each package calls from its Taskfile or its package scripts.
+`mail-server-bundler` command, which each package calls from its Taskfile or its package scripts.
 
 ## Concepts
 
@@ -59,7 +59,7 @@ single file into a zip.
 Example:
 
 ```sh
-mailbox-bundler lambda-zip --entry src/handler.ts --out dist/lambdas/handler.zip
+mail-server-bundler lambda-zip --entry src/handler.ts --out dist/lambdas/handler.zip
 ```
 
 ### `package`
@@ -77,7 +77,7 @@ Paths listed in the package's jsii `excludeTypescript` are skipped, and so are t
 Example:
 
 ```sh
-mailbox-bundler package .
+mail-server-bundler package .
 ```
 
 ### `check-declarations`
@@ -95,5 +95,5 @@ closure that also name an undeclared package are counted separately.
 Example:
 
 ```sh
-mailbox-bundler check-declarations .
+mail-server-bundler check-declarations .
 ```

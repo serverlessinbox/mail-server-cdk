@@ -10,7 +10,7 @@ tasks:
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/content-deployer.zip'
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/content-deployer/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/content-deployer.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/content-deployer/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/content-deployer.zip
 
   bundle:bucket-auto-empty:
     desc: Bundle bucket-auto-empty lambda zip to dist/lambdas
@@ -19,7 +19,7 @@ tasks:
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/bucket-auto-empty.zip'
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/bucket-auto-empty/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/bucket-auto-empty.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/bucket-auto-empty/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/bucket-auto-empty.zip
 
   bundle:stack-deployer:
     desc: Bundle stack-deployer lambda zip to dist/lambdas
@@ -28,7 +28,7 @@ tasks:
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/stack-deployer.zip'
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/stack-deployer/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/stack-deployer.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/stack-deployer/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/stack-deployer.zip
 
   bundle:stack-helpers:
     desc: Bundle stack-helpers lambda zip to dist/lambdas
@@ -37,7 +37,7 @@ tasks:
     generates:
       - '{{.TASKFILE_DIR}}/dist/lambdas/stack-helpers.zip'
     cmds:
-      - yarn mailbox-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/stack-helpers/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/stack-helpers.zip
+      - yarn mail-server-bundler lambda-zip --entry {{.TASKFILE_DIR}}/src/runtime/stack-helpers/index.ts --out {{.TASKFILE_DIR}}/dist/lambdas/stack-helpers.zip
 
   bundle:
     desc: Bundle all mailbox-cdk-shared lambdas to dist/lambdas/*.zip

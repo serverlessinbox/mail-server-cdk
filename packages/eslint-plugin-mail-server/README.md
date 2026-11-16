@@ -39,7 +39,7 @@ The first six rules apply to every TypeScript file. The last four apply to the s
 flowchart TD
   config["eslint.config.cjs"] -->|"register.cjs"| plugin["plugin (src/index.ts)"]
   plugin --> recommended["recommendedConfig"]
-  plugin --> rules["mailboxRules"]
+  plugin --> rules["mailServerRules"]
   recommended --> rules
   recommended --> scope["sourceRuleScope"]
 
@@ -78,13 +78,13 @@ configuration. `tsconfigRootDir` is the repository root; `extraConfigs` appends 
 
 ```javascript
 require('@serverlessinbox/eslint-plugin-mail-server/register');
-const mailbox = require('@serverlessinbox/eslint-plugin-mail-server');
+const mailServer = require('@serverlessinbox/eslint-plugin-mail-server');
 
 module.exports = [
   {
     ignores: ['lib/', 'dist/', '**/*.d.ts', '**/*.js', '.yarn/'],
   },
-  ...mailbox.configs.recommended({ tsconfigRootDir: __dirname }),
+  ...mailServer.configs.recommended({ tsconfigRootDir: __dirname }),
 ];
 ```
 

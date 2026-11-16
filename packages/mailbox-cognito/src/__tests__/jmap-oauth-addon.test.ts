@@ -18,7 +18,7 @@
  */
 
 import { renderLiteralText }                  from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
-import { MailboxArtifactResolverFactory }     from '@serverlessinbox/mail-server-cdk-shared';
+import { ArtifactResolverFactory }            from '@serverlessinbox/mail-server-cdk-shared';
 import { Template, Match }                    from 'aws-cdk-lib/assertions';
 import { CfnStage, HttpApi }                  from 'aws-cdk-lib/aws-apigatewayv2';
 import { UserPool }                           from 'aws-cdk-lib/aws-cognito';
@@ -116,7 +116,7 @@ function buildHarness(
     synthesizer: new BootstraplessSynthesizer(),
   });
 
-  const resolver = MailboxArtifactResolverFactory.fromContext(stack, loadMailboxCognitoRegistryRecord(), loadMailboxCognitoArtifactVersions());
+  const resolver = ArtifactResolverFactory.fromContext(stack, loadMailboxCognitoRegistryRecord(), loadMailboxCognitoArtifactVersions());
 
   const mode = typeof dynamicClientRegistration === 'function'
     ? dynamicClientRegistration(stack)

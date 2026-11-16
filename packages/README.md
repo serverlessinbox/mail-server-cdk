@@ -8,5 +8,5 @@ The packages of this repository. Each has its own README.
 | `@serverlessinbox/mailbox-cognito` | Amazon Cognito as the authentication provider of a `mailbox` email server | Yes | [mailbox-cognito](mailbox-cognito/README.md) |
 | `@serverlessinbox/mail-server-cdk-shared` | Building blocks shared by `mailbox` and `mailbox-cognito`; makes no compatibility promise | Yes | [mailbox-cdk-shared](mailbox-cdk-shared/README.md) |
 | `@serverlessinbox/mail-server-addon-sdk` | Handler SDK for the Lambdas that serve the Admin API services of addons | No | [mailbox-addon-sdk](mailbox-addon-sdk/README.md) |
-| `@serverlessinbox/mail-server-bundler` | Build tool that bundles Lambda handlers and jsii construct packages | No | [mailbox-bundler](mailbox-bundler/README.md) |
+| `@serverlessinbox/mail-server-bundler` | Build tool that bundles Lambda handlers and jsii construct packages | No | [mail-server-bundler](mail-server-bundler/README.md) |
 | `@serverlessinbox/eslint-plugin-mail-server` | ESLint plugin that enforces the structure of this repository | No | [eslint-plugin-mailbox](eslint-plugin-mailbox/README.md) |

@@ -8,7 +8,7 @@ export {
 } from './context/context-keys';
 
 // Artifact resolution: the resolver factory and the loaders of what a package ships
-export { MailboxArtifactResolverFactory } from './artifacts/mailbox-artifact-resolver-factory';
+export { ArtifactResolverFactory } from './artifacts/artifact-resolver-factory';
 export { loadEmbeddedRegistryRecord } from './artifacts/embedded-registry-record';
 export { loadEmbeddedArtifactVersions } from './artifacts/embedded-artifact-versions';
 export type { EmbeddedArtifactVersions } from './artifacts/embedded-artifact-versions';

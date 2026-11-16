@@ -10,7 +10,7 @@
 import { ArtifactZone }                         from '@serverlessinbox/artifact-registry-cdk';
 import { App, BootstraplessSynthesizer, Stack } from 'aws-cdk-lib';
 
-import { MailboxArtifactResolverFactory }       from '../mailbox-artifact-resolver-factory';
+import { ArtifactResolverFactory }              from '../artifact-resolver-factory';
 
 import { TEST_REGISTRY_RECORD }                 from './test-registry-record';
 
@@ -26,9 +26,9 @@ function stackWithContext(context: Record<string, unknown>): Stack {
   });
 }
 
-describe('MailboxArtifactResolverFactory.fromContext', () => {
+describe('ArtifactResolverFactory.fromContext', () => {
   it('resolves the baked pins from the record location in the stack region when no context is set', () => {
-    const resolver = MailboxArtifactResolverFactory.fromContext(stackWithContext({}), TEST_REGISTRY_RECORD, DEFAULT_PINS);
+    const resolver = ArtifactResolverFactory.fromContext(stackWithContext({}), TEST_REGISTRY_RECORD, DEFAULT_PINS);
 
     expect(resolver.resolve('mailbox-go', 'lambdas/api.zip').bucket).toBe('mailbox-artifacts-us-west-2');
     expect(resolver.resolve('mailbox-cdk-edge', 'edge-stack-template.json').bucket).toBe('mailbox-artifacts-us-east-1');
@@ -43,7 +43,7 @@ describe('MailboxArtifactResolverFactory.fromContext', () => {
       },
     });
 
-    const resolver = MailboxArtifactResolverFactory.fromContext(stack, TEST_REGISTRY_RECORD, DEFAULT_PINS);
+    const resolver = ArtifactResolverFactory.fromContext(stack, TEST_REGISTRY_RECORD, DEFAULT_PINS);
 
     expect(resolver.getVersion('mailbox-go')).toBe('dev');
     expect(resolver.getVersion('mailbox-cdk-edge')).toBe('1.0.0');
@@ -51,11 +51,11 @@ describe('MailboxArtifactResolverFactory.fromContext', () => {
   });
 
   it('pins objects to the S3 versions in the serverlessinbox:artifact_versions context', () => {
-    const baseline = MailboxArtifactResolverFactory.fromContext(stackWithContext({}), TEST_REGISTRY_RECORD, DEFAULT_PINS);
+    const baseline = ArtifactResolverFactory.fromContext(stackWithContext({}), TEST_REGISTRY_RECORD, DEFAULT_PINS);
     const key      = baseline.resolve('mailbox-go', 'lambdas/api.zip').key;
     const stack    = stackWithContext({ 'serverlessinbox:artifact_versions': { [key]: 'version-id-1' } });
 
-    const resolver = MailboxArtifactResolverFactory.fromContext(stack, TEST_REGISTRY_RECORD, DEFAULT_PINS);
+    const resolver = ArtifactResolverFactory.fromContext(stack, TEST_REGISTRY_RECORD, DEFAULT_PINS);
 
     expect(resolver.resolve('mailbox-go', 'lambdas/api.zip').versionId).toBe('version-id-1');
   });
@@ -63,7 +63,7 @@ describe('MailboxArtifactResolverFactory.fromContext', () => {
   it('takes the bucket overrides of the registry record', () => {
     const record = { ...TEST_REGISTRY_RECORD, bucketOverrides: { 'us-west-2': 'custom-bucket-west' } };
 
-    const resolver = MailboxArtifactResolverFactory.fromContext(stackWithContext({}), record, DEFAULT_PINS);
+    const resolver = ArtifactResolverFactory.fromContext(stackWithContext({}), record, DEFAULT_PINS);
 
     expect(resolver.resolve('mailbox-go', 'lambdas/api.zip').bucket).toBe('custom-bucket-west');
   });

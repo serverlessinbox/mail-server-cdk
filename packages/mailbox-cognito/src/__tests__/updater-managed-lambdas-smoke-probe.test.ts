@@ -18,7 +18,7 @@ import {
   probeManagedLambda,
   type ManagedLambda,
 }                                                                               from '@serverlessinbox/mail-server-cdk-shared/cdk-test-support';
-import { MailboxArtifactResolverFactory }                                       from '@serverlessinbox/mail-server-cdk-shared';
+import { ArtifactResolverFactory }                                              from '@serverlessinbox/mail-server-cdk-shared';
 import type { AdminApiAddonContext }                                            from '@serverlessinbox/mailbox';
 import { Template }                                                             from 'aws-cdk-lib/assertions';
 import * as cdk                                                                 from 'aws-cdk-lib';
@@ -84,7 +84,7 @@ function synthesizeUserPool(): Template {
     env:         { account: '123456789012', region: 'us-west-2' },
     synthesizer: new BootstraplessSynthesizer(),
   });
-  const resolver = MailboxArtifactResolverFactory.fromContext(
+  const resolver = ArtifactResolverFactory.fromContext(
     stack,
     loadMailboxCognitoRegistryRecord(),
     loadMailboxCognitoArtifactVersions(),

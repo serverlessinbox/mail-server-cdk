@@ -1,6 +1,6 @@
 import type { IArtifactResolver }                                               from '@serverlessinbox/artifact-registry-cdk';
 import {
-  MailboxArtifactResolverFactory,
+  ArtifactResolverFactory,
   ServerlessInboxTagKeys,
   applyServerlessInboxBaseTags,
   resolveDeployerType,
@@ -45,7 +45,7 @@ export class MailboxContext {
     // The supplied resolver wins; otherwise one is pinned from the package's baked versions,
     // overridden by CDK context.
     const artifactResolver: IArtifactResolver = props.artifactResolver
-      ?? MailboxArtifactResolverFactory.fromContext(scope, loadMailboxRegistryRecord(), loadMailboxArtifactVersions());
+      ?? ArtifactResolverFactory.fromContext(scope, loadMailboxRegistryRecord(), loadMailboxArtifactVersions());
     const stackVersion = artifactResolver.getVersion(MAILBOX_ARTIFACT_PACKAGE);
 
     // The Mailbox is the root stack of its own deployment.

@@ -2,8 +2,8 @@ import { RuleTester }                             from '@typescript-eslint/rule-
 import { posix }                                  from 'node:path';
 import typescriptEslint                           from 'typescript-eslint';
 
-import { zoneMatrix }                             from '../../zones/mailbox-zones';
-import type { ImporterZone, TargetZone, Verdict } from '../../zones/mailbox-zones';
+import { zoneMatrix }                             from '../../zones/mail-server-zones';
+import type { ImporterZone, TargetZone, Verdict } from '../../zones/mail-server-zones';
 import { zoneImports }                            from '../zone-imports';
 
 // One importing file per importer zone, one target file per target zone. Each matrix cell becomes one
