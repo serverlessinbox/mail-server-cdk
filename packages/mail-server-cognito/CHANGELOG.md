@@ -4,6 +4,14 @@
 All notable changes to this project will be documented in this file
 
 
+## [0.6.2](https://github.com/serverlessinbox/mail-server-cdk/compare/v0.6.1...v0.6.2) (Tue Nov 17 2026)
+
+### refactor
+
+* rename the Cognito CDK package to mail-server-cognito ([7e3d1f1](https://github.com/serverlessinbox/mail-server-cdk/commit/7e3d1f1087120d35f9f46a8fc24f16d8d11a9f0b))
+
+* rename the CDK artifacts and repo identity to mail-server ([b3fc24a](https://github.com/serverlessinbox/mail-server-cdk/commit/b3fc24adc8fd6ccde905c5e2b56d859bc6a27e9b))
+
 ## [0.6.1](https://github.com/serverlessinbox/mailbox-cdk/compare/v0.6.0...v0.6.1) (Sat Nov 14 2026)
 
 ### refactor
