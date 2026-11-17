@@ -14,7 +14,7 @@ blob APIs, the admin and webmail frontends, mail receiving and sending on SES, a
 ## Install without CDK
 
 To deploy the standard mailbox from a pre-built CloudFormation template, follow
-[Deploy via CloudFormation](https://docs.serverlessinbox.com/tutorials/install-mailbox-standard/).
+[Deploy via CloudFormation](https://docs.serverlessinbox.com/tutorials/install-mail-server-standard/).
 It lists the template parameters and the post-deploy steps, and starts from a Route53 hosted zone for
 your domain.
 
