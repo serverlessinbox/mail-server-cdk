@@ -4,6 +4,44 @@
 All notable changes to this project will be documented in this file
 
 
+## [0.6.2](https://github.com/serverlessinbox/mail-server-cdk/compare/v0.6.1...v0.6.2) (Tue Nov 17 2026)
+
+### feat
+
+* **cognito** register identity providers on the user pool ([dede08b](https://github.com/serverlessinbox/mail-server-cdk/commit/dede08b6163108ee4b8259778d304ddd043b62b0))
+
+* **cognito** publish no users addon when native sign-in is off ([6187af9](https://github.com/serverlessinbox/mail-server-cdk/commit/6187af9d32b56f571b0e2b7393f2e8ddd1a36f9e))
+
+* **cognito** replace identity providers with user pool extensions ([7317e2e](https://github.com/serverlessinbox/mail-server-cdk/commit/7317e2e0e88a63fbe55eed56eea0957ba643c4ba))
+
+* **cognito** wire an optional sign-in sync hook into the user pool ([5c2b030](https://github.com/serverlessinbox/mail-server-cdk/commit/5c2b03001269770150f8298859c8cb3d353925b9))
+
+### fix
+
+* **eslint-plugin-mailbox** end align groups after multi-line members ([f957bee](https://github.com/serverlessinbox/mail-server-cdk/commit/f957bee5370621c18fedcb106ee9c1a451580959))
+
+* **mailbox-cdk-shared** keep deploy-time tags off the stack itself ([ea3854d](https://github.com/serverlessinbox/mail-server-cdk/commit/ea3854db3221bbf78f76c6607f793132e4ae2e97))
+
+### refactor
+
+* rename the internal CDK packages to mail-server ([ba77a3c](https://github.com/serverlessinbox/mail-server-cdk/commit/ba77a3cb54e6dc4ecda9fef2bc02c2d14a8a92eb))
+
+* rename files and identifiers in the internal CDK packages ([8671874](https://github.com/serverlessinbox/mail-server-cdk/commit/8671874ebcdc636a212e76e66b98051e3a2e4281))
+
+* rename the main CDK package to @serverlessinbox/mail-server ([5df2a07](https://github.com/serverlessinbox/mail-server-cdk/commit/5df2a079cc7085c4b32a2f5f0b73b2506e4794ea))
+
+* rename the Cognito CDK package to mail-server-cognito ([7e3d1f1](https://github.com/serverlessinbox/mail-server-cdk/commit/7e3d1f1087120d35f9f46a8fc24f16d8d11a9f0b))
+
+* rename the CDK artifacts and repo identity to mail-server ([b3fc24a](https://github.com/serverlessinbox/mail-server-cdk/commit/b3fc24adc8fd6ccde905c5e2b56d859bc6a27e9b))
+
+### docs
+
+* point the README at the renamed repositories ([97c388f](https://github.com/serverlessinbox/mail-server-cdk/commit/97c388f3b2525c36e0928e65c67da9a77f38c414))
+
+### chore
+
+* move the IDL checkout to the mail-server rename ([1c47152](https://github.com/serverlessinbox/mail-server-cdk/commit/1c47152c735fe731e18b92eb06eaf0181d617b98))
+
 ## [0.6.1](https://github.com/serverlessinbox/mailbox-cdk/compare/v0.6.0...v0.6.1) (Sat Nov 14 2026)
 
 ### feat
