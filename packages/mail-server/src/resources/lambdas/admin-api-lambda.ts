@@ -83,6 +83,7 @@ export class AdminApiLambda extends GoLambda implements IStateChangeSource {
     this.grantSesIdentityStackTagging(props.vendorLink.stackIdentityTagKey);
     this.grantSesSending(props.sesConfigSetName);
     this.grantSesAccountReads();
+    this.grantSesAccountWrites();
     this.grantDkimAndDmarcRecordWrites();
     this.grantApexRecordWrites();
     this.grantHostedZoneRecordListing();
@@ -171,6 +172,14 @@ export class AdminApiLambda extends GoLambda implements IStateChangeSource {
   private grantSesAccountReads(): void {
     this.addToRolePolicy(new PolicyStatement({
       actions:   ['ses:GetAccount', 'ses:GetSendStatistics', 'ses:ListEmailIdentities'],
+      resources: ['*'],
+    }));
+  }
+
+  /** Account-level actions have no resource binding, so they stay on `*`. */
+  private grantSesAccountWrites(): void {
+    this.addToRolePolicy(new PolicyStatement({
+      actions:   ['ses:PutAccountDetails'],
       resources: ['*'],
     }));
   }

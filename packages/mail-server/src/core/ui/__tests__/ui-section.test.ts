@@ -167,7 +167,7 @@ describe('UiSection', () => {
     it('writes the authorization mapping of the auth provider as roles', () => {
       newSection({ enableWebmailUi: false }, () => ({ adminGroups: ['admins'], userGroups: ['users', 'guests'] }));
 
-      adminConfigIs({ authorization: { roles: { adminGroups: ['admins'], userGroups: ['users', 'guests'] } }, apiUrl: 'https://api.example.com/admin' });
+      adminConfigIs({ authorization: { roles: { adminGroups: ['admins'], userGroups: ['users', 'guests'] } }, apiUrl: 'https://api.example.com/admin', docsUrl: 'https://docs.serverlessinbox.com' });
     });
 
     it('merges the config of the addons next to the authorization mapping, a later addon winning over an earlier one on the same key', () => {
@@ -176,19 +176,19 @@ describe('UiSection', () => {
         () => ({ adminGroups: ['admins'], userGroups: [] }),
       );
 
-      adminConfigIs({ authorization: { roles: { adminGroups: ['admins'], userGroups: [] } }, support: true, tier: 'second', apiUrl: 'https://api.example.com/admin' });
+      adminConfigIs({ authorization: { roles: { adminGroups: ['admins'], userGroups: [] } }, support: true, tier: 'second', apiUrl: 'https://api.example.com/admin', docsUrl: 'https://docs.serverlessinbox.com' });
     });
 
     it('points the Admin UI at the admin API domain', () => {
       newSection({ enableWebmailUi: false });
 
-      adminConfigIs({ apiUrl: 'https://api.example.com/admin' });
+      adminConfigIs({ apiUrl: 'https://api.example.com/admin', docsUrl: 'https://docs.serverlessinbox.com' });
     });
 
     it('points the Admin UI at the Webmail UI when the Webmail UI is enabled and has a certificate', () => {
       newSection({ edge: { uiCertificate: acm.Certificate.fromCertificateArn(stack, 'edge-ui-cert', EDGE_UI_CERTIFICATE_ARN) } });
 
-      adminConfigIs({ apiUrl: 'https://api.example.com/admin', webmailUrl: 'https://webmail.example.com' });
+      adminConfigIs({ apiUrl: 'https://api.example.com/admin', docsUrl: 'https://docs.serverlessinbox.com', webmailUrl: 'https://webmail.example.com' });
     });
 
     it('does not point the Admin UI at a Webmail UI that is disabled, even when a certificate exists', () => {
@@ -197,7 +197,7 @@ describe('UiSection', () => {
         edge:            { uiCertificate: acm.Certificate.fromCertificateArn(stack, 'edge-ui-cert', EDGE_UI_CERTIFICATE_ARN) },
       });
 
-      adminConfigIs({ apiUrl: 'https://api.example.com/admin' });
+      adminConfigIs({ apiUrl: 'https://api.example.com/admin', docsUrl: 'https://docs.serverlessinbox.com' });
     });
   });
 

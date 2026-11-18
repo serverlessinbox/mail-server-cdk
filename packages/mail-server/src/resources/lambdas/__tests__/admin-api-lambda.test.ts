@@ -225,6 +225,20 @@ describe('AdminApiLambda IAM scoping', () => {
     });
   });
 
+  it('grants ses:PutAccountDetails on a wildcard resource', () => {
+    const template = Template.fromStack(stack);
+    template.hasResourceProperties('AWS::IAM::Policy', {
+      PolicyDocument: {
+        Statement: Match.arrayWith([
+          Match.objectLike({
+            Action:   'ses:PutAccountDetails',
+            Resource: '*',
+          }),
+        ]),
+      },
+    });
+  });
+
   it('scopes execute-api:Invoke to exactly grant-resource and revoke-resource on the vendor account', () => {
     const template = Template.fromStack(stack);
     template.hasResourceProperties('AWS::IAM::Policy', {

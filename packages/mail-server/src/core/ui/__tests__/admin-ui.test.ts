@@ -32,12 +32,14 @@ const isDataSource = t.isPartial({ key: t.isString(), body: t.isString() });
 
 const isUrlOnlyConfig = t.isObject({
   apiUrl:     t.isString(),
+  docsUrl:    t.isString(),
   webmailUrl: t.isString(),
 });
 
 const isWrittenConfig = t.isObject({
   featureFlag: t.isBoolean(),
   apiUrl:      t.isString(),
+  docsUrl:     t.isString(),
   webmailUrl:  t.isString(),
 });
 
@@ -143,6 +145,7 @@ describe('AdminUi', () => {
     expect(written).toEqual({
       featureFlag: true,
       apiUrl:      'https://api.admin.example.com',
+      docsUrl:     'https://docs.serverlessinbox.com',
       webmailUrl:  'https://mail.example.com',
     });
   });
@@ -159,7 +162,21 @@ describe('AdminUi', () => {
     t.assert(written, isUrlOnlyConfig);
     expect(written).toEqual({
       apiUrl:     'https://api.admin.example.com',
+      docsUrl:    'https://docs.serverlessinbox.com',
       webmailUrl: 'https://mail.example.com',
     });
+  });
+
+  it('writes the documentation site URL to the UI config it deploys', () => {
+    createAdminUi({
+      apiUrl:     'https://api.admin.example.com',
+      webmailUrl: 'https://mail.example.com',
+    });
+
+    const bodies = writtenConfigBodies(Template.fromStack(stack));
+    expect(bodies).toHaveLength(1);
+    const written: unknown = JSON.parse(bodies[0] ?? '');
+    t.assert(written, isUrlOnlyConfig);
+    expect(written.docsUrl).toBe('https://docs.serverlessinbox.com');
   });
 });

@@ -54,6 +54,8 @@ export interface AdminUiProps {
   readonly artifactResolver: IArtifactResolver;
 }
 
+const DOCS_URL = 'https://docs.serverlessinbox.com';
+
 /**
  * The admin dashboard: a {@link MailServerUi} that serves the Admin UI bundle and registers the OAuth
  * client the Admin UI logs in with.
@@ -70,7 +72,8 @@ export class AdminUi extends MailServerUi {
   constructor(scope: Construct, id: string, props: AdminUiProps) {
     const adminUiConfig: MailServerUiConfig = {
       ...props.uiConfig,
-      apiUrl: props.apiUrl,
+      apiUrl:  props.apiUrl,
+      docsUrl: DOCS_URL,
       ...(props.webmailUrl ? { webmailUrl: props.webmailUrl } : {}),
     };
 
